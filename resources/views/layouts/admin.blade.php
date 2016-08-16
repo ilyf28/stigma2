@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Stigma2::install</title>
+<title>Stigma2::management</title>
 
 <link rel="stylesheet" href="/css/app.css" />
 
