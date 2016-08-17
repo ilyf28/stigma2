@@ -16,6 +16,35 @@
             <div class="sidebar">
                 <ul>
                     <li class="parent" style="border-left:5px solid #3F51B5;"><a href="{{route('admin.dashboard.index')}}"><i class="fi-graph-trend"></i>&nbsp;DASHBOARD</a></li>
+                    <li class="parent" style="border-left:5px solid #00BCD4;">
+                        <i class="fi-monitor"></i>&nbsp;OBJECT
+                        <ul class="submenu">
+                            <li><a href="{{route('admin.hosts.index')}}">Hosts</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Host Groups</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Services</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Service Groups</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Contacts</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Contact Groups</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Commands</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Time Periods</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" style="border-left:5px solid #6200EA;">
+                        <i class="fi-monitor"></i>&nbsp;System
+                        <ul class="submenu">
+                            <li><a href="{{route('admin.hosts.index')}}">Configuration</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Account</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" style="border-left:5px solid #C51162;">
+                        <i class="fi-monitor"></i>&nbsp;Execution
+                        <ul class="submenu">
+                            <li><a href="{{route('admin.hosts.index')}}">Generate Config</a></li>
+                            <li><a href="{{route('admin.hosts.index')}}">Nagios Restart</a></li>
+                            <li><a href="{{ url('/auth/logout') }}"><i class="fi-unlock"></i>&nbsp;Logout</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="parent" style="border-left:5px solid #3F51B5;"><a href="{{route('admin.dashboard.index')}}"><i class="fi-graph-trend"></i>&nbsp;DASHBOARD</a></li>
                     <li class="parent" style="border-left:5px solid #304FFE;">
                     <a><i class="fi-monitor"></i>&nbsp;HOST MANAGER</a>
                     <ul class="submenu">
@@ -43,7 +72,7 @@
                         <li><a href="{{route('admin.configuration.provisioning')}}">Provisioning</a></li>
                         <li><a href="{{ url('/auth/logout') }}"><i class="fi-unlock"></i>&nbsp;Logout</a></li>
                     </ul> 
-                    </li>
+                    </li> -->
 
                 </ul>
                 <div style="text-align:center;">
