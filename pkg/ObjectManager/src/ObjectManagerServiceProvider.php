@@ -43,4 +43,22 @@ class ObjectManagerServiceProvider extends ServiceProvider
         });
     }
 
+    private function registerContactManager()
+    {
+        $this->app->bind('Stigma\ObjectManager\ContactManager', function() {
+            return new ContactManager(
+                \App::make('Stigma\ObjectManager\Repositories\ContactRepository')
+            );
+        });
+    }
+
+    private function registerTimeperiodManager()
+    {
+        $this->app->bind('Stigma\ObjectManager\TimeperiodManager', function() {
+            return new TimeperiodManager(
+                \App::make('Stigma\ObjectManager\Repositories\TimeperiodRepository')
+            );
+        });
+    }
+
 }
