@@ -14,6 +14,8 @@ class ObjectManagerServiceProvider extends ServiceProvider
         $this->registerHostManager();
         $this->registerServiceManager();
         $this->registerCommandManager();
+        $this->registerContactManager();
+        $this->registerTimeperiodManager();
     }
 
     private function registerHostManager()
