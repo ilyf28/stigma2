@@ -15,7 +15,6 @@ class CreateCommands extends Migration
         Schema::create('commands', function (Blueprint $table) {
             $table->increments('id');
             $table->string('command_name')->index()->unique();
-            $table->string('description');
             $table->string('command_line', 9999);
             $table->nullableTimestamps();
         });
