@@ -17,7 +17,7 @@
                 <ul>
                     <li class="parent" style="border-left:5px solid #3F51B5;"><a href="{{route('admin.dashboard.index')}}"><i class="fi-graph-trend"></i>&nbsp;DASHBOARD</a></li>
                     <li class="parent" style="border-left:5px solid #00BCD4;">
-                        <i class="fi-monitor"></i>&nbsp;OBJECT
+                        <a><i class="fi-monitor"></i>&nbsp;OBJECT</a>
                         <ul class="submenu">
                             <li><a href="{{route('admin.hosts.index')}}">Hosts</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Host Groups</a></li>
@@ -30,14 +30,14 @@
                         </ul>
                     </li>
                     <li class="parent" style="border-left:5px solid #6200EA;">
-                        <i class="fi-monitor"></i>&nbsp;System
+                        <a><i class="fi-monitor"></i>&nbsp;SYSTEM</a>
                         <ul class="submenu">
                             <li><a href="{{route('admin.hosts.index')}}">Configuration</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Account</a></li>
                         </ul>
                     </li>
                     <li class="parent" style="border-left:5px solid #C51162;">
-                        <i class="fi-monitor"></i>&nbsp;Execution
+                        <a><i class="fi-monitor"></i>&nbsp;EXECUTION</a>
                         <ul class="submenu">
                             <li><a href="{{route('admin.hosts.index')}}">Generate Config</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Nagios Restart</a></li>
@@ -82,15 +82,6 @@
         </div>
         <!-- end of sidebar-wrapper -->
         <div class="content-wrapper">
-            <div class="top-bar">
-                <section class="top-bar-section">
-                    <!-- Right Nav Section -->
-                    <ul class="right">
-                        <li class="active"><a href="#" data-reveal-id="system-modal"><i class="fi-power"></i>&nbsp;Nagios Restart</a></li> 
-                    </ul>
-
-                </section>
-            </div>
             <div class="content">
                 @yield('contents')
             </div>
@@ -99,15 +90,13 @@
 </div>
 
 
-<div id="system-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<!-- <div id="system-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <div class="modal-header">
         <h5 class="title">Serivce Restart</h5>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
     <div class="modal-body"> 
-        <div data-alert class="alert-box radius notification-box" id="notification-box"> 
-            
-        </div>
+        <div data-alert class="alert-box radius notification-box" id="notification-box"></div>
 
         <ul class="step-by-step clearfix">
             <li>1.Generating Host Configuration <span calss="right"><a class="" id="generate-host-file" >Generate Config</a> </span></li>
@@ -118,7 +107,7 @@
     <div class="modal-footer"> 
         <a class="button right small alert restart-btn">NAGIOS RESTART</a> 
     </div>
-</div>
+</div> -->
 <script src="/bower_components/foundation/js/vendor/jquery.js"></script>
 <script src="/bower_components/foundation/js/foundation.min.js"></script>
 <script>
@@ -132,20 +121,20 @@ jQuery(function(){
 
     hideAlertBox() ;
 
-    $('.provisioning-btn').click(function(){
-        showAlertBox('warning','provisioning...') ;
-        $.ajax({
-            url : '/admin/configuration/provisioning/request' , 
-            type: 'get',
-            success: function(response){
-                showAlertBox('success','Success  ') ;
-                location.href = location.href ;
-            },
-            error : function(response){
-                showAlertBox('alert','Error') ;
-            }
-        }); 
-    });
+    // $('.provisioning-btn').click(function(){
+    //     showAlertBox('warning','provisioning...') ;
+    //     $.ajax({
+    //         url : '/admin/configuration/provisioning/request' , 
+    //         type: 'get',
+    //         success: function(response){
+    //             showAlertBox('success','Success  ') ;
+    //             location.href = location.href ;
+    //         },
+    //         error : function(response){
+    //             showAlertBox('alert','Error') ;
+    //         }
+    //     }); 
+    // });
 
     $('a.restart-btn').click(function(){ 
         showAlertBox('warning','nagios restarting...') ;
@@ -159,7 +148,6 @@ jQuery(function(){
                 showAlertBox('alert','Error') ;
             }
         }); 
-
     });
 
     $('#generate-host-file').click(function(){
