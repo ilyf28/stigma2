@@ -13,19 +13,19 @@ class CommandManager implements ObjectManager
         $this->repo = $repo;
     }
 
-    public function register($data)
-    { 
+    private function filterData($data)
+    {
         $storedData = [];
 
-        // $storedData['service_name'] = $data['service_name']   ;
-        // $storedData['service_description'] =  $data['service_name']     ;
-        // $storedData['is_template'] = $data['is_template']   ;
-        // $storedData['is_immutable'] = $data['is_immutable']   ;
-        // $storedData['template_ids'] = array_key_exists('template_ids', $data) ? $data['template_ids'] : ''  ;
-        // $storedData['command_id'] = array_key_exists('command_id', $data) ? $data['command_id'] : ''  ;
-        // $storedData['command_argument'] = array_key_exists('command_argument', $data) ? $data['command_argument'] : ''  ; 
-        // $storedData['data'] = json_encode($data) ; 
+        $storedData['command_name'] = $data['command_name'];
+        $storedData['command_line'] = $data['command_line'];
 
+        return $storedData;
+    }
+
+    public function register($data)
+    { 
+        $storedData = $this->filterData($data);
         $ret = $this->repo->store($storedData);
 
         return $ret;
@@ -33,17 +33,7 @@ class CommandManager implements ObjectManager
 
     public function update($id,$data)
     {
-        $storedData = [];
-
-        // $storedData['service_name'] = $data['service_name']   ;
-        // $storedData['service_description'] =  $data['service_name']     ;
-        // $storedData['is_template'] = $data['is_template']   ;
-        // $storedData['is_immutable'] = $data['is_immutable']   ;
-        // $storedData['template_ids'] = array_key_exists('template_ids', $data) ? $data['template_ids'] : ''  ;
-        // $storedData['command_id'] = array_key_exists('command_id', $data) ? $data['command_id'] : ''  ;
-        // $storedData['command_argument'] = array_key_exists('command_argument', $data) ? $data['command_argument'] : ''  ; 
-        // $storedData['data'] = json_encode($data) ; 
-
+        $storedData = $this->filterData($data);
         $ret = $this->repo->update($id,$storedData);
 
         return $ret;

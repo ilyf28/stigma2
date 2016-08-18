@@ -1,77 +1,70 @@
 <?php
-namespace Stigma\ObjectManager ;
+namespace Stigma\ObjectManager;
 
-use Stigma\ObjectManager\Contracts\ObjectManager ;
-use Stigma\ObjectManager\Repositories\ServiceRepository ;
+use Stigma\ObjectManager\Contracts\ObjectManager;
+use Stigma\ObjectManager\Repositories\ServiceRepository;
 
 class ServiceManager implements ObjectManager
 { 
-    protected $repo ;
+    protected $repo;
 
     public function __construct(ServiceRepository $repo)
     {
-        $this->repo = $repo ;
+        $this->repo = $repo;
+    }
+
+    private function filterData($data)
+    {
+        $storedData = [];
+
+        $storedData['host_name'] = $data['host_name'];
+        $storedData['service_description'] = $data['service_description'];
+        $storedData['template_name'] = $data['template_name'];
+        $storedData['is_template'] = $data['is_template'];
+        $storedData['data'] = json_encode($data['data']);
+
+        return $storedData;
     }
 
     public function register($data)
-    { 
-        $storedData = [] ;
+    {
+        $storedData = $this->filterData($data);
+        $ret = $this->repo->store($storedData);
 
-        $storedData['service_name'] = $data['service_name']   ;
-        $storedData['service_description'] =  $data['service_name']     ;
-        $storedData['is_template'] = $data['is_template']   ;
-        $storedData['is_immutable'] = $data['is_immutable']   ;
-        $storedData['template_ids'] = array_key_exists('template_ids', $data) ? $data['template_ids'] : ''  ;
-        $storedData['command_id'] = array_key_exists('command_id', $data) ? $data['command_id'] : ''  ;
-        $storedData['command_argument'] = array_key_exists('command_argument', $data) ? $data['command_argument'] : ''  ; 
-        $storedData['data'] = json_encode($data) ; 
-
-        $ret = $this->repo->store($storedData) ; 
-
-        return $ret ;
+        return $ret;
     }
 
-    public function update($id,$data)
+    public function update($id, $data)
     {
-        $storedData = [] ;
+        $storedData = $this->filterData($data);
+        $ret = $this->repo->update($id, $storedData);
 
-        $storedData['service_name'] = $data['service_name']   ;
-        $storedData['service_description'] =  $data['service_name']     ;
-        $storedData['is_template'] = $data['is_template']   ;
-        $storedData['is_immutable'] = $data['is_immutable']   ;
-        $storedData['template_ids'] = array_key_exists('template_ids', $data) ? $data['template_ids'] : ''  ;
-        $storedData['command_id'] = array_key_exists('command_id', $data) ? $data['command_id'] : ''  ;
-        $storedData['command_argument'] = array_key_exists('command_argument', $data) ? $data['command_argument'] : ''  ; 
-        $storedData['data'] = json_encode($data) ; 
-
-        $ret = $this->repo->update($id,$storedData) ;
-
-        return $ret ; 
+        return $ret;
     }
 
     public function getAllItems()
     { 
-        return $this->repo->getAll() ;
+        return $this->repo->getAll();
     }
 
     public function getAllTemplates()
     {
         $ret = $this->repo->getAll()->filter(function($item){
             if($item->is_template == 'Y'){
-                return $item ;
+                return $item;
             }
-        }) ;
+        });
 
-        return $ret ;
+        return $ret;
     }
 
     public function find($id)
     {
-        return $this->repo->find($id) ;
+        return $this->repo->find($id);
     }
 
     public function delete($id)
     {
-        return $this->repo->delete($id) ;
+        return $this->repo->delete($id);
     }
 }

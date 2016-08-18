@@ -12,7 +12,7 @@ class ServiceSeeder extends Seeder
      */
     public function run()
     { 
-        $serviceManager = App::make('Stigma\ObjectManager\ServiceManager') ;
+        $serviceManager = App::make('Stigma\ObjectManager\ServiceManager');
 
 
         $data = [
@@ -40,7 +40,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'PING',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"PING","check_command":"check_ping!100.0,20%!500.0,60%","_graphiteprefix":"stigma"}',
         ];
@@ -51,7 +51,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'Root Partition',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"Root Partition","check_command":"check_local_disk!20%!10%!/","_graphiteprefix":"stigma"}',
         ];
@@ -62,7 +62,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'Current Users',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"Current Users","check_command":"check_local_users!20!50","_graphiteprefix":"stigma"}',
         ];
@@ -73,7 +73,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'Total Processes',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"Total Processes","check_command":"check_local_procs!250!400!RSZDT","_graphiteprefix":"stigma"}',
         ];
@@ -84,7 +84,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'Current Load',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"Current Load","check_command":"check_local_load!5.0,4.0,3.0!10.0,6.0,4.0","_graphiteprefix":"stigma"}',
         ];
@@ -95,7 +95,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'Swap Usage',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"Swap Usage","check_command":"check_local_swap!20!10","_graphiteprefix":"stigma"}',
         ];
@@ -106,7 +106,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'SSH',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"SSH","check_command":"check_ssh","notifications_enabled":"0","_graphiteprefix":"stigma"}',
         ];
@@ -117,7 +117,7 @@ class ServiceSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'service_description' => 'HTTP',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"local-service","host_name":"localhost","service_description":"HTTP","check_command":"check_http","notifications_enabled":"0","_graphiteprefix":"stigma"}',
         ];

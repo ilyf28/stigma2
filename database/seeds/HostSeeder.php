@@ -12,7 +12,7 @@ class HostSeeder extends Seeder
      */
     public function run()
     { 
-        $hostManager = App::make('Stigma\ObjectManager\HostManager') ;
+        $hostManager = App::make('Stigma\ObjectManager\HostManager');
 
 
         $data = [
@@ -73,7 +73,7 @@ class HostSeeder extends Seeder
         $data = [
             'host_name' => 'localhost',
             'alias' => 'localhost',
-            'template_name' => '',
+            'template_name' => NULL,
             'is_template' => 'N',
             'data' => '{"use":"linux-server,generic-host","host_name":"localhost","alias":"localhost","address":"127.0.0.1","_graphiteprefix":"stigma"}',
         ];
