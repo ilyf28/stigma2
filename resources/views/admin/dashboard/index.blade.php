@@ -69,24 +69,6 @@
     </div>
 </div>
 
-<!-- <div class="row" style="display:none;"> 
-    <div class="small-6 columns">
-        @include('admin.dashboard.host') 
-    </div>
-
-    <div class="small-6 columns">
-        @include('admin.dashboard.service') 
-    </div>
-</div> 
-
-<br/> 
-
-<div class="row">
-    <div class="small-12 columns">
-        @include('admin.dashboard.provisioning',array('serverList' => $serverList)) 
-    </div> 
-</div> -->
-
 
 @stop
 

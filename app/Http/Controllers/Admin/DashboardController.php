@@ -111,7 +111,7 @@ class DashboardController extends Controller {
             )); 
         }
 
-        return view('admin.dashboard.index', compact('serverList')) ;
+        return view('admin.dashboard.index') ;
     }
 
     public function nagiosRestart()
