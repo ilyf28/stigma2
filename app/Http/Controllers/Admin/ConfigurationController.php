@@ -150,7 +150,6 @@ class ConfigurationController extends Controller {
         } 
     }
 
-
     public function databaseUpdate(Request $req)
     {
         try { 

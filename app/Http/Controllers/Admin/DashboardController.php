@@ -12,19 +12,16 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException ; 
 use Stigma\Installation\InstallManager;
 use Stigma\Installation\Validators\DatabaseConnectionValidation ;
-use Stigma\Provision\Repositories\ProvisionedServerRepository;
 
 class DashboardController extends Controller { 
 
     protected $nagiosClient ;
     protected $httpClient ;
-    protected $provisionedServerRepo ;
     protected $installManager ;
 
-    public function __construct(NagiosClient $nagiosClient, ProvisionedServerRepository $provisionedServerRepo, InstallManager $installManager)
+    public function __construct(NagiosClient $nagiosClient, InstallManager $installManager)
     {
         $this->nagiosClient = $nagiosClient ;
-        $this->provisionedServerRepo = $provisionedServerRepo ;
         $this->installManager = $installManager ;
 
         $client = new HttpClient ;
@@ -113,18 +110,6 @@ class DashboardController extends Controller {
                 'password'=> 'root' , 
             )); 
         }
-
-        $serverList = $this->provisionedServerRepo->getAll() ;
-        /*
-        $client = new \crodas\InfluxPHP\Client(
-            "ec2-52-192-9-222.ap-northeast-1.compute.amazonaws.com" /,
-            8086 ,
-            "root" ,
-            "root" 
-        );
-         */
-
-        //$client->getDatabases();
 
         return view('admin.dashboard.index', compact('serverList')) ;
     }

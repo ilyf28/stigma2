@@ -25,16 +25,16 @@ class HostController extends Controller {
         $this->nagiosClient = $nagiosClient ;
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $items = $this->hostManager->getAllItems() ;
-	    return view('admin.host.index',compact('items')) ;	
-	}
+        return view('admin.host.index',compact('items')) ;  
+    }
 
     public function generate()
     {
@@ -47,79 +47,78 @@ class HostController extends Controller {
         }
     }
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{ 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    { 
         return $this->showForm() ;
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{ 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    { 
         $param = $this->processFormData($request) ; 
 
         $this->hostManager->register($param) ;
 
         return redirect()->route('admin.hosts.index') ;
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{ 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    { 
         return $this->showForm($id) ;
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{ 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    { 
         return $this->showForm($id) ;
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update(Request $request , $id)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request , $id)
+    {
         $param = $this->processFormData($request) ;
-		
+        
 
         $this->hostManager->update($id,$param) ;
 
         return redirect()->route('admin.hosts.index') ; 
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
         $this->hostManager->delete($id) ;
-	}
+    }
 
     private function processFormData(Request $request)
     {
@@ -198,9 +197,9 @@ class HostController extends Controller {
 
 
         if(isset($host)){
-            return view('admin.host.edit',compact('hostTmpl','host','hostJsonData','hostTemplateCollection','serviceTemplateCollection','commandList')) ;	
+            return view('admin.host.edit',compact('hostTmpl','host','hostJsonData','hostTemplateCollection','serviceTemplateCollection','commandList')) ;   
         }else {
-            return view('admin.host.create',compact('hostTmpl','hostTemplateCollection','serviceTemplateCollection','commandList')) ;	
+            return view('admin.host.create',compact('hostTmpl','hostTemplateCollection','serviceTemplateCollection','commandList')) ;   
         } 
     }
 }
