@@ -190,7 +190,7 @@ class HostController extends Controller {
 
         if(isset($host)){
             return view('admin.host.edit',
-                compact('hostTmpl','host','hostJsonData','hostTemplateCollection','serviceTemplateCollection','commandList'));
+                compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'commandList','timeperiodList', 'contactList'));
         }else {
             return view('admin.host.create',
                 compact('hostTmpl', 'hostTemplateCollection', 'commandList','timeperiodList', 'contactList'));

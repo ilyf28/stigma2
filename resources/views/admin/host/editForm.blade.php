@@ -10,9 +10,9 @@
                     </div>
                     <div class="small-8 columns">
                         @if(isset($host))
-                        {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'),$host->is_template)  !!}
+                        {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'), $host->is_template)  !!}
                         @else
-                        {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'))  !!}
+                        {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'))  !!}
                         @endif 
                     </div>
                 </div>
@@ -25,14 +25,14 @@
                 <div class="row">
                     <div class="small-4 columns">
                         <label for="right-label" class="right inline">
-                            @if($formGroup['required'])<span>*</span>@endif
+                            @if($formGroup['required'])<span style="color:red">*</span>@endif
                             {{$formGroup['display_name']}}
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($hostJsonData) && isset($hostJsonData->{$key})) 
+                        @if(isset($hostJsonData) && isset(json_decode($hostJsonData)->{$key})) 
                         <?php 
-                        $data = $hostJsonData->{$key};
+                        $data = json_decode($hostJsonData)->{$key};
                         ?>
                         @else
                         <?php
@@ -46,7 +46,7 @@
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
                         {!! Form::select($key, $timeperiodList, $data)  !!}
                         @else
-                        {!! Form::text($key,$data ) !!}
+                        {!! Form::text($key, $data ) !!}
                         @endif
 
                     </div>
