@@ -66,28 +66,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($hostTemplateCollection as $hostItem)
-                @if(isset($host) == null || (isset($host) && $host->getKey() != $hostItem->getKey()) )
+                @foreach($hostTemplateCollection as $hostTemplate)
+                @if(isset($host) == null || (isset($host) && $host->getKey() != $hostTemplate->getKey()) )
                 <tr>
                     <?php
-                    $check = false ;
-                    $templateIds = [] ;
+                    $check = false;
+                    $uses = [];
 
                     if(isset($host)) {
-                    $templateIds = $host->template_ids ; 
-                    $templateIds = explode(',',$templateIds) ;
+                    $data = $host->data;
+                    $used = json_decode($data);
+                    $uses = explode(',', json_decode($used)->use);
 
-                    foreach($templateIds as $templateId)
+                    foreach($uses as $use)
                     {
-                    if($hostItem->getKey() == $templateId){
-                    $check = true ;
+                    if($hostTemplate->host_name == $use){
+                    $check = true;
                     }
                     }
-                    } 
+                    }
                     ?>
-                    <td>{!! Form::checkbox('host_template[]', $hostItem->getKey() ,$check) !!}</td>
+                    <td>{!! Form::checkbox('host_template[]', $hostTemplate->getKey(), $check) !!}</td>
                     <td>
-                        <a href="{{ route('admin.hosts.edit',array($hostItem->getKey())) }}">{{$hostItem->host_name}}</a>
+                        <a href="{{ route('admin.hosts.edit',array($hostTemplate->getKey())) }}">{{$hostTemplate->host_name}}</a>
                     </td>
                 </tr>
                 @endif
