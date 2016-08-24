@@ -16,7 +16,7 @@
             <tr>
                 <th width="50">#</th>
                 <th width="200">Host Name</th>
-                <th>For Template</th>
+                <th>Alias</th>
                 <th width="50"></th>
                 <th width="50"></th>
             </tr>
@@ -26,13 +26,9 @@
             <tr>
                 <td>{{$item->getKey()}}</td>
                 <td>{{$item->host_name}}</td>
-                <td>{{$item->is_template}}</td>
-                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.hosts.edit',array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
-                <td style="text-align:center;">
-                    @if($item->is_immutable == 'N')
-                    <a class="alert delete-btn" data-reveal-id="delete-modal" data-host-id="{{$item->getKey()}}"><i class="fi-trash"></i></a>
-                    @endif
-                </td> 
+                <td>{{$item->alias}}</td>
+                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.hosts.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
+                <td style="text-align:center;"><a class="alert delete-btn" data-reveal-id="delete-modal" data-host-id="{{$item->getKey()}}"><i class="fi-trash"></i></a></td> 
             </tr>
             @endforeach
         </tbody>
@@ -63,16 +59,16 @@
 @section('scripts')
 <script> 
 jQuery(function($){
-    var hostId ; 
+    var hostId; 
 
     $('.delete-btn').click(function(){
-        hostId = $(this).data('host-id') ;
+        hostId = $(this).data('host-id');
     });
 
     $('.request-to-delete').click(function(){
-        var $form = $('#delete-form') ;
-        var data = $form.serialize() ;
-        var url = $form.attr('action') ;
+        var $form = $('#delete-form');
+        var data = $form.serialize();
+        var url = $form.attr('action');
 
         $.ajax({ 
             'type': 'delete', 
@@ -81,9 +77,9 @@ jQuery(function($){
                 '_token' : $form.find('[name=_token]').val()
             },
             'success':function(){ 
-                location.href = location.href ;
+                location.href = location.href;
             }
-        }) ;
+        });
     }); 
 });
 </script>

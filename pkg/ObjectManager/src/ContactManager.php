@@ -56,4 +56,17 @@ class ContactManager implements ObjectManager
     {
         return $this->repo->delete($id);
     }
+
+    public function pluck($key, $value)
+    {
+        $contactList = $this->getAllItems();
+
+        $arr = [];
+
+        foreach ($contactList as $contact) {
+            $arr[$contact->{$key}] = $contact->{$value};
+        }
+
+        return $arr;
+    }
 }

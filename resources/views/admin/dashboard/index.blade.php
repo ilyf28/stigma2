@@ -77,51 +77,51 @@
 jQuery(function($){
     var refresh = function(){
         $.getJSON('/admin/dashboard/refresh',function(response){
-                var nagios = response.nagios ;
-                var influxdb = response.influxdb ;
-                var database = response.database ;
-                var grafana = response.grafana ;
+                var nagios = response.nagios;
+                var influxdb = response.influxdb;
+                var database = response.database;
+                var grafana = response.grafana;
 
                 if(!nagios){
-                    $('#nagios-box').addClass('error') ;
-                    $('#nagios-box').removeClass('success') ;
+                    $('#nagios-box').addClass('error');
+                    $('#nagios-box').removeClass('success');
                 }else{
-                    $('#nagios-box').addClass('success') ;
-                    $('#nagios-box').removeClass('error') ;
+                    $('#nagios-box').addClass('success');
+                    $('#nagios-box').removeClass('error');
                 }
 
                 if(!influxdb){
-                    $('#influxdb-box').addClass('error') ;
-                    $('#influxdb-box').removeClass('success') ;
+                    $('#influxdb-box').addClass('error');
+                    $('#influxdb-box').removeClass('success');
                 }else{
-                    $('#influxdb-box').addClass('success') ;
-                    $('#influxdb-box').removeClass('error') ;
+                    $('#influxdb-box').addClass('success');
+                    $('#influxdb-box').removeClass('error');
                 } 
 
                 if(!grafana){
-                    $('#grafana-box').addClass('error') ;
-                    $('#grafana-box').removeClass('success') ;
+                    $('#grafana-box').addClass('error');
+                    $('#grafana-box').removeClass('success');
                 }else{
-                    $('#grafana-box').addClass('success') ;
-                    $('#grafana-box').removeClass('error') ;
+                    $('#grafana-box').addClass('success');
+                    $('#grafana-box').removeClass('error');
                 } 
 
                 if(!database){
-                    $('#database-box').addClass('error') ;
-                    $('#database-box').removeClass('success') ;
+                    $('#database-box').addClass('error');
+                    $('#database-box').removeClass('success');
                 }else{
-                    $('#database-box').addClass('success') ;
-                    $('#database-box').removeClass('error') ;
+                    $('#database-box').addClass('success');
+                    $('#database-box').removeClass('error');
                 } 
 
             });
         };
 
     $('#refresh-btn').click(function(){
-        refresh() ;
+        refresh();
     });
 
-    refresh() ;
+    refresh();
 
     setInterval(function(){ refresh(); }, 60000);
 });

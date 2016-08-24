@@ -5,25 +5,19 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Stigma\CommandBuilder\CommandBuilder ;
 use Stigma\Nagios\Client as NagiosClient ;
 use Illuminate\Http\Response;
 use Stigma\Installation\InstallManager;
-use Stigma\Provision\ProvisionManager;
-use Stigma\Provision\Repositories\ProvisionedServerRepository;
 use Illuminate\Contracts\Auth\Guard;
 
 class ConfigurationController extends Controller { 
 
     protected $installManager ;
-    protected $provisionedServerRepo ;
     protected $auth ;
     
-    public function __construct(InstallManager $installManager,ProvisionManager $provisionManager, ProvisionedServerRepository $provisionedServerRepo, Guard $auth)
+    public function __construct(InstallManager $installManager, Guard $auth)
     {
         $this->installManager = $installManager ;
-        $this->provisionManager = $provisionManager ;
-        $this->provisionedServerRepo = $provisionedServerRepo ;
         $this->auth = $auth ;
     }
 

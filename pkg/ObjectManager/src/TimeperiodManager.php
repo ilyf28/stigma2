@@ -57,4 +57,17 @@ class TimeperiodManager implements ObjectManager
         return $this->repo->delete($id);
     }
 
+    public function pluck($key, $value)
+    {
+        $timeperiodList = $this->getAllItems();
+
+        $arr = [];
+
+        foreach ($timeperiodList as $timeperiod) {
+            $arr[$timeperiod->{$key}] = $timeperiod->{$value};
+        }
+
+        return $arr;
+    }
+
 }

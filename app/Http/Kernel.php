@@ -26,7 +26,7 @@ class Kernel extends HttpKernel {
 	protected $routeMiddleware = [
 		'auth' => 'App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'install.checker' => 'App\Http\Middleware\VerifyInstallation' ,
+		'install.checker' => 'App\Http\Middleware\VerifyInstallation' ,
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
 	];
 

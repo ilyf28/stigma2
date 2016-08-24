@@ -5,18 +5,15 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Stigma\CommandBuilder\CommandBuilder ;
 use Stigma\Nagios\Client as NagiosClient ;
 use Illuminate\Http\Response;
 
 class CommandController extends Controller {
 
-    protected $commandBuilder ;
     protected $nagiosClient ;
 
-    public function __construct(CommandBuilder $commandBuilder , NagiosClient $nagiosClient)
+    public function __construct(NagiosClient $nagiosClient)
     {
-        $this->commandBuilder = $commandBuilder ;
         $this->nagiosClient = $nagiosClient ;
     }
 
