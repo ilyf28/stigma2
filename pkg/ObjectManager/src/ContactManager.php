@@ -57,14 +57,14 @@ class ContactManager implements ObjectManager
         return $this->repo->delete($id);
     }
 
-    public function pluck($key, $value)
+    public function pluck($name)
     {
         $contactList = $this->getAllItems();
 
         $arr = [];
 
         foreach ($contactList as $contact) {
-            $arr[$contact->{$key}] = $contact->{$value};
+            $arr[$contact->{$name}] = $contact->{$name};
         }
 
         return $arr;

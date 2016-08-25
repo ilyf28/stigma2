@@ -54,14 +54,14 @@ class CommandManager implements ObjectManager
         return $this->repo->delete($id);
     }
 
-    public function pluck($key, $value)
+    public function pluck($name)
     {
         $commandList = $this->getAllItems();
 
         $arr = [];
 
         foreach ($commandList as $command) {
-            $arr[$command->{$key}] = $command->{$value};
+            $arr[$command->{$name}] = $command->{$name};
         }
 
         return $arr;

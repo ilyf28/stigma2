@@ -73,7 +73,7 @@ class HostController extends Controller {
      */
     public function store(Request $request)
     { 
-        $param = $this->processFormData($request); 
+        $param = $this->processFormData($request);
 
         $this->hostManager->register($param);
 
@@ -112,7 +112,6 @@ class HostController extends Controller {
     {
         $param = $this->processFormData($request);
         
-
         $this->hostManager->update($id,$param);
 
         return redirect()->route('admin.hosts.index'); 
@@ -133,43 +132,37 @@ class HostController extends Controller {
     {
         $hostTmpl = config('host_tmpl');
         $param = [];
-
-        $templateIds = $request->get('host_template');
-        $serviceIds = $request->get('service_ids');
-
+        $result = [];
 
         foreach($request->all() as $key => $value)
         {
-            if(array_key_exists($key,$hostTmpl) && ($value != '' )) { 
+            if (array_key_exists($key, $hostTmpl) && ($value != '')) {
                 $param[$key] = $value;
             }
-        } 
-
-        $param['is_template'] = $request->get('is_template');
-        $param['is_immutable'] = $request->get('is_immutable');
-
-        if(count($templateIds) > 0){
-            $param['template_ids'] = implode(',',$templateIds);
-        }else {
-            $param['template_ids'] = ''; 
         }
 
-        if(count($serviceIds) > 0){
-            $param['service_ids'] = implode(',',$serviceIds);
-        }else {
-            $param['service_ids'] = ''; 
+        $result['host_name'] = $request->get('host_name');
+        $result['alias'] = $request->get('alias');
+        $result['is_template'] = $request->get('is_template');
+
+        if ($request->get('is_template') == 'Y') {
+            $result['template_name'] = $request->get('host_name');
+            
+            unset($param['host_name']);
+            $param['name'] = $request->get('host_name');
+        } else {
+            $result['template_name'] = '';
         }
 
-        if($request->get('command_id') > 0){
-            $param['command_id'] = $request->get('command_id');
-            $param['command_argument'] = $request->get('command_argument');
+        $templates = $request->get('host_template');
+
+        if(count($templates) > 0){
+            $param['use'] = implode(',', $templates);
         }
 
-        if($request->get('address') != ''){
-            $param['address'] = $request->get('address');
-        }
+        $result['data'] = $param;
 
-        return $param;
+        return $result;
     } 
 
     private function showForm($id=null)
@@ -183,9 +176,9 @@ class HostController extends Controller {
 
         $hostTemplateCollection = $this->hostManager->getAllTemplates();
 
-        $commandList = $this->commandManager->pluck('id', 'command_name');
-        $timeperiodList =$this->timeperiodManager->pluck('id', 'timeperiod_name');
-        $contactList =$this->contactManager->pluck('id', 'contact_name');
+        $commandList = $this->commandManager->pluck('command_name');
+        $timeperiodList =$this->timeperiodManager->pluck('timeperiod_name');
+        $contactList =$this->contactManager->pluck('contact_name');
 
 
         if(isset($host)){
