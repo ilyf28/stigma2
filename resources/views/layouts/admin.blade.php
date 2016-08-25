@@ -46,6 +46,7 @@
                     </li>
                 </ul>
                 <div style="text-align:center;">
+                    <a href="/admin/hosts/generate" style="color:#0078a0">make config</a>
                     <a href="/" style="color:#0078a0">Go to Monitoring</a>
                 </div>
             </div>
@@ -65,12 +66,12 @@
     $(document).foundation();
 </script>
 <script>
-jQuery(function(){
-    var hideAlertBox = function(){ 
-        $('.notification-box').hide() ;
-    }
+// jQuery(function(){
+    // var hideAlertBox = function(){ 
+    //     $('.notification-box').hide() ;
+    // }
 
-    hideAlertBox() ;
+    // hideAlertBox() ;
 
     // $('.provisioning-btn').click(function(){
     //     showAlertBox('warning','provisioning...') ;
@@ -87,75 +88,76 @@ jQuery(function(){
     //     }); 
     // });
 
-    $('a.restart-btn').click(function(){ 
-        showAlertBox('warning','nagios restarting...') ;
-        $.ajax({
-            url : '/admin/dashboard/nagios_restart' , 
-            type: 'get',
-            success: function(response){
-                showAlertBox('success','Success  ') ;
-            },
-            error : function(response){
-                showAlertBox('alert','Error') ;
-            }
-        }); 
-    });
+    // $('a.restart-btn').click(function(){ 
+    //     showAlertBox('warning','nagios restarting...') ;
+    //     $.ajax({
+    //         url : '/admin/dashboard/nagios_restart' , 
+    //         type: 'get',
+    //         success: function(response){
+    //             showAlertBox('success','Success  ') ;
+    //         },
+    //         error : function(response){
+    //             showAlertBox('alert','Error') ;
+    //         }
+    //     }); 
+    // });
 
-    $('#generate-host-file').click(function(){
-        showAlertBox('warning','host file are generationg...') ;
-        $.ajax({
-            url : '/admin/hosts/generate' , 
-            type: 'get',
-            success: function(response){
-                showAlertBox('success','Done : Host File are generated') ;
-            },
-            error : function(response){
-                showAlertBox('alert','Error') ;
-            }
-        }); 
-    });
+    // $('#generate-host-file').click(function(){
+    //     showAlertBox('warning','host file are generationg...') ;
+    //     $.ajax({
+    //         url : '/admin/hosts/generate' , 
+    //         type: 'get',
+    //         success: function(response){
+    //             console.log(response);
+    //             showAlertBox('success','Done : Host File are generated') ;
+    //         },
+    //         error : function(response){
+    //             showAlertBox('alert','Error') ;
+    //         }
+    //     }); 
+    // });
 
-    $('#generate-service-file').click(function(){
-        showAlertBox('warning','service file are generationg...') ;
-        $.ajax({
-            url : '/admin/services/generate' , 
-            type: 'get',
-            success: function(response){
-                showAlertBox('success','Done : Service File are generated') ;
-            },
-            error : function(response){
-                showAlertBox('alert','Error') ;
-            }
-        }); 
+    // $('#generate-service-file').click(function(){
+    //     showAlertBox('warning','service file are generationg...') ;
+    //     $.ajax({
+    //         url : '/admin/services/generate' , 
+    //         type: 'get',
+    //         success: function(response){
+    //             showAlertBox('success','Done : Service File are generated') ;
+    //         },
+    //         error : function(response){
+    //             showAlertBox('alert','Error') ;
+    //         }
+    //     }); 
 
-    });
+    // });
 
-    $('#generate-command-file').click(function(){ 
-        showAlertBox('warning','command file are generationg...') ;
-        $.ajax({
-            url : '/admin/commands/generate' , 
-            type: 'get',
-            success: function(response){
-                showAlertBox('success','Done : Command File are generated') ;
-            },
-            error : function(response){
-                showAlertBox('alert','Error') ;
-            }
-        }); 
-    }); 
+    // $('#generate-command-file').click(function(){ 
+    //     showAlertBox('warning','command file are generationg...') ;
+    //     $.ajax({
+    //         url : '/admin/commands/generate' , 
+    //         type: 'get',
+    //         success: function(response){
+    //             showAlertBox('success','Done : Command File are generated') ;
+    //         },
+    //         error : function(response){
+    //             showAlertBox('alert','Error') ;
+    //         }
+    //     }); 
+    // }); 
 
     
-    var showAlertBox = function(cls , text){ 
-        $('.notification-box').removeClass('warning') ;
-        $('.notification-box').removeClass('alert') ;
-        $('.notification-box').removeClass('success') ;
+    // var showAlertBox = function(cls , text){ 
+    //     $('.notification-box').removeClass('warning') ;
+    //     $('.notification-box').removeClass('alert') ;
+    //     $('.notification-box').removeClass('success') ;
 
-        $('.notification-box').addClass(cls) ;
-        $('.notification-box').show() ;
-        $('.notification-box').text(text) ;
-    } 
+    //     $('.notification-box').addClass(cls) ;
+    //     $('.notification-box').show() ;
+    //     $('.notification-box').text(text) ;
+    // } 
 
-});
+// });
 </script>
 @yield('scripts')
 </body>

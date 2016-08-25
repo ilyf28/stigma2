@@ -1,6 +1,8 @@
 <?php
 
 Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
+    Route::get('hosts/generate', '\App\Http\Controllers\Admin\HostController@generate');
+    
     Route::resource('dashboard','\App\Http\Controllers\Admin\DashboardController'); 
     Route::resource('hosts', '\App\Http\Controllers\Admin\HostController');
     // Route::resource('services','\App\Http\Controllers\Admin\ServiceController');
@@ -18,7 +20,6 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
 
 
     // Route::get('commands/generate', '\App\Http\Controllers\Admin\CommandController@generate');
-    // Route::get('hosts/generate', '\App\Http\Controllers\Admin\HostController@generate');
     // Route::get('services/generate', '\App\Http\Controllers\Admin\ServiceController@generate');
     // Route::get('dashboard/nagios_restart', '\App\Http\Controllers\Admin\DashboardController@nagiosRestart');
     // Route::get('dashboard/refresh', '\App\Http\Controllers\Admin\DashboardController@refresh');

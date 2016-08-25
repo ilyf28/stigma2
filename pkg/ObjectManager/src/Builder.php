@@ -1,146 +1,109 @@
 <?php
-namespace Stigma\ObjectManager ;
+namespace Stigma\ObjectManager;
 
-use Stigma\ObjectManager\HostManager ;
-use Stigma\ObjectManager\ServiceManager ;
-use Stigma\CommandBuilder\CommandBuilder ;
+use Stigma\ObjectManager\HostManager;
+use Stigma\ObjectManager\ServiceManager;
+use Stigma\ObjectManager\CommandManager;
 
 class Builder
 {
-    protected $hostManager ;
-    protected $serviceManager ;
-    protected $commandBuilder ;
+    protected $hostManager;
+    protected $serviceManager;
+    protected $commandManager;
 
-    public function __construct(HostManager $hostManager , ServiceManager $serviceManager, CommandBuilder $commandBuilder)
+    public function __construct(HostManager $hostManager , ServiceManager $serviceManager, CommandManager $commandManager)
     { 
-        $this->hostManager = $hostManager ;
-        $this->serviceManager = $serviceManager ;
-        $this->commandBuilder = $commandBuilder ;
+        $this->hostManager = $hostManager;
+        $this->serviceManager = $serviceManager;
+        $this->commandManager = $commandManager;
     }
 
-    public function buildForhost()
+    public function buildForHost()
     {
-        $hostCollection = $this->hostManager->getAllItems() ;
+        $hostCollection = $this->hostManager->getAllItems();
 
-
-        $payload = [] ;
+        $payload = [];
 
         foreach($hostCollection as $host)
         {
-            if($host->is_immutable == 'N'){
-            $data = new \stdClass ;
-            $data = json_decode($host->data) ;
-            $details  = (array) $data ; 
-            $newDetails = [] ;
-
-            $fields = config('host_tmpl') ; 
-
-            foreach($fields as $key => $field) {
-                if(array_key_exists($key,$details)){ 
-                    $newDetails[$key] = $details[$key] ;
-                }
-            }
-
-            if($host->command_id > 0){ // 커맨드가 존재할 경우
-                $command = $this->commandBuilder->find($host->command_id)  ;
-                $newDetails['check_command'] = $command->command_name.$host->command_argument ;
-            } 
-
-            if($host->is_template == 'Y'){ //템플릿으로 사용할 경우
-                $newDetails['name'] = $host->host_name ;
-                $newDetails['register'] = 0 ;
-            }
-
-            if($host->template_ids != ''){ //템플릿 상속을 사용 할 경우
-                $templateIds = explode(',',$host->template_ids) ; 
-                $templates = [] ;
-
-                foreach($templateIds as $templateId){
-                    $templateHost = $this->hostManager->find($templateId) ; 
-                    if($templateHost->getKey() > 0){
-                        $templates[] = $templateHost->host_name ;
-                    }
-                }
-
-                $newDetails['use'] = implode(',', $templates) ;
-
-            }
+            $pack = new \stdClass;
+            $data = json_decode($host->data);
+            $details  = (array) $data; 
             
-            $data->details = $newDetails ;
-            $data->host_name = $host->host_name ;
-            $data->is_template = $host->is_template ;
+            $pack->details = $details;
+            $pack->host_name = $host->host_name;
+            $pack->is_template = $host->is_template;
 
-            $payload[] = $data ; 
-            }
+            $payload[] = $pack;
         }
 
-        return $payload ;
+        return $payload;
     } 
 
 
     public function buildForService()
     {
-        $hostCollection = $this->hostManager->getAllItems() ;
+        $hostCollection = $this->hostManager->getAllItems();
 
-        $fields = config('service_tmpl') ; 
-        $payload = [] ; 
+        $fields = config('service_tmpl'); 
+        $payload = []; 
 
         foreach($hostCollection as $host){
             if($host->is_immutable == 'N'){
                 if($host->service_ids != ''){
-                    $serviceIds = explode(',',$host->service_ids) ; 
+                    $serviceIds = explode(',',$host->service_ids); 
                     foreach($serviceIds  as $serviceId){
-                        $service = $this->serviceManager->find($serviceId)  ;
+                        $service = $this->serviceManager->find($serviceId) ;
                         if($service){
 
-                            $jsonData = json_decode($service->data) ;
-                            $arrayData = (array)$jsonData ;
-                            $newDetails = array() ;
+                            $jsonData = json_decode($service->data);
+                            $arrayData = (array)$jsonData;
+                            $newDetails = array();
 
                             foreach($fields as $key => $field) {
                                 if(array_key_exists($key,$arrayData)){ 
-                                    $newDetails[$key] = $arrayData[$key] ;
+                                    $newDetails[$key] = $arrayData[$key];
                                 }
                             } 
 
-                            $newDetails['service_description'] = $service->service_name ;
-                            $newDetails['host_name'] = $host->host_name ;
-                            $newDetails['_graphiteprefix'] = 'service' ;
+                            $newDetails['service_description'] = $service->service_name;
+                            $newDetails['host_name'] = $host->host_name;
+                            $newDetails['_graphiteprefix'] = 'service';
 
 
                             if($service->template_ids != ''){ //템플릿 상속을 사용 할 경우 
-                                $templateIds = explode(',',$service->template_ids) ; 
-                                $templates = [] ; 
+                                $templateIds = explode(',',$service->template_ids); 
+                                $templates = []; 
 
                                 foreach($templateIds as $templateId){
-                                    $templateService = $this->serviceManager->find($templateId) ; 
+                                    $templateService = $this->serviceManager->find($templateId); 
                                     if($templateService->getKey() > 0){
-                                        $templates[] = $templateService->service_name ;
+                                        $templates[] = $templateService->service_name;
                                     }
                                 }
 
-                                $newDetails['use'] = implode(',', $templates) ;
+                                $newDetails['use'] = implode(',', $templates);
 
                             }
 
                             if($service->command_id > 0){ // 커맨드가 존재할 경우
-                                $command = $this->commandBuilder->find($service->command_id)  ;
-                                $newDetails['check_command'] = $command->command_name.$service->command_argument ;
+                                $command = $this->commandManager->find($service->command_id) ;
+                                $newDetails['check_command'] = $command->command_name.$service->command_argument;
                             } 
 
 
-                            $serviceObj = new \stdClass ;
-                            $serviceObj->service_name = $service->service_name ;
-                            $serviceObj->is_template = $service->is_template ;
-                            $serviceObj->details = $newDetails ;
+                            $serviceObj = new \stdClass;
+                            $serviceObj->service_name = $service->service_name;
+                            $serviceObj->is_template = $service->is_template;
+                            $serviceObj->details = $newDetails;
 
-                            $payload[] = $serviceObj ;
+                            $payload[] = $serviceObj;
                         }
                     }
                 }
             }
         }
 
-        return $payload ;
+        return $payload;
     }
 }

@@ -45,17 +45,6 @@ class HostController extends Controller {
         return view('admin.host.index', compact('items'));  
     }
 
-    public function generate()
-    {
-        $response = $this->nagiosClient->generateHost();
-
-        if($response == 200){
-            return new Response('success', 200);
-        }else{
-            return new Response('error', 400);
-        }
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -126,6 +115,17 @@ class HostController extends Controller {
     public function destroy($id)
     {
         $this->hostManager->delete($id);
+    }
+
+    public function generate()
+    {
+        $response = $this->nagiosClient->generateHost();
+
+        if($response == 200){
+            return new Response('success', 200);
+        }else{
+            return new Response('error', 400);
+        }
     }
 
     private function processFormData(Request $request)
