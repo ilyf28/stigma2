@@ -45,6 +45,8 @@
                         {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
                         {!! Form::select($key, $timeperiodList, $data)  !!}
+                        @elseif(isset($host) && $host->is_template && $formGroup['display_name'] == 'host_name')
+                        {!! Form::text($key, $host->template_name ) !!}
                         @else
                         {!! Form::text($key, $data ) !!}
                         @endif
@@ -76,12 +78,16 @@
                     if(isset($host)) {
                     $data = $host->data;
                     $used = json_decode($data);
+
+                    if (isset(json_decode($used)->use))
+                    {
                     $uses = explode(',', json_decode($used)->use);
 
                     foreach($uses as $use)
                     {
                     if($hostTemplate->host_name == $use){
                     $check = true;
+                    }
                     }
                     }
                     }
