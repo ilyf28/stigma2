@@ -20,7 +20,7 @@ class ContactSeeder extends Seeder
             'alias' => 'Generic contact definition template',
             'template_name' => 'generic-contact',
             'is_template' => 'Y',
-            'data' => '{"name":"generic-contact","service_notification_period":"24x7","host_notification_period":"24x7","service_notification_options":"w,u,c,r,f,s","host_notification_options":"d,u,r,f,s","service_notification_commands":"notify-service-by-email","host_notification_commands":"notify-host-by-email","register":"0"}',
+            'data' => json_decode('{"name":"generic-contact","service_notification_period":"24x7","host_notification_period":"24x7","service_notification_options":"w,u,c,r,f,s","host_notification_options":"d,u,r,f,s","service_notification_commands":"notify-service-by-email","host_notification_commands":"notify-host-by-email","register":"0"}'),
         ];
 
         $contactManager->register($data);
@@ -31,7 +31,7 @@ class ContactSeeder extends Seeder
             'alias' => 'Just one contact defined by default - the Nagios admin',
             'template_name' => NULL,
             'is_template' => 'N',
-            'data' => '{"contact_name":"nagiosadmin","use":"generic-contact","alias":"Nagios Admin","email":"nagios@localhost"}',
+            'data' => json_decode('{"contact_name":"nagiosadmin","use":"generic-contact","alias":"Nagios Admin","email":"nagios@localhost"}'),
         ];
 
         $contactManager->register($data);
