@@ -10,60 +10,14 @@
                     </div>
                     <div class="small-8 columns"> 
                         @if(isset($service))
-                        {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'),$service->is_template)  !!}
+                            {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'),$service->is_template)  !!}
                         @else
-                        {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'))  !!}
+                            {!! Form::select('is_template', array( 'N' => 'N','Y' =>'Y'))  !!}
                         @endif
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="small-12 columns">
-                <div class="row">
-                    <div class="small-4 columns">
-                        <label for="right-label" class="right inline">
-                            Immutable 
-                        </label>
-                    </div>
-                    <div class="small-8 columns">
-                        @if(isset($service))
-                        {!! Form::select('is_immutable', array( 'N' => 'N','Y' =>'Y'),$service->is_immutable)  !!}
-                        @else
-                        {!! Form::select('is_immutable', array( 'N' => 'N','Y' =>'Y'))  !!}
-                        @endif 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="small-12 columns">
-                <div class="row">
-                    <div class="small-4 columns">
-                        <label for="right-label" class="right inline">
-                            SERVICE NAME
-                        </label>
-                    </div>
-                    <div class="small-8 columns">
-                        @if(isset($service))
-                        {!! Form::text('service_name', $service->service_name) !!} 
-                        @else
-                        {!! Form::text('service_name') !!} 
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @if(isset($service))
-        @include('admin.partials.check_command_field',array('commandList' => $commandList, 'model'=>$service)) 
-        @else
-        @include('admin.partials.check_command_field',array('commandList' => $commandList)) 
-        @endif
-
 
         @foreach($serviceTmpl as $key => $formGroup) 
         <div class="row">
@@ -71,27 +25,34 @@
                 <div class="row">
                     <div class="small-4 columns">
                         <label for="right-label" class="right inline">
-                            @if($formGroup['required'])<span>*</span>@endif
+                            @if($formGroup['required'])<span style="color:red">*</span>@endif
                             {{$formGroup['display_name']}}
                         </label>
                     </div>
                     <div class="small-8 columns">
                         @if(isset($serviceJsonData) && isset($serviceJsonData->{$key})) 
-                        <?php 
-                            $data = $serviceJsonData->{$key}  ;
-                        ?>
+                            <?php 
+                                $data = $serviceJsonData->{$key};
+                            ?>
                         @else
-                        <?php 
-                            $data = null ;
-                        ?>
+                            <?php 
+                                $data = null;
+                            ?>
                         @endif
-
-                        @if($formGroup['data_type'] == 'enum')
-                        {!! Form::select($key,array_flip($formGroup['values']),$data) !!}
+                        @if($formGroup['data_type'] == 'enum_command')
+                            {!! Form::select($key, array_merge(['0' => 'none' ], $commandList), $command)  !!}
+                            {!! Form::text($key, $commandArg) !!}
+                        @elseif($formGroup['data_type'] == 'enum_contact')
+                            {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
+                        @elseif($formGroup['data_type'] == 'enum_host')
+                            {!! Form::select($key, $hostList, $data)  !!}
+                        @elseif($formGroup['data_type'] == 'enum_timeperiod')
+                            {!! Form::select($key, $timeperiodList, $data)  !!}
+                        @elseif(isset($service) && $service->is_template == 'Y' && $formGroup['display_name'] == 'host_name')
+                            {!! Form::text($key, $service->template_name ) !!}
                         @else
-                        {!! Form::text($key,$data) !!}
+                            {!! Form::text($key, $data) !!}
                         @endif
-
                     </div>
                 </div>
             </div>
@@ -109,30 +70,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($serviceTemplateCollection as $serviceItem)
+                @foreach($serviceTemplateCollection as $serviceTemplate)
+                    @if(isset($service) == null || (isset($service) && $service->getKey() != $serviceTemplate->getKey()) )
                     <tr>
                         <?php
-                            $check = false ;
-                            $templateIds = [] ;
+                            $check = false;
+                            $uses = [];
 
-                            if(isset($service)) {
-                                $templateIds = $service->template_ids ; 
-                                $templateIds = explode(',',$templateIds) ;
+                            if (isset($service)) {
+                                $data = $service->data;
 
-                                foreach($templateIds as $templateId)
-                                {
-                                    if($serviceItem->getKey() == $templateId){
-                                        $check = true ;
+                                if (isset(json_decode($data)->use)) {
+                                    $uses = explode(',', json_decode($data)->use);
+
+                                    foreach ($uses as $use) {
+                                        if ($serviceTemplate->host_name == $use) {
+                                            $check = true;
+                                        }
                                     }
                                 }
                             } 
                         ?>
-                        <td>{!! Form::checkbox('service_template[]', $serviceItem->getKey() ,$check) !!}</td>
+                        <td>{!! Form::checkbox('service_template[]', $serviceTemplate->getKey(), $check) !!}</td>
                         <td>
-                            {{$serviceItem->service_name}}
+                            <a href="{{ route('admin.services.edit',array($serviceTemplate->getKey())) }}">{{$serviceTemplate->host_name}}</a>
                         </td>
                     </tr>
-                    @endforeach
+                    @endif
+                @endforeach
                 </tbody>
 
             </table>

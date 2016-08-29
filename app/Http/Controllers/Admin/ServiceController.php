@@ -4,20 +4,37 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Stigma\ObjectManager\CommandManager;
+use Stigma\ObjectManager\ContactManager;
 use Stigma\ObjectManager\HostManager;
 use Stigma\ObjectManager\ServiceManager;
+use Stigma\ObjectManager\TimeperiodManager;
 use Stigma\Nagios\Client as NagiosClient;
-use Illuminate\Http\Response;
 
 class ServiceController extends Controller {
 
+    protected $commandManager;
+    protected $contactManager;
     protected $hostManager;
     protected $serviceManager;
- 
-    public function __construct(HostManager $hostManager, ServiceManager $serviceManager, NagiosClient $nagiosClient)
+    protected $timeperiodManager;
+    protected $nagiosClient;
+
+    public function __construct(
+        CommandManager $commandManager, 
+        ContactManager $contactManager,
+        HostManager $hostManager, 
+        ServiceManager $serviceManager,
+        TimeperiodManager $timeperiodManager, 
+        NagiosClient $nagiosClient)
     {
+        $this->commandManager = $commandManager;
+        $this->contactManager = $contactManager;
         $this->hostManager = $hostManager;
         $this->serviceManager = $serviceManager;
+        $this->timeperiodManager = $timeperiodManager;
         $this->nagiosClient = $nagiosClient;
     }
 
@@ -29,18 +46,7 @@ class ServiceController extends Controller {
     public function index()
     { 
         $items = $this->serviceManager->getAllItems();
-        return view('admin.service.index',compact('items'));   
-    }
-
-    public function generate()
-    {
-        $response = $this->nagiosClient->generateService(); 
-
-        if($response == 200){
-            return new Response('success', 200);
-        }else{
-            return new Response('error', 400);
-        }
+        return view('admin.service.index',compact('items'));
     }
 
     /**
@@ -50,23 +56,7 @@ class ServiceController extends Controller {
      */
     public function create()
     {
-        $serviceTmpl = config('service_tmpl');
-        $serviceTmpl = collect($serviceTmpl);
-        $serviceTmpl->sortBy(function($field){ 
-            if($field['required'] && $field['display_name'] == 'SERVICE NAME' ){
-                return 0;
-            }else if($field['required'] ) { 
-                return 1;
-            }
-
-            return 10;
-        });
-
-        $serviceTemplateCollection = $this->serviceManager->getAllTemplates();
-
-        $commandList = $this->commandBuilder->pluck('id','command_name') ;
-
-        return view('admin.service.create',compact('serviceTmpl','serviceTemplateCollection','commandList'));  
+        return $this->showForm();
     }
 
     /**
@@ -81,7 +71,6 @@ class ServiceController extends Controller {
         $this->serviceManager->register($param);
 
         return redirect()->route('admin.services.index');
-    
     }
 
     /**
@@ -92,7 +81,7 @@ class ServiceController extends Controller {
      */
     public function show($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -103,26 +92,7 @@ class ServiceController extends Controller {
      */
     public function edit($id)
     { 
-        $service = $this->serviceManager->find($id);
-        $serviceJsonData = json_decode($service->data);
-
-        $serviceTmpl = config('service_tmpl');
-        $serviceTmpl = collect($serviceTmpl);
-        $serviceTmpl->sortBy(function($field){ 
-            if($field['required'] && $field['display_name'] == 'SERVICE NAME' ){
-                return 0;
-            }else if($field['required'] ) { 
-                return 1;
-            }
-
-            return 10;
-        });
-
-        $serviceTemplateCollection = $this->serviceManager->getAllTemplates();
-        $commandList = $this->commandBuilder->pluck('id','command_name') ;
-
-        return view('admin.service.edit',compact('serviceTmpl','service','serviceJsonData','serviceTemplateCollection','commandList'));    
-
+        return $this->showForm($id);
     }
 
     /**
@@ -151,33 +121,79 @@ class ServiceController extends Controller {
         $this->serviceManager->delete($id);
     }
 
+    public function generate()
+    {
+        $response = $this->nagiosClient->generateService(); 
+
+        if($response == 200){
+            return new Response('success', 200);
+        }else{
+            return new Response('error', 400);
+        }
+    }
+
     private function processFormData(Request $request)
     {
         $serviceTmpl = config('service_tmpl');
         $param = [];
-
-        $templateIds = $request->get('service_template'); 
+        $result = [];
 
         foreach($request->all() as $key => $value)
         {
-            if(array_key_exists($key,$serviceTmpl) && ($value != '' )) { 
+            if (array_key_exists($key, $serviceTmpl) && ($value != '' )) { 
                 $param[$key] = $value;
             }
-        } 
-
-        $param['is_template'] = $request->get('is_template');
-        $param['is_immutable'] = $request->get('is_immutable');
-        $param['service_name'] = $request->get('service_name');
-
-        if(count($templateIds) > 0){
-            $param['template_ids'] = implode(',',$templateIds);
         }
 
-        if($request->get('command_id') > 0){
-            $param['command_id'] = $request->get('command_id');
-            $param['command_argument'] = $request->get('command_argument');
-        } 
+        $result['host_name'] = $request->get('host_name');
+        $result['is_template'] = $request->get('is_template');
 
-        return $param;
+        if ($request->get('is_template') == 'Y') {
+            $result['template_name'] = $request->get('host_name');
+            
+            unset($param['host_name']);
+            $param['name'] = $request->get('host_name');
+        } else {
+            $result['template_name'] = '';
+        }
+
+        $templates = $request->get('service_template');
+
+        if(count($templates) > 0){
+            $param['use'] = implode(',', $templates);
+        }
+
+        $result['data'] = $param;
+
+        return $result;
+    }
+
+    private function showForm($id=null)
+    {
+        if ($id > 0) {
+            $service = $this->serviceManager->find($id);
+            $serviceJsonData = json_decode($service->data);
+            $splited = explode('!', $serviceJsonData->check_command, 2);
+            $command = $splited[0];
+            $commandArg = '';
+            if (count($splited) > 1) $commandArg = $splited[1];
+        }
+
+        $serviceTmpl = config('service_tmpl');
+
+        $serviceTemplateCollection = $this->serviceManager->getAllTemplates();
+
+        $commandList = $this->commandManager->pluck('command_name');
+        $timeperiodList =$this->timeperiodManager->pluck('timeperiod_name');
+        $contactList =$this->contactManager->pluck('contact_name');
+        $hostList = $this->hostManager->pluck('host_name');
+
+        if (isset($service)) {
+            return view('admin.service.edit',
+                compact('serviceTmpl', 'service', 'serviceJsonData', 'serviceTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList', 'hostList'));
+        } else {
+            return view('admin.service.create',
+                compact('serviceTmpl', 'serviceTemplateCollection', 'commandList', 'timeperiodList', 'contactList', 'hostList'));
+        }
     }
 }

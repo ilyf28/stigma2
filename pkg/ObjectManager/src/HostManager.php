@@ -68,4 +68,17 @@ class HostManager implements ObjectManager
         return $this->repo->delete($id);
     }
 
+    public function pluck($name)
+    {
+        $hostList = $this->getAllItems();
+
+        $arr = [];
+
+        foreach ($hostList as $host) {
+            $arr[$host->{$name}] = $host->{$name};
+        }
+
+        return $arr;
+    }
+
 }

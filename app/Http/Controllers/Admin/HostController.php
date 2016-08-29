@@ -167,10 +167,10 @@ class HostController extends Controller {
 
     private function showForm($id=null)
     {
-        if($id > 0){ 
+        if ($id > 0) {
             $host = $this->hostManager->find($id);
             $hostJsonData = json_decode($host->data);
-        } 
+        }
 
         $hostTmpl = config('host_tmpl');
 
@@ -180,13 +180,12 @@ class HostController extends Controller {
         $timeperiodList =$this->timeperiodManager->pluck('timeperiod_name');
         $contactList =$this->contactManager->pluck('contact_name');
 
-
-        if(isset($host)){
+        if (isset($host)) {
             return view('admin.host.edit',
-                compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'commandList','timeperiodList', 'contactList'));
-        }else {
+                compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'commandList', 'timeperiodList', 'contactList'));
+        } else {
             return view('admin.host.create',
-                compact('hostTmpl', 'hostTemplateCollection', 'commandList','timeperiodList', 'contactList'));
-        } 
+                compact('hostTmpl', 'hostTemplateCollection', 'commandList', 'timeperiodList', 'contactList'));
+        }
     }
 }

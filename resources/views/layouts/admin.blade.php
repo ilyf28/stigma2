@@ -21,7 +21,7 @@
                         <ul class="submenu">
                             <li><a href="{{route('admin.hosts.index')}}">Hosts</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Host Groups</a></li>
-                            <li><a href="{{route('admin.hosts.index')}}">Services</a></li>
+                            <li><a href="{{route('admin.services.index')}}">Services</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Service Groups</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Contacts</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Contact Groups</a></li>

@@ -10,9 +10,9 @@
                     </div>
                     <div class="small-8 columns">
                         @if(isset($host))
-                        {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'), $host->is_template)  !!}
+                            {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'), $host->is_template)  !!}
                         @else
-                        {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'))  !!}
+                            {!! Form::select('is_template', array('N' => 'N', 'Y' =>'Y'))  !!}
                         @endif 
                     </div>
                 </div>
@@ -31,26 +31,25 @@
                     </div>
                     <div class="small-8 columns">
                         @if(isset($hostJsonData) && isset($hostJsonData->{$key})) 
-                        <?php 
-                        $data = $hostJsonData->{$key};
-                        ?>
+                            <?php 
+                                $data = $hostJsonData->{$key};
+                            ?>
                         @else
-                        <?php
-                        $data = null;
-                        ?>
+                            <?php
+                                $data = null;
+                            ?>
                         @endif
                         @if($formGroup['data_type'] == 'enum_command')
-                        {!! Form::select($key, array_merge(['0' => 'none' ], $commandList), $data)  !!}
+                            {!! Form::select($key, array_merge(['0' => 'none' ], $commandList), $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_contact')
-                        {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
+                            {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
-                        {!! Form::select($key, $timeperiodList, $data)  !!}
+                            {!! Form::select($key, $timeperiodList, $data)  !!}
                         @elseif(isset($host) && $host->is_template == 'Y' && $formGroup['display_name'] == 'host_name')
-                        {!! Form::text($key, $host->template_name ) !!}
+                            {!! Form::text($key, $host->template_name ) !!}
                         @else
-                        {!! Form::text($key, $data ) !!}
+                            {!! Form::text($key, $data ) !!}
                         @endif
-
                     </div>
                 </div>
             </div>
@@ -69,34 +68,32 @@
                 </thead>
                 <tbody>
                 @foreach($hostTemplateCollection as $hostTemplate)
-                @if(isset($host) == null || (isset($host) && $host->getKey() != $hostTemplate->getKey()) )
-                <tr>
-                    <?php
-                    $check = false;
-                    $uses = [];
+                    @if(isset($host) == null || (isset($host) && $host->getKey() != $hostTemplate->getKey()) )
+                    <tr>
+                        <?php
+                            $check = false;
+                            $uses = [];
 
-                    if(isset($host)) {
-                    $data = $host->data;
+                            if (isset($host)) {
+                                $data = $host->data;
 
-                    if (isset(json_decode($data)->use))
-                    {
-                    $uses = explode(',', json_decode($data)->use);
+                                if (isset(json_decode($data)->use)) {
+                                    $uses = explode(',', json_decode($data)->use);
 
-                    foreach($uses as $use)
-                    {
-                    if($hostTemplate->host_name == $use){
-                    $check = true;
-                    }
-                    }
-                    }
-                    }
-                    ?>
-                    <td>{!! Form::checkbox('host_template[]', $hostTemplate->host_name, $check) !!}</td>
-                    <td>
-                        <a href="{{ route('admin.hosts.edit',array($hostTemplate->getKey())) }}">{{$hostTemplate->host_name}}</a>
-                    </td>
-                </tr>
-                @endif
+                                    foreach ($uses as $use) {
+                                        if ($hostTemplate->host_name == $use) {
+                                            $check = true;
+                                        }
+                                    }
+                                }
+                            }
+                        ?>
+                        <td>{!! Form::checkbox('host_template[]', $hostTemplate->host_name, $check) !!}</td>
+                        <td>
+                            <a href="{{ route('admin.hosts.edit',array($hostTemplate->getKey())) }}">{{$hostTemplate->host_name}}</a>
+                        </td>
+                    </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>

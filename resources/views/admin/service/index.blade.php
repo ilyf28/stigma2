@@ -15,8 +15,8 @@
         <thead>
             <tr>
                 <th width="50">#</th>
-                <th width="200">Service Name</th>
-                <th>For Template</th>
+                <th width="200">Host</th>
+                <th>Service Description</th>
                 <th width="50"></th>
                 <th width="50"></th>
             </tr>
@@ -25,15 +25,10 @@
             @foreach($items as $item)
             <tr>
                 <td>{{$item->getKey()}}</td>
-                <td>{{$item->service_name}}</td>
-                <td>{{$item->is_template}}</td>
-                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.services.edit',array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
-                <td style="text-align:center;">
-                    @if($item->is_immutable == 'N')
-                    <a class="delete-btn alert" data-reveal-id="delete-modal"  data-service-id="{{$item->getKey()}}"><i class="fi-trash"></i></a>
-                    @endif
-                </td>
-
+                <td>{{$item->host_name}}</td>
+                <td>{{$item->service_description}}</td>
+                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.services.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
+                <td style="text-align:center;"><a class="delete-btn alert" data-reveal-id="delete-modal"  data-service-id="{{$item->getKey()}}"><i class="fi-trash"></i></a></td>
             </tr>
             @endforeach
         </tbody>
@@ -50,7 +45,7 @@
         {!! Form::open(array('route'=> 'admin.services.index' ,'id'=> 'delete-form')) !!} 
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
         <div data-alert class="stigma-alert-box alert"> 
-            <span class="fi-info"></span>&nbsp; Do you want to delete a service
+            <span class="fi-info"></span>&nbsp; Do you want to delete a service?
         </div>
         {!! Form::close() !!}
     </div> 
@@ -66,16 +61,16 @@
 @section('scripts')
 <script> 
 jQuery(function($){
-    var serviceId ; 
+    var serviceId; 
 
     $('.delete-btn').click(function(){
-        serviceId = $(this).data('service-id') ;
+        serviceId = $(this).data('service-id');
     });
 
     $('.request-to-delete').click(function(){
-        var $form = $('#delete-form') ;
-        var data = $form.serialize() ;
-        var url = $form.attr('action') ;
+        var $form = $('#delete-form');
+        var data = $form.serialize();
+        var url = $form.attr('action');
 
         $.ajax({ 
             'type': 'delete', 
@@ -84,9 +79,9 @@ jQuery(function($){
                 '_token' : $form.find('[name=_token]').val()
             },
             'success':function(){ 
-                location.href = location.href ;
+                location.href = location.href;
             }
-        }) ;
+        });
     }); 
 });
 </script>

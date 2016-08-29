@@ -44,7 +44,7 @@
         {!! Form::open(array('route'=> 'admin.hosts.index' ,'id'=> 'delete-form')) !!} 
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
         <div data-alert class="stigma-alert-box alert"> 
-            <span class="fi-info"></span>&nbsp; Do you want to delete a host
+            <span class="fi-info"></span>&nbsp; Do you want to delete a host?
         </div>
         {!! Form::close() !!}
     </div> 
