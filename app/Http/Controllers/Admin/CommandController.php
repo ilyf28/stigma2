@@ -4,28 +4,20 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
-use Stigma\Nagios\Client as NagiosClient ;
 use Illuminate\Http\Response;
+
+use Stigma\ObjectManager\CommandManager;
+use Stigma\Nagios\Client as NagiosClient;
 
 class CommandController extends Controller {
 
-    protected $nagiosClient ;
+    protected $commandManager;
+    protected $nagiosClient;
 
-    public function __construct(NagiosClient $nagiosClient)
+    public function __construct(CommandManager $commandManager, NagiosClient $nagiosClient)
     {
-        $this->nagiosClient = $nagiosClient ;
-    }
-
-    public function generate()
-    {
-        $response = $this->nagiosClient->generateCommand() ;
-
-        if($response == 200){
-            return new Response('success', 200);
-        }else{
-            return new Response('error', 400);
-        }
+        $this->commandManager = $commandManager;
+        $this->nagiosClient = $nagiosClient;
     }
     
     /**
@@ -35,10 +27,9 @@ class CommandController extends Controller {
      */
     public function index()
     { 
-        $repository = $this->commandBuilder->getRepository() ;
-        $commands = $repository->getAll() ;
+        $items = $this->commandManager->getAllItems();
 
-        return view('admin.command.index' ,compact('commands')) ;   
+        return view('admin.command.index', compact('items'));   
     }
 
     /**
@@ -58,8 +49,8 @@ class CommandController extends Controller {
      */
     public function store(Request $request)
     { 
-        $data = $request->all() ;
-        $this->commandBuilder->make($data) ;
+        $data = $request->all();
+        $this->commandManager->register($data);
     }
 
     /**
@@ -70,9 +61,9 @@ class CommandController extends Controller {
      */
     public function show($id)
     {
-        $command = $this->commandBuilder->find($id) ;
+        $command = $this->commandManager->find($id);
 
-        return json_encode($command) ;
+        return json_encode($command);
     }
 
     /**
@@ -93,7 +84,8 @@ class CommandController extends Controller {
      */
     public function update(Request $request,$id)
     {
-        $command = $this->commandBuilder->update($id,$request->all()) ;
+        $data = $request->all();
+        $this->commandManager->update($id, $data);
     }
 
     /**
@@ -104,7 +96,18 @@ class CommandController extends Controller {
      */
     public function destroy($id)
     { 
-        $this->commandBuilder->delete($id) ;
+        $this->commandManager->delete($id);
+    }
+
+    public function generate()
+    {
+        $response = $this->nagiosClient->generateCommand();
+
+        if ($response == 200) {
+            return new Response('success', 200);
+        } else {
+            return new Response('error', 400);
+        }
     }
 
 }

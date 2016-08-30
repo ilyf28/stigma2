@@ -93,7 +93,6 @@ jQuery(function($){
                     location.href = location.href;
                }
             });
-
         } else {
             $.post(url,data).done(function(){
                 location.href = location.href;
@@ -131,11 +130,16 @@ jQuery(function($){
 
         $('#command-modal').foundation('reveal', 'open'); 
 
-        $.getJSON(url+'/'+id,function(response){ 
-            $form.find('[name=id]').val(response.id);
-            $form.find('[name=command_name]').val(response.command_name);
-            $form.find('[name=command_line]').val(response.command_line);
-        }); 
+        $.ajax({
+            'type': 'get',
+            'url' : url+'/'+id,
+            'dataType': 'json',
+            'success':function(response){ 
+                $form.find('[name=id]').val(response.id);
+                $form.find('[name=command_name]').val(response.command_name);
+                $form.find('[name=command_line]').val(response.command_line);
+           }
+        });
     }); 
 
     $('.close-reveal-modal').click(function() {

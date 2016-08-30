@@ -25,7 +25,7 @@
                             <li><a href="{{route('admin.hosts.index')}}">Service Groups</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Contacts</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Contact Groups</a></li>
-                            <li><a href="{{route('admin.hosts.index')}}">Commands</a></li>
+                            <li><a href="{{route('admin.commands.index')}}">Commands</a></li>
                             <li><a href="{{route('admin.hosts.index')}}">Time Periods</a></li>
                         </ul>
                     </li>

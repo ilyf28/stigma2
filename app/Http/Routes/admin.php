@@ -6,7 +6,7 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     Route::resource('dashboard','\App\Http\Controllers\Admin\DashboardController'); 
     Route::resource('hosts', '\App\Http\Controllers\Admin\HostController');
     Route::resource('services','\App\Http\Controllers\Admin\ServiceController');
-    // Route::resource('commands','\App\Http\Controllers\Admin\CommandController');
+    Route::resource('commands','\App\Http\Controllers\Admin\CommandController');
 
     // Route::get('configuration/system', array('as' => 'admin.configuration.system', 'uses'=>'\App\Http\Controllers\Admin\ConfigurationController@system'));
     // Route::get('configuration/account', array('as' => 'admin.configuration.account', 'uses'=>'\App\Http\Controllers\Admin\ConfigurationController@getAccount'));
