@@ -28,7 +28,7 @@
                 <td>{{$command->command_name}}</td>
                 <td>{{$command->command_line}}</td>
                 <td style="text-align:center;"><a class="update-btn" data-reveal-id="command-modal"><i class="fi-widget"></i></a></td>
-                <td style="text-align:center;"><a class="delete-btn alert"><i class="fi-trash"></i></a></td>
+                <td style="text-align:center;"><a class="alert delete-btn" data-reveal-id="delete-modal"><i class="fi-trash"></i></a></td> 
             </tr>
             @endforeach 
         </tbody>
@@ -71,6 +71,24 @@
         <a class="button right small save-btn">SAVE</a> 
     </div>
 </div>
+
+<div id="delete-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div class="modal-header">
+        <h5 class="title">Delete Command</h5>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <div class="modal-body"> 
+        {!! Form::open(array('route'=> 'admin.commands.index' ,'id'=> 'delete-form')) !!} 
+        <input type="hidden" name="_token" value="{{csrf_token()}}" />
+        <div data-alert class="stigma-alert-box alert"> 
+            <span class="fi-info"></span>&nbsp; Do you want to delete a command?
+        </div>
+        {!! Form::close() !!}
+    </div> 
+    <div class="modal-footer"> 
+        <a class="button right small alert request-to-delete"><span class="fi-trash"></span>&nbsp;Delete</a> 
+    </div>
+</div>
 @stop
 
 @section('scripts')
@@ -100,32 +118,33 @@ jQuery(function($){
         }
     });
 
+    var commandId; 
+
     $('.delete-btn').click(function(){
         var $tr = $(this).parents('tr');
-        var id = $tr.data('id'); 
+        commandId = $tr.data('id');
+    });
+
+    $('.request-to-delete').click(function(){
         var $form = $('#command-form');
-        var data = $form.serialize();
         var url = $form.attr('action');
 
-        if(confirm("Do you remove this?")){
-            $.ajax({ 
-                'type': 'delete', 
-                'url' : url+'/'+id, 
-                'data' : {
-                    '_token' : $form.find('[name=_token]').val()
-                },
-                'success':function(){ 
-                    $tr.remove();
-               }
-            });
-        }
+        $.ajax({ 
+            'type': 'delete', 
+            'url' : url+'/'+commandId,
+            'data' : {
+                '_token' : $form.find('[name=_token]').val()
+            },
+            'success':function(){ 
+                location.href = location.href;
+           }
+        });
     });
 
     $('.update-btn').click(function(){ 
         var $tr = $(this).parents('tr');
         var id = $tr.data('id'); 
         var $form = $('#command-form');
-        var data = $form.serialize();
         var url = $form.attr('action'); 
 
         $('#command-modal').foundation('reveal', 'open'); 
