@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($commands as $command)
+            @foreach($items as $command)
             <tr data-id="{{$command->getKey()}}">
                 <td>{{$command->getKey()}}</td>
                 <td>{{$command->command_name}}</td>
@@ -62,7 +62,7 @@
                 </label>
             </div>
             <div class="small-8 columns"> 
-                <input type="text" name="command_line" />
+                <textarea name="command_line" rows="10"></textarea>
             </div>
         </div> 
         {!! Form::close() !!}
@@ -78,11 +78,11 @@
 <script>
 jQuery(function($){
     $('.save-btn').click(function(){
-        var $form = $('#command-form') ;
-        var data = $form.serialize() ;
-        var url = $form.attr('action') ;
+        var $form = $('#command-form');
+        var data = $form.serialize();
+        var url = $form.attr('action');
 
-        var id = $form.find('[name=id]').val() ;
+        var id = $form.find('[name=id]').val();
 
         if(id !== '' && id > 0){
             $.ajax({ 
@@ -90,25 +90,25 @@ jQuery(function($){
                 'url' : url+'/'+id, 
                 'data' : data,
                 'success':function(){ 
-                    location.href = location.href ;
+                    location.href = location.href;
                }
-            }) ;
+            });
 
         } else {
             $.post(url,data).done(function(){
-                location.href = location.href ;
+                location.href = location.href;
             }); 
         }
     });
 
     $('.delete-btn').click(function(){
-        var $tr = $(this).parents('tr') ;
-        var id = $tr.data('id') ; 
-        var $form = $('#command-form') ;
-        var data = $form.serialize() ;
-        var url = $form.attr('action') ;
+        var $tr = $(this).parents('tr');
+        var id = $tr.data('id'); 
+        var $form = $('#command-form');
+        var data = $form.serialize();
+        var url = $form.attr('action');
 
-        if(confirm("do you remove this")){
+        if(confirm("Do you remove this?")){
             $.ajax({ 
                 'type': 'delete', 
                 'url' : url+'/'+id, 
@@ -116,27 +116,32 @@ jQuery(function($){
                     '_token' : $form.find('[name=_token]').val()
                 },
                 'success':function(){ 
-                    $tr.remove() ;
+                    $tr.remove();
                }
-            }) ;
+            });
         }
     });
 
     $('.update-btn').click(function(){ 
-        var $tr = $(this).parents('tr') ;
-        var id = $tr.data('id') ; 
-        var $form = $('#command-form') ;
-        var data = $form.serialize() ;
-        var url = $form.attr('action') ; 
+        var $tr = $(this).parents('tr');
+        var id = $tr.data('id'); 
+        var $form = $('#command-form');
+        var data = $form.serialize();
+        var url = $form.attr('action'); 
 
-        $('#command-modal').foundation('reveal', 'open') ; 
+        $('#command-modal').foundation('reveal', 'open'); 
 
         $.getJSON(url+'/'+id,function(response){ 
-            $form.find('[name=id]').val(response.id)  ;
-            $form.find('[name=command_name]').val(response.command_name)  ;
-            $form.find('[name=command_line]').val(response.command_line)  ;
+            $form.find('[name=id]').val(response.id);
+            $form.find('[name=command_name]').val(response.command_name);
+            $form.find('[name=command_line]').val(response.command_line);
         }); 
     }); 
+
+    $('.close-reveal-modal').click(function() {
+        $('#command-form').find('[name=command_name]').val('');
+        $('#command-form').find('[name=command_line]').val('');
+    });
 
 });
 </script>
