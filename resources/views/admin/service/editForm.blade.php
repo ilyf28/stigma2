@@ -40,10 +40,10 @@
                             ?>
                         @endif
                         @if($formGroup['data_type'] == 'enum_command')
-                            {!! Form::select($key, array_merge(['0' => 'none' ], $commandList), $command)  !!}
-                            {!! Form::text($key, $commandArg) !!}
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $commandList), $command)  !!}
+                            {!! Form::text($key.'Arg', $commandArg) !!}
                         @elseif($formGroup['data_type'] == 'enum_contact')
-                            {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $contactList), $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_host')
                             {!! Form::select($key, $hostList, $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
@@ -91,7 +91,7 @@
                                 }
                             } 
                         ?>
-                        <td>{!! Form::checkbox('service_template[]', $serviceTemplate->getKey(), $check) !!}</td>
+                        <td>{!! Form::checkbox('service_template[]', $serviceTemplate->host_name, $check) !!}</td>
                         <td>
                             <a href="{{ route('admin.services.edit',array($serviceTemplate->getKey())) }}">{{$serviceTemplate->host_name}}</a>
                         </td>

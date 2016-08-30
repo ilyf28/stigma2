@@ -146,6 +146,7 @@ class ServiceController extends Controller {
         }
 
         $result['host_name'] = $request->get('host_name');
+        $result['service_description'] = $request->get('service_description');
         $result['is_template'] = $request->get('is_template');
 
         if ($request->get('is_template') == 'Y') {
@@ -163,6 +164,13 @@ class ServiceController extends Controller {
             $param['use'] = implode(',', $templates);
         }
 
+        if (strcmp($request->get('check_command'), 'none') == 0) {
+            unset($param['check_command']);
+        } else {
+            $param['check_command'] = $request->get('check_command').'!'.$request->get('check_commandArg');
+        }
+        unset($param['check_commandArg']);
+
         $result['data'] = $param;
 
         return $result;
@@ -173,10 +181,13 @@ class ServiceController extends Controller {
         if ($id > 0) {
             $service = $this->serviceManager->find($id);
             $serviceJsonData = json_decode($service->data);
-            $splited = explode('!', $serviceJsonData->check_command, 2);
-            $command = $splited[0];
+            $command = 'none';
             $commandArg = '';
-            if (count($splited) > 1) $commandArg = $splited[1];
+            if (isset($serviceJsonData->check_command)) {
+                $splited = explode('!', $serviceJsonData->check_command, 2);
+                $command = $splited[0];
+                if (count($splited) > 1) $commandArg = $splited[1];
+            }
         }
 
         $serviceTmpl = config('service_tmpl');

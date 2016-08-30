@@ -40,9 +40,10 @@
                             ?>
                         @endif
                         @if($formGroup['data_type'] == 'enum_command')
-                            {!! Form::select($key, array_merge(['0' => 'none' ], $commandList), $data)  !!}
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $commandList), $command)  !!}
+                            {!! Form::text($key.'Arg', $commandArg) !!}
                         @elseif($formGroup['data_type'] == 'enum_contact')
-                            {!! Form::select($key, array_merge(['0' => 'none' ], $contactList), $data)  !!}
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $contactList), $data)  !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
                             {!! Form::select($key, $timeperiodList, $data)  !!}
                         @elseif(isset($host) && $host->is_template == 'Y' && $formGroup['display_name'] == 'host_name')

@@ -160,6 +160,13 @@ class HostController extends Controller {
             $param['use'] = implode(',', $templates);
         }
 
+        if (strcmp($request->get('check_command'), 'none') == 0) {
+            unset($param['check_command']);
+        } else {
+            $param['check_command'] = $request->get('check_command').'!'.$request->get('check_commandArg');
+        }
+        unset($param['check_commandArg']);
+
         $result['data'] = $param;
 
         return $result;
@@ -170,6 +177,13 @@ class HostController extends Controller {
         if ($id > 0) {
             $host = $this->hostManager->find($id);
             $hostJsonData = json_decode($host->data);
+            $command = 'none';
+            $commandArg = '';
+            if (isset($hostJsonData->check_command)) {
+                $splited = explode('!', $hostJsonData->check_command, 2);
+                $command = $splited[0];
+                if (count($splited) > 1) $commandArg = $splited[1];
+            }
         }
 
         $hostTmpl = config('host_tmpl');
@@ -182,7 +196,7 @@ class HostController extends Controller {
 
         if (isset($host)) {
             return view('admin.host.edit',
-                compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'commandList', 'timeperiodList', 'contactList'));
+                compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList'));
         } else {
             return view('admin.host.create',
                 compact('hostTmpl', 'hostTemplateCollection', 'commandList', 'timeperiodList', 'contactList'));
