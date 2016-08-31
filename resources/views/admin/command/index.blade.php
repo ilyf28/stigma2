@@ -99,13 +99,12 @@ jQuery(function($){
         var $form = $('#command-form');
         var data = $form.serialize();
         var url = $form.attr('action');
+        var commandId = $form.find('[name=id]').val();
 
-        var id = $form.find('[name=id]').val();
-
-        if(id !== '' && id > 0){
+        if(commandId !== '' && commandId > 0){
             $.ajax({ 
                 'type': 'put', 
-                'url' : url+'/'+id, 
+                'url' : url+'/'+commandId, 
                 'data' : data,
                 'success':function(){ 
                     location.href = location.href;
@@ -118,11 +117,11 @@ jQuery(function($){
         }
     });
 
-    var commandId; 
+    var $tr, id; 
 
     $('.delete-btn').click(function(){
-        var $tr = $(this).parents('tr');
-        commandId = $tr.data('id');
+        $tr = $(this).parents('tr');
+        id = $tr.data('id');
     });
 
     $('.request-to-delete').click(function(){
@@ -131,7 +130,7 @@ jQuery(function($){
 
         $.ajax({ 
             'type': 'delete', 
-            'url' : url+'/'+commandId,
+            'url' : url+'/'+id,
             'data' : {
                 '_token' : $form.find('[name=_token]').val()
             },
@@ -142,8 +141,8 @@ jQuery(function($){
     });
 
     $('.update-btn').click(function(){ 
-        var $tr = $(this).parents('tr');
-        var id = $tr.data('id'); 
+        $tr = $(this).parents('tr');
+        id = $tr.data('id'); 
         var $form = $('#command-form');
         var url = $form.attr('action'); 
 

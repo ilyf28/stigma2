@@ -61,10 +61,10 @@
 @section('scripts')
 <script> 
 jQuery(function($){
-    var serviceId; 
+    var id; 
 
     $('.delete-btn').click(function(){
-        serviceId = $(this).data('service-id');
+        id = $(this).data('service-id');
     });
 
     $('.request-to-delete').click(function(){
@@ -74,7 +74,7 @@ jQuery(function($){
 
         $.ajax({ 
             'type': 'delete', 
-            'url' : url+'/'+serviceId, 
+            'url' : url+'/'+id, 
             'data' : {
                 '_token' : $form.find('[name=_token]').val()
             },

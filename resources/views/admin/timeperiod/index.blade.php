@@ -3,19 +3,19 @@
 @section('contents')
 <ul class="breadcrumbs">
   <li><a href="#">Admin</a></li>
-  <li><a href="#">Host Manager</a></li>
+  <li><a href="#">Time Period Manager</a></li>
   <li class="current"><a href="#">List</a></li>
 </ul>
 
 <div class="inner-content">
 
-    <a href="{{route('admin.hosts.create')}}" class="button small right" >Create</a>
+    <a href="{{route('admin.timeperiods.create')}}" class="button small right" >Create</a>
 
     <table class="table">
         <thead>
             <tr>
                 <th width="50">#</th>
-                <th width="200">Host Name</th>
+                <th width="200">Time Period Name</th>
                 <th>Alias</th>
                 <th width="50"></th>
                 <th width="50"></th>
@@ -25,10 +25,10 @@
             @foreach($items as $item)
             <tr>
                 <td>{{$item->getKey()}}</td>
-                <td>{{$item->host_name}}</td>
+                <td>{{$item->timeperiod_name}}</td>
                 <td>{{$item->alias}}</td>
-                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.hosts.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
-                <td style="text-align:center;"><a class="alert delete-btn" data-reveal-id="delete-modal" data-host-id="{{$item->getKey()}}"><i class="fi-trash"></i></a></td> 
+                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.timeperiods.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
+                <td style="text-align:center;"><a class="alert delete-btn" data-reveal-id="delete-modal" data-timeperiod-id="{{$item->getKey()}}"><i class="fi-trash"></i></a></td> 
             </tr>
             @endforeach
         </tbody>
@@ -37,14 +37,14 @@
 
 <div id="delete-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <div class="modal-header">
-        <h5 class="title">Delete Host</h5>
+        <h5 class="title">Delete Time Period</h5>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
     <div class="modal-body"> 
-        {!! Form::open(array('route'=> 'admin.hosts.index' ,'id'=> 'delete-form')) !!} 
+        {!! Form::open(array('route'=> 'admin.timeperiods.index' ,'id'=> 'delete-form')) !!} 
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
         <div data-alert class="stigma-alert-box alert"> 
-            <span class="fi-info"></span>&nbsp; Do you want to delete a host?
+            <span class="fi-info"></span>&nbsp; Do you want to delete a time period?
         </div>
         {!! Form::close() !!}
     </div> 
@@ -62,7 +62,7 @@ jQuery(function($){
     var id; 
 
     $('.delete-btn').click(function(){
-        id = $(this).data('host-id');
+        id = $(this).data('timeperiod-id');
     });
 
     $('.request-to-delete').click(function(){
