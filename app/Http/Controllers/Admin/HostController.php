@@ -174,11 +174,12 @@ class HostController extends Controller {
 
     private function showForm($id=null)
     {
+        $command = 'none';
+        $commandArg = '';
+        
         if ($id > 0) {
             $host = $this->hostManager->find($id);
             $hostJsonData = json_decode($host->data);
-            $command = 'none';
-            $commandArg = '';
             if (isset($hostJsonData->check_command)) {
                 $splited = explode('!', $hostJsonData->check_command, 2);
                 $command = $splited[0];
@@ -199,7 +200,7 @@ class HostController extends Controller {
                 compact('hostTmpl', 'host', 'hostJsonData', 'hostTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList'));
         } else {
             return view('admin.host.create',
-                compact('hostTmpl', 'hostTemplateCollection', 'commandList', 'timeperiodList', 'contactList'));
+                compact('hostTmpl', 'hostTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList'));
         }
     }
 }

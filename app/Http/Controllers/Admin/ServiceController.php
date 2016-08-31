@@ -178,11 +178,12 @@ class ServiceController extends Controller {
 
     private function showForm($id=null)
     {
+        $command = 'none';
+        $commandArg = '';
+
         if ($id > 0) {
             $service = $this->serviceManager->find($id);
             $serviceJsonData = json_decode($service->data);
-            $command = 'none';
-            $commandArg = '';
             if (isset($serviceJsonData->check_command)) {
                 $splited = explode('!', $serviceJsonData->check_command, 2);
                 $command = $splited[0];
@@ -204,7 +205,7 @@ class ServiceController extends Controller {
                 compact('serviceTmpl', 'service', 'serviceJsonData', 'serviceTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList', 'hostList'));
         } else {
             return view('admin.service.create',
-                compact('serviceTmpl', 'serviceTemplateCollection', 'commandList', 'timeperiodList', 'contactList', 'hostList'));
+                compact('serviceTmpl', 'serviceTemplateCollection', 'command', 'commandArg', 'commandList', 'timeperiodList', 'contactList', 'hostList'));
         }
     }
 }
