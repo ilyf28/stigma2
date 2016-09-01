@@ -54,65 +54,21 @@ class Builder
 
     public function buildForService()
     {
-        $hostCollection = $this->hostManager->getAllItems();
+        $serviceCollection = $this->serviceManager->getAllItems();
 
-        $fields = config('service_tmpl'); 
         $payload = []; 
 
-        foreach($hostCollection as $host){
-            if($host->is_immutable == 'N'){
-                if($host->service_ids != ''){
-                    $serviceIds = explode(',',$host->service_ids); 
-                    foreach($serviceIds  as $serviceId){
-                        $service = $this->serviceManager->find($serviceId) ;
-                        if($service){
+        foreach($serviceCollection as $service)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($service->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->host_name = $service->host_name;
+            $pack->is_template = $service->is_template;
 
-                            $jsonData = json_decode($service->data);
-                            $arrayData = (array)$jsonData;
-                            $newDetails = array();
-
-                            foreach($fields as $key => $field) {
-                                if(array_key_exists($key,$arrayData)){ 
-                                    $newDetails[$key] = $arrayData[$key];
-                                }
-                            } 
-
-                            $newDetails['service_description'] = $service->service_name;
-                            $newDetails['host_name'] = $host->host_name;
-                            $newDetails['_graphiteprefix'] = 'service';
-
-
-                            if($service->template_ids != ''){ //템플릿 상속을 사용 할 경우 
-                                $templateIds = explode(',',$service->template_ids); 
-                                $templates = []; 
-
-                                foreach($templateIds as $templateId){
-                                    $templateService = $this->serviceManager->find($templateId); 
-                                    if($templateService->getKey() > 0){
-                                        $templates[] = $templateService->service_name;
-                                    }
-                                }
-
-                                $newDetails['use'] = implode(',', $templates);
-
-                            }
-
-                            if($service->command_id > 0){ // 커맨드가 존재할 경우
-                                $command = $this->commandManager->find($service->command_id) ;
-                                $newDetails['check_command'] = $command->command_name.$service->command_argument;
-                            } 
-
-
-                            $serviceObj = new \stdClass;
-                            $serviceObj->service_name = $service->service_name;
-                            $serviceObj->is_template = $service->is_template;
-                            $serviceObj->details = $newDetails;
-
-                            $payload[] = $serviceObj;
-                        }
-                    }
-                }
-            }
+            $payload[] = $pack;
         }
 
         return $payload;
@@ -120,16 +76,67 @@ class Builder
 
     public function buildForContact()
     {
-        //
+        $contactCollection = $this->contactManager->getAllItems();
+
+        $payload = []; 
+
+        foreach($contactCollection as $contact)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($contact->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->contact_name = $contact->contact_name;
+            $pack->is_template = $contact->is_template;
+
+            $payload[] = $pack;
+        }
+
+        return $payload;
     }
 
     public function buildForCommand()
     {
-        //
+        $commandCollection = $this->commandManager->getAllItems();
+
+        $payload = []; 
+
+        foreach($commandCollection as $command)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($command->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->command_name = $command->command_name;
+            $pack->is_template = $command->is_template;
+
+            $payload[] = $pack;
+        }
+
+        return $payload;
     }
 
     public function buildForTimeperiod()
     {
-        //
+        $timeperiodCollection = $this->timeperiodManager->getAllItems();
+
+        $payload = []; 
+
+        foreach($timeperiodCollection as $timeperiod)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($timeperiod->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->timeperiod_name = $timeperiod->timeperiod_name;
+            $pack->is_template = $timeperiod->is_template;
+
+            $payload[] = $pack;
+        }
+
+        return $payload;
     }
 }

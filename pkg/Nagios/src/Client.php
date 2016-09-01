@@ -21,12 +21,12 @@ class Client
         $builder = \App::make('Stigma\ObjectManager\Builder');
 
         $payload = $builder->buildForHost();
+dd($payload);
 
         $uri = 'api/v1/hosts';
 
         try {
             $response = $this->httpClient->post($this->baseUri.$uri, [
-            // $response = $this->httpClient->post('http://192.168.1.10:8888/'.$uri, [
                 'body'=> [
                     'payload'=>json_encode($payload)
                 ]
@@ -45,6 +45,7 @@ class Client
 
         $payload = $builder->buildForService(); 
 
+dd($payload);
         $uri = 'api/v1/services';
 
         try{
@@ -63,6 +64,25 @@ class Client
 
     public function generateCommand()
     {
+        $builder = \App::make('Stigma\ObjectManager\Builder');
+
+        $payload = $builder->buildForService(); 
+
+dd($payload);
+        $uri = 'api/v1/services';
+
+        try{
+            $response = $this->httpClient->post($this->baseUri.$uri, [ 
+                'body'=> [
+                    'payload'=>json_encode($payload)  
+                ]
+            ]);
+
+            return $response->getStatusCode();
+        } catch (\Exception $e) {
+            return 400;
+            // dd((string)$e->getResponse()->getBody());
+        }
         // $commandBuilder = \App::make('Stigma\CommandBuilder\CommandBuilder');
         // $collection = $commandBuilder->getAll(); 
 
@@ -99,12 +119,48 @@ class Client
 
     public function generateContact()
     {
-        //
+        $builder = \App::make('Stigma\ObjectManager\Builder');
+
+        $payload = $builder->buildForService(); 
+
+dd($payload);
+        $uri = 'api/v1/services';
+
+        try{
+            $response = $this->httpClient->post($this->baseUri.$uri, [ 
+                'body'=> [
+                    'payload'=>json_encode($payload)  
+                ]
+            ]);
+
+            return $response->getStatusCode();
+        } catch (\Exception $e) {
+            return 400;
+            // dd((string)$e->getResponse()->getBody());
+        }
     }
 
     public function generateTimeperiod()
     {
-        //
+        $builder = \App::make('Stigma\ObjectManager\Builder');
+
+        $payload = $builder->buildForService(); 
+
+dd($payload);
+        $uri = 'api/v1/services';
+
+        try{
+            $response = $this->httpClient->post($this->baseUri.$uri, [ 
+                'body'=> [
+                    'payload'=>json_encode($payload)  
+                ]
+            ]);
+
+            return $response->getStatusCode();
+        } catch (\Exception $e) {
+            return 400;
+            // dd((string)$e->getResponse()->getBody());
+        }
     }
 
     public function requestToRestart()
