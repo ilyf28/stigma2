@@ -10,8 +10,17 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     Route::resource('contacts','\App\Http\Controllers\Admin\ContactController');
     Route::resource('timeperiods','\App\Http\Controllers\Admin\TimeperiodController');
 
-    // Route::get('configuration/system', array('as' => 'admin.configuration.system', 'uses'=>'\App\Http\Controllers\Admin\ConfigurationController@system'));
+    Route::get('system/configuration', array('as' => 'admin.system.configuration', 'uses'=>'\App\Http\Controllers\Admin\SystemController@configuration'));
     // Route::get('configuration/account', array('as' => 'admin.configuration.account', 'uses'=>'\App\Http\Controllers\Admin\ConfigurationController@getAccount'));
+
+    Route::put('system/configuration/nagios/update',
+        array('as' => 'admin.system.configuration.nagios.update', 'uses'=>'\App\Http\Controllers\Admin\SystemController@nagiosUpdate'));
+    Route::put('system/configuration/database/update',
+        array('as' => 'admin.system.configuration.database.update', 'uses'=>'\App\Http\Controllers\Admin\SystemController@databaseUpdate'));
+    Route::put('system/configuration/grafana/update',
+        array('as' => 'admin.system.configuration.grafana.update', 'uses'=>'\App\Http\Controllers\Admin\SystemController@grafanaUpdate'));
+    Route::put('system/configuration/influxdb/update',
+        array('as' => 'admin.system.configuration.influxdb.update', 'uses'=>'\App\Http\Controllers\Admin\SystemController@influxdbUpdate'));
 
 
 

@@ -53,20 +53,6 @@ return [
         ],
 
         'mysql' => [
-                'driver'    => 'mysql',
-                'host'      => env('DB_HOST', env('OPENSHIFT_MYSQL_DB_HOST', '{{host}}')),
-                'port'      => env('DB_PORT', env('OPENSHIFT_MYSQL_DB_PORT', 3306)),
-                'database'  => env('DB_DATABASE', env('OPENSHIFT_APP_NAME', '{{database}}')),
-                'username'  => env('DB_USERNAME', env('OPENSHIFT_MYSQL_DB_USERNAME', '{{dbuser}}')),
-                'password'  => env('DB_PASSWORD', env('OPENSHIFT_MYSQL_DB_PASSWORD', '{{password}}')),
-                'charset'   => 'utf8',
-                'collation' => 'utf8_unicode_ci',
-                'prefix'    => '',
-                'strict'    => false,
-        ],
-
-        /*
-        'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'database'  => env('DB_DATABASE', 'stigma2'),
@@ -78,7 +64,6 @@ return [
             'prefix'    => '',
             'strict'    => false,
         ],
-        */
 
         'pgsql' => [
             'driver'   => 'pgsql',
