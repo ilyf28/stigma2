@@ -105,12 +105,9 @@ class Builder
         foreach($commandCollection as $command)
         {
             $pack = new \stdClass;
-            $data = json_decode($command->data);
-            $details  = (array) $data; 
-            
-            $pack->details = $details;
+
             $pack->command_name = $command->command_name;
-            $pack->is_template = $command->is_template;
+            $pack->command_line = $command->command_line;
 
             $payload[] = $pack;
         }

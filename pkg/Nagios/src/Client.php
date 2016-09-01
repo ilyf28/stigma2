@@ -21,7 +21,6 @@ class Client
         $builder = \App::make('Stigma\ObjectManager\Builder');
 
         $payload = $builder->buildForHost();
-dd($payload);
 
         $uri = 'api/v1/hosts';
 
@@ -45,7 +44,6 @@ dd($payload);
 
         $payload = $builder->buildForService(); 
 
-dd($payload);
         $uri = 'api/v1/services';
 
         try{
@@ -66,10 +64,22 @@ dd($payload);
     {
         $builder = \App::make('Stigma\ObjectManager\Builder');
 
-        $payload = $builder->buildForService(); 
+        $collection = $builder->buildForCommand(); 
+        $payload = array();
 
-dd($payload);
-        $uri = 'api/v1/services';
+        foreach($collection as $item)
+        {
+            $data = new \stdClass;
+            $data->command_name = $item->command_name;
+            $data->details = [
+                'command_name' => $item->command_name,
+                'command_line' => $item->command_line
+            ];
+
+            $payload[] = $data;
+        }
+
+        $uri = 'api/v1/commands';
 
         try{
             $response = $this->httpClient->post($this->baseUri.$uri, [ 
@@ -83,48 +93,15 @@ dd($payload);
             return 400;
             // dd((string)$e->getResponse()->getBody());
         }
-        // $commandBuilder = \App::make('Stigma\CommandBuilder\CommandBuilder');
-        // $collection = $commandBuilder->getAll(); 
-
-        // $payload = array();
-
-        // foreach($collection as $item)
-        // {
-        //     $data = new \stdClass;
-        //     $data->command_name = $item->command_name;
-        //     $data->details = [
-        //         'command_name' => $item->command_name ,
-        //         'command_line' => $item->command_line
-        //     ]; 
-
-        //     $payload[] = $data;
-        // }
-
-        // try{
-        //     $response = $this->httpClient->post($this->baseUri.'api/v1/commands', [ 
-        //         'body'=> [
-        //             'payload'=> json_encode($payload)
-        //         ]
-        //     ]); 
-
-        //     return $response->getStatusCode();
-        // } catch (RequestException $e) {
-        //     echo $e->getRequest() . "\n";
-        //     if ($e->hasResponse()) {
-        //         dd($e->getResponse());
-        //         echo $e->getResponse()->getStatusCode() . "\n";
-        //     } 
-        // }
     }
 
     public function generateContact()
     {
         $builder = \App::make('Stigma\ObjectManager\Builder');
 
-        $payload = $builder->buildForService(); 
+        $payload = $builder->buildForContact(); 
 
-dd($payload);
-        $uri = 'api/v1/services';
+        $uri = 'api/v1/contacts';
 
         try{
             $response = $this->httpClient->post($this->baseUri.$uri, [ 
@@ -144,10 +121,9 @@ dd($payload);
     {
         $builder = \App::make('Stigma\ObjectManager\Builder');
 
-        $payload = $builder->buildForService(); 
+        $payload = $builder->buildForTimeperiod(); 
 
-dd($payload);
-        $uri = 'api/v1/services';
+        $uri = 'api/v1/timeperiods';
 
         try{
             $response = $this->httpClient->post($this->baseUri.$uri, [ 
