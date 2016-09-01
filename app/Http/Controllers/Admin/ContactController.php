@@ -5,7 +5,25 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Stigma\ObjectManager\CommandManager;
+use Stigma\ObjectManager\ContactManager;
+use Stigma\ObjectManager\TimeperiodManager;
+
 class ContactController extends Controller {
+
+    protected $commandManager;
+    protected $contactManager;
+    protected $timeperiodManager;
+
+    public function __construct(
+        CommandManager $commandManager, 
+        ContactManager $contactManager,
+        TimeperiodManager $timeperiodManager)
+    {
+        $this->commandManager = $commandManager;
+        $this->contactManager = $contactManager;
+        $this->timeperiodManager = $timeperiodManager;
+    }
 
     /**
      * Display a listing of the resource.
@@ -14,7 +32,8 @@ class ContactController extends Controller {
      */
     public function index()
     {
-        //
+        $items = $this->contactManager->getAllItems();
+        return view('admin.contact.index', compact('items'));
     }
 
     /**
@@ -24,7 +43,7 @@ class ContactController extends Controller {
      */
     public function create()
     {
-        //
+        return $this->showForm();
     }
 
     /**
@@ -32,9 +51,13 @@ class ContactController extends Controller {
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $param = $this->processFormData($request);
+
+        $this->contactManager->register($param);
+
+        return redirect()->route('admin.contacts.index');
     }
 
     /**
@@ -45,7 +68,7 @@ class ContactController extends Controller {
      */
     public function show($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -56,7 +79,7 @@ class ContactController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -67,7 +90,11 @@ class ContactController extends Controller {
      */
     public function update($id)
     {
-        //
+        $param = $this->processFormData($request);
+
+        $this->contactManager->update($param);
+
+        return redirect()->route('admin.contacts.index');
     }
 
     /**
@@ -78,7 +105,89 @@ class ContactController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $this->contactManager->delete($id);
+    }
+
+    private function processFormData(Request $request)
+    {
+        $contactTmpl = config('contact_tmpl');
+        $param = [];
+        $result = [];
+
+        // foreach($request->all() as $key => $value)
+        // {
+        //     if (array_key_exists($key, $contactTmpl) && ($value != '')) {
+        //         $param[$key] = $value;
+        //     }
+        // }
+
+        // $result['host_name'] = $request->get('host_name');
+        // $result['alias'] = $request->get('alias');
+        // $result['is_template'] = $request->get('is_template');
+
+        // if ($request->get('is_template') == 'Y') {
+        //     $result['template_name'] = $request->get('host_name');
+            
+        //     unset($param['host_name']);
+        //     $param['name'] = $request->get('host_name');
+        // } else {
+        //     $result['template_name'] = '';
+        // }
+
+        // $templates = $request->get('host_template');
+
+        // if(count($templates) > 0){
+        //     $param['use'] = implode(',', $templates);
+        // }
+
+        // if (strcmp($request->get('check_command'), 'none') == 0) {
+        //     unset($param['check_command']);
+        // } else {
+        //     $param['check_command'] = $request->get('check_command').'!'.$request->get('check_commandArg');
+        // }
+        // unset($param['check_commandArg']);
+
+        // $result['data'] = $param;
+
+        return $result;
+    } 
+
+    private function showForm($id=null)
+    {
+        $hostCommand = 'none';
+        $hostCommandArg = '';
+        $serviceCommand = 'none';
+        $serviceCommandArg = '';
+        
+        if ($id > 0) {
+            $contact = $this->contactManager->find($id);
+            $contactJsonData = json_decode($contact->data);
+            if (isset($contactJsonData->host_notification_commands)) {
+                $splited = explode('!', $contactJsonData->host_notification_commands, 2);
+                $hostCommand = $splited[0];
+                if (count($splited) > 1) $hostCommandArg = $splited[1];
+            }
+            if (isset($contactJsonData->service_notification_commands)) {
+                $splited = explode('!', $contactJsonData->service_notification_commands, 2);
+                $serviceCommand = $splited[0];
+                if (count($splited) > 1) $serviceCommandArg = $splited[1];
+            }
+        }
+
+        $contactTmpl = config('contact_tmpl');
+
+        $contactTemplateCollection = $this->contactManager->getAllTemplates();
+
+        $commandList = $this->commandManager->pluck('command_name');
+        $timeperiodList =$this->timeperiodManager->pluck('timeperiod_name');
+
+        if (isset($host)) {
+            return view('admin.contact.edit',
+                compact('contactTmpl', 'contact', 'contactJsonData', 'contactTemplateCollection', 'hostCommand', 'hostCommandArg', 'serviceCommand', 'serviceCommandArg', 'commandList', 'timeperiodList'));
+        } else {
+            return view('admin.contact.create',
+                compact('contactTmpl', 'contactTemplateCollection', 'hostCommand', 'hostCommandArg', 'serviceCommand', 'serviceCommandArg', 'commandList', 'timeperiodList'));
+        }
     }
 
 }

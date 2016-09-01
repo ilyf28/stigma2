@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        @foreach($hostTmpl as $key => $formGroup) 
+        @foreach($contactTmpl as $key => $formGroup) 
         <div class="row">
             <div class="small-12 columns">
                 <div class="row">
@@ -39,11 +39,12 @@
                                 $data = null;
                             ?>
                         @endif
-                        @if($formGroup['data_type'] == 'enum_command')
-                            {!! Form::select($key, array_merge(['none' => 'none' ], $commandList), $command)  !!}
-                            {!! Form::text($key.'Arg', $commandArg) !!}
-                        @elseif($formGroup['data_type'] == 'enum_contact')
-                            {!! Form::select($key, array_merge(['none' => 'none' ], $contactList), $data)  !!}
+                        @if($formGroup['data_type'] == 'enum_host_command')
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $commandList), $hostCommand)  !!}
+                            {!! Form::text($key.'Arg', $hostCommandArg) !!}
+                        @elseif($formGroup['data_type'] == 'enum_service_command')
+                            {!! Form::select($key, array_merge(['none' => 'none' ], $commandList), $serviceCommand)  !!}
+                            {!! Form::text($key.'Arg', $serviceCommandArg) !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
                             {!! Form::select($key, $timeperiodList, $data)  !!}
                         @elseif(isset($host) && $host->is_template == 'Y' && $formGroup['display_name'] == 'host_name')
@@ -59,39 +60,39 @@
     </div>
     <div class="small-5 columns">
         <div class="panel white-panel  radius">
-            <h5>Used Host Template</h5>
+            <h5>Used Contact Template</h5>
             <table class="table">
                 <thead>
                     <tr>
                         <th width="50"></th>
-                        <th>Host Template</th>
+                        <th>Contact Template</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($hostTemplateCollection as $hostTemplate)
-                    @if(isset($host) == null || (isset($host) && $host->getKey() != $hostTemplate->getKey()) )
+                @foreach($contactTemplateCollection as $contactTemplate)
+                    @if(isset($contact) == null || (isset($contact) && $contact->getKey() != $contactTemplate->getKey()) )
                     <tr>
                         <?php
                             $check = false;
                             $uses = [];
 
-                            if (isset($host)) {
-                                $data = $host->data;
+                            if (isset($contact)) {
+                                $data = $contact->data;
 
                                 if (isset(json_decode($data)->use)) {
                                     $uses = explode(',', json_decode($data)->use);
 
                                     foreach ($uses as $use) {
-                                        if ($hostTemplate->host_name == $use) {
+                                        if ($contactTemplate->contact_name == $use) {
                                             $check = true;
                                         }
                                     }
                                 }
                             }
                         ?>
-                        <td>{!! Form::checkbox('host_template[]', $hostTemplate->host_name, $check) !!}</td>
+                        <td>{!! Form::checkbox('contact_template[]', $contactTemplate->contact_name, $check) !!}</td>
                         <td>
-                            <a href="{{ route('admin.hosts.edit',array($hostTemplate->getKey())) }}">{{$hostTemplate->host_name}}</a>
+                            <a href="{{ route('admin.contacts.edit',array($contactTemplate->getKey())) }}">{{$contactTemplate->contact_name}}</a>
                         </td>
                     </tr>
                     @endif

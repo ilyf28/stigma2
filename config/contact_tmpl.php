@@ -47,13 +47,13 @@ return [
         "display_name" => 'host_notification_commands',
         "description" =>'command_name',
         "required" => true,
-        "data_type" => "enum_command"
+        "data_type" => "enum_host_command"
     ],
     "service_notification_commands" => [
         "display_name" => 'service_notification_commands',
         "description" =>'command_name',
         "required" => true,
-        "data_type" => "enum_command"
+        "data_type" => "enum_service_command"
     ],
     "alias" => [
         "display_name" => 'alias',
