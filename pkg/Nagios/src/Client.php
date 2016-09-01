@@ -25,8 +25,8 @@ class Client
         $uri = 'api/v1/hosts';
 
         try {
-            // $response = $this->httpClient->post($this->baseUri.$uri, [
-            $response = $this->httpClient->post('http://192.168.1.10:8888/'.$uri, [
+            $response = $this->httpClient->post($this->baseUri.$uri, [
+            // $response = $this->httpClient->post('http://192.168.1.10:8888/'.$uri, [
                 'body'=> [
                     'payload'=>json_encode($payload)
                 ]
@@ -35,7 +35,7 @@ class Client
             return $response->getStatusCode();
         } catch (\Exception $e) {
             return 400;
-            dd((string)$e->getResponse()->getBody());
+            // dd((string)$e->getResponse()->getBody());
         } 
     }
 
@@ -56,7 +56,8 @@ class Client
 
             return $response->getStatusCode();
         } catch (\Exception $e) {
-            dd((string)$e->getResponse()->getBody());
+            return 400;
+            // dd((string)$e->getResponse()->getBody());
         } 
     }
 
@@ -94,6 +95,16 @@ class Client
         //         echo $e->getResponse()->getStatusCode() . "\n";
         //     } 
         // }
+    }
+
+    public function generateContact()
+    {
+        //
+    }
+
+    public function generateTimeperiod()
+    {
+        //
     }
 
     public function requestToRestart()

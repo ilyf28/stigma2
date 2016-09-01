@@ -39,14 +39,13 @@
                     <li class="parent" style="border-left:5px solid #C51162;">
                         <a><i class="fi-monitor"></i>&nbsp;EXECUTION</a>
                         <ul class="submenu">
-                            <li><a href="{{route('admin.hosts.index')}}">Generate Config</a></li>
-                            <li><a href="#" data-reveal-id="system-modal" class="restart"><i class="fi-power"></i>&nbsp;Nagios Restart</a></li>
+                            <li><a href="#" data-reveal-id="config-modal" class="dialog_init"><i class="fi-wrench"></i>&nbsp;Generate Config</a></li>
+                            <li><a href="#" data-reveal-id="restart-modal" class="dialog_init"><i class="fi-power"></i>&nbsp;Nagios Restart</a></li>
                             <li><a href="{{ url('/auth/logout') }}"><i class="fi-unlock"></i>&nbsp;Logout</a></li>
                         </ul>
                     </li>
                 </ul>
                 <div style="text-align:center;">
-                    <a href="/admin/hosts/generate" style="color:#0078a0">make config</a>
                     <a href="/" style="color:#0078a0">Go to Monitoring</a>
                 </div>
             </div>
@@ -60,7 +59,27 @@
     </div>
 </div>
 
-<div id="system-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="config-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div class="modal-header">
+        <h5 class="title">Generate Nagios Config File</h5>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <div class="modal-body"> 
+        <div data-alert class="alert-box radius notification-box" id="notification-box"> 
+        </div>
+        <ul class="step-by-step clearfix">
+            <li><i class="fi-key"></i>&nbsp; Host <span calss="right"><a class="" id="generate-host-file" >Generate Config</a> </span></li>
+            <li><i class="fi-key"></i>&nbsp; Service <span calss="right"><a class="" id="generate-service-file">Generate Config</a> </span></li>
+            <li><i class="fi-key"></i>&nbsp; Contact <span calss="right"><a class="" id="generate-contact-file">Generate Config</a> </span></li>
+            <li><i class="fi-key"></i>&nbsp; Command <span calss="right"><a class="" id="generate-command-file">Generate Config</a> </span></li>
+            <li><i class="fi-key"></i>&nbsp; Time Period <span calss="right"><a class="" id="generate-timeperiod-file">Generate Config</a> </span></li>
+        </ul>
+    </div> 
+    <div class="modal-footer"> 
+    </div>
+</div>
+
+<div id="restart-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <div class="modal-header">
         <h5 class="title">Nagios Serivce Restart</h5>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -80,8 +99,74 @@
 </script>
 <script>
 jQuery(function(){
-    $('a.restart').click(function(){
+    $('a.dialog_init').click(function(){
         hideAlertBox();
+    });
+
+    $('#generate-host-file').click(function(){
+        showAlertBox('warning', 'host file are generationg...');
+        $.ajax({
+            url : '/admin/hosts/generate' , 
+            type: 'get',
+            success: function(response){
+                showAlertBox('success','Done : Host File are generated');
+            },
+            error : function(response){
+                showAlertBox('alert','Error');
+            }
+        }); 
+    });
+    $('#generate-service-file').click(function(){
+        showAlertBox('warning', 'service file are generationg...');
+        $.ajax({
+            url : '/admin/services/generate' , 
+            type: 'get',
+            success: function(response){
+                showAlertBox('success','Done : Service File are generated');
+            },
+            error : function(response){
+                showAlertBox('alert','Error');
+            }
+        }); 
+    });
+    $('#generate-contact-file').click(function(){ 
+        showAlertBox('warning', 'contact file are generationg...');
+        $.ajax({
+            url : '/admin/contacts/generate' , 
+            type: 'get',
+            success: function(response){
+                showAlertBox('success','Done : Contact File are generated');
+            },
+            error : function(response){
+                showAlertBox('alert','Error');
+            }
+        }); 
+    });
+    $('#generate-command-file').click(function(){ 
+        showAlertBox('warning', 'command file are generationg...');
+        $.ajax({
+            url : '/admin/commands/generate' , 
+            type: 'get',
+            success: function(response){
+                showAlertBox('success','Done : Command File are generated');
+            },
+            error : function(response){
+                showAlertBox('alert','Error');
+            }
+        }); 
+    });
+    $('#generate-timeperiod-file').click(function(){ 
+        showAlertBox('warning', 'timeperiod file are generationg...');
+        $.ajax({
+            url : '/admin/timeperiods/generate' , 
+            type: 'get',
+            success: function(response){
+                showAlertBox('success','Done : Timeperiod File are generated');
+            },
+            error : function(response){
+                showAlertBox('alert','Error');
+            }
+        }); 
     });
 
     $('a.restart-btn').click(function(){ 

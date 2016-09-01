@@ -3,19 +3,30 @@ namespace Stigma\ObjectManager;
 
 use Stigma\ObjectManager\HostManager;
 use Stigma\ObjectManager\ServiceManager;
+use Stigma\ObjectManager\ContactManager;
 use Stigma\ObjectManager\CommandManager;
+use Stigma\ObjectManager\TimeperiodManager;
 
 class Builder
 {
     protected $hostManager;
     protected $serviceManager;
+    protected $contactManager;
     protected $commandManager;
+    protected $timeperiodManager;
 
-    public function __construct(HostManager $hostManager , ServiceManager $serviceManager, CommandManager $commandManager)
+    public function __construct(
+        HostManager $hostManager, 
+        ServiceManager $serviceManager, 
+        ContactManager $contactManager,
+        CommandManager $commandManager,
+        TimeperiodManager $timeperiodManager)
     { 
         $this->hostManager = $hostManager;
         $this->serviceManager = $serviceManager;
+        $this->contactManager = $contactManager;
         $this->commandManager = $commandManager;
+        $this->timeperiodManager = $timeperiodManager;
     }
 
     public function buildForHost()
@@ -105,5 +116,20 @@ class Builder
         }
 
         return $payload;
+    }
+
+    public function buildForContact()
+    {
+        //
+    }
+
+    public function buildForCommand()
+    {
+        //
+    }
+
+    public function buildForTimeperiod()
+    {
+        //
     }
 }

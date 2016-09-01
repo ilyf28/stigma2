@@ -8,21 +8,25 @@ use Illuminate\Http\Request;
 use Stigma\ObjectManager\CommandManager;
 use Stigma\ObjectManager\ContactManager;
 use Stigma\ObjectManager\TimeperiodManager;
+use Stigma\Nagios\Client as NagiosClient;
 
 class ContactController extends Controller {
 
     protected $commandManager;
     protected $contactManager;
     protected $timeperiodManager;
+    protected $nagiosClient;
 
     public function __construct(
         CommandManager $commandManager, 
         ContactManager $contactManager,
-        TimeperiodManager $timeperiodManager)
+        TimeperiodManager $timeperiodManager, 
+        NagiosClient $nagiosClient)
     {
         $this->commandManager = $commandManager;
         $this->contactManager = $contactManager;
         $this->timeperiodManager = $timeperiodManager;
+        $this->nagiosClient = $nagiosClient;
     }
 
     /**
@@ -106,6 +110,17 @@ class ContactController extends Controller {
     public function destroy($id)
     {
         $this->contactManager->delete($id);
+    }
+
+    public function generate()
+    {
+        $response = $this->nagiosClient->generateContact();
+
+        if ($response == 200) {
+            return new Response('success', 200);
+        } else {
+            return new Response('error', 400);
+        }
     }
 
     private function processFormData(Request $request)

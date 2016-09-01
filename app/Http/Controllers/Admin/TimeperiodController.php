@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Stigma\ObjectManager\TimeperiodManager;
+use Stigma\Nagios\Client as NagiosClient;
 
 class TimeperiodController extends Controller {
 
     protected $timeperiodManager;
     protected $count;
+    protected $nagiosClient;
 
-    public function __construct(TimeperiodManager $timeperiodManager)
+    public function __construct(TimeperiodManager $timeperiodManager, NagiosClient $nagiosClient)
     {
         $this->timeperiodManager = $timeperiodManager;
         $this->count = 15;
+        $this->nagiosClient = $nagiosClient;
     }
 
     /**
@@ -99,6 +102,17 @@ class TimeperiodController extends Controller {
     public function destroy($id)
     {
         $this->timeperiodManager->delete($id);
+    }
+
+    public function generate()
+    {
+        $response = $this->nagiosClient->generateTimeperiod();
+
+        if ($response == 200) {
+            return new Response('success', 200);
+        } else {
+            return new Response('error', 400);
+        }
     }
 
     private function processFormData(Request $request)
