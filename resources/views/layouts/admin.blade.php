@@ -33,7 +33,7 @@
                         <a><i class="fi-monitor"></i>&nbsp;SYSTEM</a>
                         <ul class="submenu">
                             <li><a href="{{route('admin.system.configuration')}}">Configuration</a></li>
-                            <li><a href="{{route('admin.hosts.index')}}">Account</a></li>
+                            <li><a href="{{route('admin.system.account')}}">Account</a></li>
                         </ul>
                     </li>
                     <li class="parent" style="border-left:5px solid #C51162;">

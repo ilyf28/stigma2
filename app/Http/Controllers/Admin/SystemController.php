@@ -15,8 +15,8 @@ class SystemController extends Controller {
 
     public function __construct(InstallManager $installManager, Guard $auth)
     {
-        $this->installManager = $installManager ;
-        $this->auth = $auth ;
+        $this->installManager = $installManager;
+        $this->auth = $auth;
     }
 
     public function configuration()
@@ -59,7 +59,7 @@ class SystemController extends Controller {
             $data = $req->only('host', 'port', 'apiport', 'username', 'password');
 
             $nagiosInstallation = $this->installManager->getNagiosInstallation();
-            $nagiosInstallation->setup($data) ;
+            $nagiosInstallation->setup($data);
 
             return redirect()->route('admin.system.configuration');
         }catch (InvalidParameterException $e) { 
@@ -74,7 +74,7 @@ class SystemController extends Controller {
             $data = $req->only('host','dbuser','password','database');
 
             $databaseInstallation = $this->installManager->getDatabaseInstallation();
-            $databaseInstallation->setup($data) ;
+            $databaseInstallation->setup($data);
 
             return redirect()->route('admin.system.configuration');
         }catch (InvalidParameterException $e) { 
@@ -89,7 +89,7 @@ class SystemController extends Controller {
             $data = $req->only('host', 'port', 'database', 'username', 'password'); 
 
             $influxdbInstallation = $this->installManager->getInfluxdbInstallation();
-            $influxdbInstallation->setup($data) ;
+            $influxdbInstallation->setup($data);
 
             return redirect()->route('admin.system.configuration');
         }catch (InvalidParameterException $e) { 
@@ -104,12 +104,37 @@ class SystemController extends Controller {
             $data = $req->only('host', 'port', 'username', 'password'); 
 
             $grafanaInstallation = $this->installManager->getGrafanaInstallation();
-            $grafanaInstallation->setup($data) ;
+            $grafanaInstallation->setup($data);
 
             return redirect()->route('admin.system.configuration');
         }catch (InvalidParameterException $e) { 
             //return back()->withInput();
         } 
+    }
+
+    public function getAccount()
+    {
+        return view('admin.system.account');
+    }
+
+    public function changePassword(Request $request)
+    { 
+        $v = \Validator::make($request->all(), [
+            'password' => 'required|confirmed'
+        ]);
+
+        if ($v->fails())
+        {
+            return redirect()->back()->withErrors(['msg' => 'type valid password']); 
+        }
+
+        $user = \Auth::user();
+        $user->password = bcrypt($request->get('password'));
+
+        $user->save();
+
+
+        return redirect()->route('admin.system.account');
     }
 
 }
