@@ -47,6 +47,17 @@ class TimeperiodManager implements ObjectManager
         return $this->repo->getAll();
     }
 
+    public function getAllTemplates()
+    {
+        $ret = $this->repo->getAll()->filter(function($item){
+            if($item->is_template == 'Y'){
+                return $item;
+            }
+        });
+
+        return $ret;
+    }
+
     public function find($id)
     {
         return $this->repo->find($id);

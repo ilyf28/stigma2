@@ -81,9 +81,13 @@ class TimeperiodController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $param = $this->processFormData($request);
+        
+        $this->timeperiodManager->update($id,$param);
+
+        return redirect()->route('admin.timeperiods.index');
     }
 
     /**
@@ -94,7 +98,7 @@ class TimeperiodController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $this->timeperiodManager->delete($id);
     }
 
     private function processFormData(Request $request)
@@ -149,19 +153,21 @@ class TimeperiodController extends Controller {
             $i = 0;
 
             foreach ($data as $key => $value) {
-                if (strcmp($key, 'timeperiod_name') == 0 || strcmp($key, 'alias') == 0) continue;
+                if (strcmp($key, 'timeperiod_name') == 0 || strcmp($key, 'alias') == 0 || strcmp($key, 'use') == 0) continue;
                 $timeperiodJsonData[$i.'_key'] = $key;
                 $timeperiodJsonData[$i.'_value'] = $value;
                 $i++;
             }
         }
 
+        $timeperiodTemplateCollection = $this->timeperiodManager->getAllTemplates();
+
         if (isset($timeperiod)) {
             return view('admin.timeperiod.edit',
-                compact('timeperiod', 'timeperiodJsonData', 'count'));
+                compact('timeperiod', 'timeperiodJsonData', 'timeperiodTemplateCollection', 'count'));
         } else {
             return view('admin.timeperiod.create',
-                compact('count'));
+                compact('timeperiodTemplateCollection', 'count'));
         }
     }
 

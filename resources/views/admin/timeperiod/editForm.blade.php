@@ -103,6 +103,34 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach($timeperiodTemplateCollection as $timeperiodTemplate)
+                    @if(isset($timeperiod) == null || (isset($timeperiod) && $timeperiod->getKey() != $timeperiodTemplate->getKey()) )
+                    <tr>
+                        <?php
+                            $check = false;
+                            $uses = [];
+
+                            if (isset($timeperiod)) {
+                                $data = $timeperiod->data;
+
+                                if (isset(json_decode($data)->use)) {
+                                    $uses = explode(',', json_decode($data)->use);
+
+                                    foreach ($uses as $use) {
+                                        if ($timeperiodTemplate->timeperiod_name == $use) {
+                                            $check = true;
+                                        }
+                                    }
+                                }
+                            } 
+                        ?>
+                        <td>{!! Form::checkbox('timeperiod_template[]', $timeperiodTemplate->timeperiod_name, $check) !!}</td>
+                        <td>
+                            <a href="{{ route('admin.timeperiods.edit',array($timeperiodTemplate->getKey())) }}">{{$timeperiodTemplate->timeperiod_name}}</a>
+                        </td>
+                    </tr>
+                    @endif
+                @endforeach
                 </tbody>
             </table>
         </div> 
