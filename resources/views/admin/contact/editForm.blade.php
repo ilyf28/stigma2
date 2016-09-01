@@ -30,9 +30,9 @@
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($hostJsonData) && isset($hostJsonData->{$key})) 
+                        @if(isset($contactJsonData) && isset($contactJsonData->{$key})) 
                             <?php 
-                                $data = $hostJsonData->{$key};
+                                $data = $contactJsonData->{$key};
                             ?>
                         @else
                             <?php
@@ -47,8 +47,8 @@
                             {!! Form::text($key.'Arg', $serviceCommandArg) !!}
                         @elseif($formGroup['data_type'] == 'enum_timeperiod')
                             {!! Form::select($key, $timeperiodList, $data)  !!}
-                        @elseif(isset($host) && $host->is_template == 'Y' && $formGroup['display_name'] == 'host_name')
-                            {!! Form::text($key, $host->template_name ) !!}
+                        @elseif(isset($contact) && $contact->is_template == 'Y' && $formGroup['display_name'] == 'contact_name')
+                            {!! Form::text($key, $contact->template_name ) !!}
                         @else
                             {!! Form::text($key, $data ) !!}
                         @endif

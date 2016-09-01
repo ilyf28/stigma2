@@ -88,11 +88,11 @@ class ContactController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         $param = $this->processFormData($request);
 
-        $this->contactManager->update($param);
+        $this->contactManager->update($id, $param);
 
         return redirect()->route('admin.contacts.index');
     }
@@ -114,40 +114,46 @@ class ContactController extends Controller {
         $param = [];
         $result = [];
 
-        // foreach($request->all() as $key => $value)
-        // {
-        //     if (array_key_exists($key, $contactTmpl) && ($value != '')) {
-        //         $param[$key] = $value;
-        //     }
-        // }
+        foreach($request->all() as $key => $value)
+        {
+            if (array_key_exists($key, $contactTmpl) && ($value != '')) {
+                $param[$key] = $value;
+            }
+        }
 
-        // $result['host_name'] = $request->get('host_name');
-        // $result['alias'] = $request->get('alias');
-        // $result['is_template'] = $request->get('is_template');
+        $result['contact_name'] = $request->get('contact_name');
+        $result['alias'] = $request->get('alias');
+        $result['is_template'] = $request->get('is_template');
 
-        // if ($request->get('is_template') == 'Y') {
-        //     $result['template_name'] = $request->get('host_name');
+        if ($request->get('is_template') == 'Y') {
+            $result['template_name'] = $request->get('contact_name');
             
-        //     unset($param['host_name']);
-        //     $param['name'] = $request->get('host_name');
-        // } else {
-        //     $result['template_name'] = '';
-        // }
+            unset($param['contact_name']);
+            $param['name'] = $request->get('contact_name');
+        } else {
+            $result['template_name'] = '';
+        }
 
-        // $templates = $request->get('host_template');
+        $templates = $request->get('contact_template');
 
-        // if(count($templates) > 0){
-        //     $param['use'] = implode(',', $templates);
-        // }
+        if(count($templates) > 0){
+            $param['use'] = implode(',', $templates);
+        }
 
-        // if (strcmp($request->get('check_command'), 'none') == 0) {
-        //     unset($param['check_command']);
-        // } else {
-        //     $param['check_command'] = $request->get('check_command').'!'.$request->get('check_commandArg');
-        // }
-        // unset($param['check_commandArg']);
+        if (strcmp($request->get('host_notification_commands'), 'none') == 0) {
+            unset($param['host_notification_commands']);
+        } else {
+            $param['host_notification_commands'] = $request->get('host_notification_commands').'!'.$request->get('host_notification_commandsArg');
+        }
+        if (strcmp($request->get('service_notification_commands'), 'none') == 0) {
+            unset($param['service_notification_commands']);
+        } else {
+            $param['service_notification_commands'] = $request->get('service_notification_commands').'!'.$request->get('service_notification_commandsArg');
+        }
+        unset($param['host_notification_commandsArg']);
+        unset($param['service_notification_commandsArg']);
 
-        // $result['data'] = $param;
+        $result['data'] = $param;
 
         return $result;
     } 
@@ -181,7 +187,7 @@ class ContactController extends Controller {
         $commandList = $this->commandManager->pluck('command_name');
         $timeperiodList =$this->timeperiodManager->pluck('timeperiod_name');
 
-        if (isset($host)) {
+        if (isset($contact)) {
             return view('admin.contact.edit',
                 compact('contactTmpl', 'contact', 'contactJsonData', 'contactTemplateCollection', 'hostCommand', 'hostCommandArg', 'serviceCommand', 'serviceCommandArg', 'commandList', 'timeperiodList'));
         } else {
