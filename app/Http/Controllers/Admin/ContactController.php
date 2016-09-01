@@ -158,12 +158,16 @@ class ContactController extends Controller {
         if (strcmp($request->get('host_notification_commands'), 'none') == 0) {
             unset($param['host_notification_commands']);
         } else {
-            $param['host_notification_commands'] = $request->get('host_notification_commands').'!'.$request->get('host_notification_commandsArg');
+            $hostArg = '';
+            if (strcmp($request->get('host_notification_commandsArg'), '') != 0) $hostArg = '!'.$request->get('host_notification_commandsArg');
+            $param['host_notification_commands'] = $request->get('host_notification_commands').$hostArg;
         }
         if (strcmp($request->get('service_notification_commands'), 'none') == 0) {
             unset($param['service_notification_commands']);
         } else {
-            $param['service_notification_commands'] = $request->get('service_notification_commands').'!'.$request->get('service_notification_commandsArg');
+            $serviceArg = '';
+            if (strcmp($request->get('service_notification_commandsArg'), '') != 0) $serviceArg = '!'.$request->get('service_notification_commandsArg');
+            $param['service_notification_commands'] = $request->get('service_notification_commands').$serviceArg;
         }
         unset($param['host_notification_commandsArg']);
         unset($param['service_notification_commandsArg']);

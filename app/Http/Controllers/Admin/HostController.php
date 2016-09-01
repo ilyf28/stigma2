@@ -163,7 +163,9 @@ class HostController extends Controller {
         if (strcmp($request->get('check_command'), 'none') == 0) {
             unset($param['check_command']);
         } else {
-            $param['check_command'] = $request->get('check_command').'!'.$request->get('check_commandArg');
+            $arg = '';
+            if (strcmp($request->get('check_commandArg'), '') != 0) $arg = '!'.$request->get('check_commandArg');
+            $param['check_command'] = $request->get('check_command').$arg;
         }
         unset($param['check_commandArg']);
 
