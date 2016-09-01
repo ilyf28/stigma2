@@ -1,7 +1,12 @@
 <?php
 
 Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
-    Route::get('hosts/generate', '\App\Http\Controllers\Admin\HostController@generate');
+    // Route::get('hosts/generate', '\App\Http\Controllers\Admin\HostController@generate');
+    // Route::get('commands/generate', '\App\Http\Controllers\Admin\CommandController@generate');
+    // Route::get('services/generate', '\App\Http\Controllers\Admin\ServiceController@generate');
+
+    Route::get('dashboard/refresh', '\App\Http\Controllers\Admin\DashboardController@refresh');
+    Route::get('dashboard/nagios_restart', '\App\Http\Controllers\Admin\DashboardController@nagiosRestart');
     
     Route::resource('dashboard','\App\Http\Controllers\Admin\DashboardController'); 
     Route::resource('hosts', '\App\Http\Controllers\Admin\HostController');
@@ -23,12 +28,5 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     Route::get('system/account', array('as' => 'admin.system.account', 'uses'=>'\App\Http\Controllers\Admin\SystemController@getAccount'));
     Route::post('system/account/changePassword',
         array('as' => 'admin.system.account.changePassword', 'uses'=>'\App\Http\Controllers\Admin\SystemController@changePassword'));
-
-
-    // Route::get('commands/generate', '\App\Http\Controllers\Admin\CommandController@generate');
-    // Route::get('services/generate', '\App\Http\Controllers\Admin\ServiceController@generate');
-    // Route::get('dashboard/nagios_restart', '\App\Http\Controllers\Admin\DashboardController@nagiosRestart');
-    // Route::get('dashboard/refresh', '\App\Http\Controllers\Admin\DashboardController@refresh');
-
 
 });

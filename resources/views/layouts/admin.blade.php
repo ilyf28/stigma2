@@ -40,7 +40,7 @@
                         <a><i class="fi-monitor"></i>&nbsp;EXECUTION</a>
                         <ul class="submenu">
                             <li><a href="{{route('admin.hosts.index')}}">Generate Config</a></li>
-                            <li><a href="{{route('admin.hosts.index')}}">Nagios Restart</a></li>
+                            <li><a href="#" data-reveal-id="system-modal" class="restart"><i class="fi-power"></i>&nbsp;Nagios Restart</a></li>
                             <li><a href="{{ url('/auth/logout') }}"><i class="fi-unlock"></i>&nbsp;Logout</a></li>
                         </ul>
                     </li>
@@ -60,104 +60,59 @@
     </div>
 </div>
 
+<div id="system-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div class="modal-header">
+        <h5 class="title">Nagios Serivce Restart</h5>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <div class="modal-body"> 
+        <div data-alert class="alert-box radius notification-box" id="notification-box"> 
+        </div>
+    </div> 
+    <div class="modal-footer"> 
+        <a class="button right small alert restart-btn">NAGIOS RESTART</a> 
+    </div>
+</div>
 <script src="/bower_components/foundation/js/vendor/jquery.js"></script>
 <script src="/bower_components/foundation/js/foundation.min.js"></script>
 <script>
     $(document).foundation();
 </script>
 <script>
-// jQuery(function(){
-    // var hideAlertBox = function(){ 
-    //     $('.notification-box').hide() ;
-    // }
+jQuery(function(){
+    $('a.restart').click(function(){
+        hideAlertBox();
+    });
 
-    // hideAlertBox() ;
+    $('a.restart-btn').click(function(){ 
+        showAlertBox('warning', 'nagios restarting...');
+        $.ajax({
+            url : '/admin/dashboard/nagios_restart',
+            type: 'get',
+            success: function(response){
+                showAlertBox('success', 'Success');
+            },
+            error : function(response){
+                showAlertBox('alert', 'Error');
+            }
+        }); 
+    });
 
-    // $('.provisioning-btn').click(function(){
-    //     showAlertBox('warning','provisioning...') ;
-    //     $.ajax({
-    //         url : '/admin/configuration/provisioning/request' , 
-    //         type: 'get',
-    //         success: function(response){
-    //             showAlertBox('success','Success  ') ;
-    //             location.href = location.href ;
-    //         },
-    //         error : function(response){
-    //             showAlertBox('alert','Error') ;
-    //         }
-    //     }); 
-    // });
-
-    // $('a.restart-btn').click(function(){ 
-    //     showAlertBox('warning','nagios restarting...') ;
-    //     $.ajax({
-    //         url : '/admin/dashboard/nagios_restart' , 
-    //         type: 'get',
-    //         success: function(response){
-    //             showAlertBox('success','Success  ') ;
-    //         },
-    //         error : function(response){
-    //             showAlertBox('alert','Error') ;
-    //         }
-    //     }); 
-    // });
-
-    // $('#generate-host-file').click(function(){
-    //     showAlertBox('warning','host file are generationg...') ;
-    //     $.ajax({
-    //         url : '/admin/hosts/generate' , 
-    //         type: 'get',
-    //         success: function(response){
-    //             console.log(response);
-    //             showAlertBox('success','Done : Host File are generated') ;
-    //         },
-    //         error : function(response){
-    //             showAlertBox('alert','Error') ;
-    //         }
-    //     }); 
-    // });
-
-    // $('#generate-service-file').click(function(){
-    //     showAlertBox('warning','service file are generationg...') ;
-    //     $.ajax({
-    //         url : '/admin/services/generate' , 
-    //         type: 'get',
-    //         success: function(response){
-    //             showAlertBox('success','Done : Service File are generated') ;
-    //         },
-    //         error : function(response){
-    //             showAlertBox('alert','Error') ;
-    //         }
-    //     }); 
-
-    // });
-
-    // $('#generate-command-file').click(function(){ 
-    //     showAlertBox('warning','command file are generationg...') ;
-    //     $.ajax({
-    //         url : '/admin/commands/generate' , 
-    //         type: 'get',
-    //         success: function(response){
-    //             showAlertBox('success','Done : Command File are generated') ;
-    //         },
-    //         error : function(response){
-    //             showAlertBox('alert','Error') ;
-    //         }
-    //     }); 
-    // }); 
-
+    var hideAlertBox = function(){ 
+        $('.notification-box').hide();
+    }
     
-    // var showAlertBox = function(cls , text){ 
-    //     $('.notification-box').removeClass('warning') ;
-    //     $('.notification-box').removeClass('alert') ;
-    //     $('.notification-box').removeClass('success') ;
+    var showAlertBox = function(cls , text){ 
+        $('.notification-box').removeClass('warning');
+        $('.notification-box').removeClass('alert');
+        $('.notification-box').removeClass('success');
 
-    //     $('.notification-box').addClass(cls) ;
-    //     $('.notification-box').show() ;
-    //     $('.notification-box').text(text) ;
-    // } 
+        $('.notification-box').addClass(cls);
+        $('.notification-box').show();
+        $('.notification-box').text(text);
+    } 
 
-// });
+});
 </script>
 @yield('scripts')
 </body>

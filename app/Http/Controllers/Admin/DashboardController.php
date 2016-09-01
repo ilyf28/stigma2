@@ -10,15 +10,18 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException; 
 use Stigma\Installation\InstallManager;
 use Stigma\Installation\Validators\DatabaseConnectionValidation;
+use Stigma\Nagios\Client as NagiosClient;
 
 class DashboardController extends Controller { 
 
     protected $httpClient;
     protected $installManager;
+    protected $nagiosClient;
 
-    public function __construct(InstallManager $installManager)
+    public function __construct(InstallManager $installManager, NagiosClient $nagiosClient)
     {
         $this->installManager = $installManager;
+        $this->nagiosClient = $nagiosClient;
 
         $client = new HttpClient;
         $this->httpClient = $client; 
@@ -108,6 +111,17 @@ class DashboardController extends Controller {
         }
 
         return view('admin.dashboard.index');
+    }
+
+    public function nagiosRestart()
+    {
+        $ret = $this->nagiosClient->requestToRestart();
+        
+        if($ret){
+            return new Response('success', 200);
+        }else{
+            return new Response('error', 400);
+        }
     }
 
 }
