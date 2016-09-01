@@ -81,7 +81,7 @@
 
 <div id="restart-modal" class="reveal-modal small modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <div class="modal-header">
-        <h5 class="title">Nagios Serivce Restart</h5>
+        <h5 class="title">Nagios Service Restart</h5>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
     <div class="modal-body"> 
