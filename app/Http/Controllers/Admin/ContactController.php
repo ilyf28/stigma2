@@ -147,7 +147,7 @@ class ContactController extends Controller {
             unset($param['contact_name']);
             $param['name'] = $request->get('contact_name');
         } else {
-            $result['template_name'] = '';
+            $result['template_name'] = null;
         }
 
         $templates = $request->get('contact_template');

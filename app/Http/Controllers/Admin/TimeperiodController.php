@@ -143,7 +143,7 @@ class TimeperiodController extends Controller {
             unset($param['timeperiod_name']);
             $param['name'] = $request->get('timeperiod_name');
         } else {
-            $result['template_name'] = '';
+            $result['template_name'] = null;
         }
 
         $templates = $request->get('timeperiod_template');

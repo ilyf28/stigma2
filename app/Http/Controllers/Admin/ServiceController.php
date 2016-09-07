@@ -155,7 +155,7 @@ class ServiceController extends Controller {
             unset($param['host_name']);
             $param['name'] = $request->get('host_name');
         } else {
-            $result['template_name'] = '';
+            $result['template_name'] = null;
         }
 
         $templates = $request->get('service_template');
