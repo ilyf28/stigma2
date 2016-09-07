@@ -201,6 +201,7 @@ class CommandSeeder extends Seeder
         $CommandManager->register($data);
 
         // GlusterFS
+        /*
         $data = [
             'command_name' => 'check_disk_and_inode',
             'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_disk_and_inode'
@@ -390,7 +391,7 @@ class CommandSeeder extends Seeder
         ];
 
         $CommandManager->register($data);
-
+        */
 
     }
 }
