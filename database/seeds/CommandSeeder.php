@@ -200,5 +200,197 @@ class CommandSeeder extends Seeder
 
         $CommandManager->register($data);
 
+        // GlusterFS
+        $data = [
+            'command_name' => 'check_disk_and_inode',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_disk_and_inode'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_cpu_multicore',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_cpu_multicore'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_memory',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_memory'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_swap_usage',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_swap_usage'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_interfaces',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_interfaces'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_remote_host',
+            'command_line' => '$USER1$/gluster/check_remote_host.py -H $HOSTADDRESS$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'host_service_handler',
+            'command_line' => '$USER1$/gluster/gluster_host_service_handler.py -s $SERVICESTATE$ -t $SERVICESTATETYPE$ -a $SERVICEATTEMPT$ -l $HOSTADDRESS$ -n "$SERVICEDESC$"'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'notify-host-to-ovirt',
+            'command_line' => '$USER1$/gluster/notify_ovirt_engine_handler.py -c $HOSTGROUPNAME$ -H $HOSTNAME$ -g $_HOSTGLUSTER_ENTITY$ -t $HOSTSTATE$ -o $_CONTACTOVIRT_REST_API$ -u $_CONTACTOVIRT_USER$ -p $USER3$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'notify-service-to-ovirt',
+            'command_line' => '$USER1$/gluster/notify_ovirt_engine_handler.py -c $HOSTGROUPNAME$ -H $HOSTNAME$ -g $_SERVICEGLUSTER_ENTITY$ -s "$SERVICEDESC$" -t $SERVICESTATE$ -o $_CONTACTOVIRT_REST_API$ -u $_CONTACTOVIRT_USER$ -p $USER3$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'gluster-notify-host-by-snmp',
+            'command_line' => '$USER1$/gluster/hostsnmptrapgenerator.py $NOTIFICATIONTYPE$ $HOSTNOTIFICATIONNUMBER$ "$HOSTNAME$" $HOSTSTATEID$ $HOSTSTATETYPE$ $HOSTATTEMPT$ $HOSTDURATIONSEC$ "$HOSTGROUPNAMES$" $LASTHOSTCHECK$ $LASTHOSTSTATECHANGE$ "$HOSTOUTPUT$"'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'gluster-notify-service-by-snmp',
+            'command_line' => '$USER1$/gluster/servicesnmptrapgenerator.py $NOTIFICATIONTYPE$ $SERVICENOTIFICATIONNUMBER$ "$HOSTNAME$" $HOSTSTATEID$ "$SERVICEDESC$" $SERVICESTATEID$ $SERVICEATTEMPT$ "$SERVICEDURATION$" "$SERVICEGROUPNAMES$" $LASTSERVICECHECK$ $LASTSERVICESTATECHANGE$ "$SERVICEOUTPUT$"'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_brick_usage',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_brick_usage -a $_SERVICEBRICK_DIR$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_utilization',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -w $ARG3$ -c $ARG4$ -o utilization'
+        ];
+
+        $CommandManager->register($data);
+
+
+        $data = [
+            'command_name' => 'check_cluster_vol_usage',
+            'command_line' => '$USER1$/gluster/check_cluster_vol_usage.py  -w $ARG1$ -c $ARG2$ -hg $HOSTNAME$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'gluster_auto_discovery',
+            'command_line' => 'sudo $USER1$/gluster/discovery.py -H $ARG1$ -c $HOSTNAME$ -m auto -n $ARG2$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_dummy',
+            'command_line' => '$USER1$/check_dummy 0'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_status',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -o status'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_quota_status',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -o quota'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_heal_status',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -o self-heal'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_heal_info',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -o heal-info'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_vol_georep_status',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $ARG1$ $ARG2$ -o geo-rep'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_quorum_status',
+            'command_line' => '$USER1$/gluster/check_vol_server.py $HOSTNAME$ dummy -o quorum'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_cluster_status',
+            'command_line' => '$USER1$/gluster/check_cluster_status.py $HOSTNAME$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'submit_external_command',
+            'command_line' => '$USER1$/gluster/submit_external_command.py -c "$ARG1$" -H "$ARG2$" -s "$ARG3$" -t "$ARG4$"'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'brick_status_event_handler',
+            'command_line' => '$USER1$/gluster/brick_status_event_handler.py -hg "$HOSTGROUPNAMES$" -v $_SERVICEVOL_NAME$ -st $SERVICESTATETYPE$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_brick_status',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_brick_status -a $_SERVICEVOL_NAME$ $_SERVICEBRICK_DIR$'
+        ];
+
+        $CommandManager->register($data);
+
+        $data = [
+            'command_name' => 'check_proc_status',
+            'command_line' => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_proc_status -a $ARG1$'
+        ];
+
+        $CommandManager->register($data);
+
+
     }
 }
