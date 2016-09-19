@@ -7,8 +7,8 @@
                     <div style="background: #eee; width:100%; height:200px;">
                         <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> UP</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
-                            <span style="color: #4caf50;" ng-if="host_status.down > 0">{{ host_status.down }}</span>
-                            <span style="">0</span>
+                            <span style="color: #4caf50;" ng-if="host_status.up > 0">{{ host_status.up }}</span>
+                            <span style="" ng-if="host_status.up == 0">0</span>
                         </h1>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> DOWN</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #ff1744;" ng-if="host_status.down > 0">{{ host_status.down }}</span>
-                            <span style="">0</span>
+                            <span style="" ng-if="host_status.down == 0">0</span>
                         </h1>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> UNREACHABLE</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #e91e63;" ng-if="host_status.unreachable > 0">{{ host_status.unreachable }}</span>
-                            <span style="">0</span>
+                            <span style="" ng-if="host_status.unreachable == 0">0</span>
                         </h1>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-cloud"></i> OK</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #4caf50;" ng-if="service_status.ok > 0">{{ service_status.ok }}</span>
-                            <span style="">0</span>
+                            <span style="" ng-if="service_status.ok == 0">0</span>
                         </h1>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-cloud"></i> WARNING</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #fbc02d;" ng-if="service_status.warning > 0">{{ service_status.warning }}</span>
-                            <span style="">0</span>
+                            <span style="" ng-if="service_status.warning == 0">0</span>
                         </h1>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-cloud"></i> CRITICAL</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #ff1744;" ng-if="service_status.critical > 0">{{ service_status.critical }}</span>
-                            <span style="">0</span>
+                            <span style="" ng-if="service_status.critical == 0">0</span>
                         </h1>
                     </div>
                 </div>
