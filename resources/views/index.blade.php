@@ -19,6 +19,12 @@
                     </ul>
                     <top-bar-section>
                         <section class="top-bar-section">
+                            <ul class="left">
+                                <li class="active"><a ng-click="topbarFilter($event);" ui-sref="dashboardOverview">Overview</a></li>
+                                <li><a ng-click="topbarFilter($event);" ui-sref="serverHostList">Host</a></li>
+                                <li><a ng-click="topbarFilter($event);" ui-sref="serverServiceList">Service</a></li>
+                                <li><a ng-click="topbarFilter($event);" ui-sref="reportGraph">Graph</a></li>
+                            </ul>
                             <ul class="right">
                                 <li><a ng-click="setAdmin();"><i class="fi-info"></i></a></li>
                                 <li><a data-reveal-id="indexConfigArea" ng-click="openIndexConfigArea();"><i class="fi-widget"></i></a></li>
@@ -30,18 +36,7 @@
             </top-bar>
         </header>
         <div class="row">
-            <aside class="large-2 columns">
-                <ul class="side-nav">
-                    <li class="heading">Dashboard</li>
-                    <li><a ui-sref="dashboardOverview"><i class="fi-home"></i> Overview</a></li>
-                    <li class="heading">Server</li>
-                    <li><a ui-sref="serverHostList"><i class="fi-page"></i> Host</a></li>
-                    <li><a ui-sref="serverServiceList"><i class="fi-page"></i> Service</a></li>
-                    <li class="heading">Report</li>
-                    <li><a ui-sref="reportGraph"><i class="fi-graph-bar"></i> Graph</a></li>
-                </ul>
-            </aside>
-            <section class="large-10 columns">
+            <section class="large-12 columns">
                 <article class="mainContents">
                     <div ui-view></div>
                 </article>

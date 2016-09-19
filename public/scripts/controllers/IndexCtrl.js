@@ -36,6 +36,16 @@ define(['./module', 'foundation'],
                     $('div#indexConfigArea').foundation('reveal', 'close');
                 };
 
+                $scope.topbarFilter = function(event) {
+                    var section = document.getElementsByClassName('top-bar-section');
+                    var wrappedSection = angular.element(section);
+                    wrappedSection.find('li').removeClass('active');
+
+                    var target = angular.element(event.target);
+                    var li = target.parent();
+                    li.addClass('active');
+                };
+
                 initConfigration();
             }
         ]);
