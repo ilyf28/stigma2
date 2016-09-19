@@ -21,7 +21,7 @@
                         <section class="top-bar-section">
                             <ul class="left">
                                 <li class="active"><a ng-click="topbarFilter($event);" ui-sref="dashboardOverview">Overview</a></li>
-                                <li><a ng-click="topbarFilter($event);" ui-sref="dashboardOverview">GlusterFS</a></li>
+                                <li><a ng-click="topbarFilter($event);" ui-sref="">GlusterFS</a></li>
                                 <li><a ng-click="topbarFilter($event);" ui-sref="serverHostList">Host</a></li>
                                 <li><a ng-click="topbarFilter($event);" ui-sref="serverServiceList">Service</a></li>
                                 <li><a ng-click="topbarFilter($event);" ui-sref="reportGraph">Graph</a></li>
