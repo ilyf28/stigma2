@@ -6,6 +6,12 @@ define(['./module'],
             '$rootScope', '$scope', '$state', '$interval', 'DashboardFactory', 'TimerFactory', 'TimestampFormatFactory',
             function($rootScope, $scope, $state, $interval, DashboardFactory, TimerFactory, TimestampFormatFactory) {
                 $scope.init = function() {
+                    // $scope.system_status = 400;
+                    $scope.host_status = [];
+                    $scope.service_status = [];
+                    $scope.host_event = [];
+                    $scope.service_event = [];
+
                     // renderSystemStatus();
                     renderHostStatus();
                     renderServiceStatus();
@@ -13,12 +19,12 @@ define(['./module'],
                     renderServiceEvent();
                 };
 
-                function renderSystemStatus() {
-                    DashboardFactory.getSystemStatus()
-                        .then(function(response) {
-                            $scope.system_status = response;
-                        });
-                };
+                // function renderSystemStatus() {
+                //     DashboardFactory.getSystemStatus()
+                //         .then(function(response) {
+                //             $scope.system_status = response;
+                //         });
+                // };
 
                 function renderHostStatus() {
                     DashboardFactory.getHostStatus()
