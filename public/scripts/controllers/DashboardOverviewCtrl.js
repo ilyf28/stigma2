@@ -57,10 +57,14 @@ define(['./module'],
                 };
 
                 $scope.convertDate = function(timestamp) {
+                    if (timestamp == undefined) {
+                        return '';
+                    }
                     return TimestampFormatFactory.convertDateToYYYYMMDDhhmmss(timestamp);
                 };
 
                 $scope.init();
+                $scope.quantity = 5;
 
                 TimerFactory.interval($scope, $interval);
             }

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="medium-12 columns">
-        <!-- <div class="row">
+        <div class="row">
             <div class="medium-8 columns">
                 <div class="" style="background: #4caf50;" ng-show="system_status == 200">
                     <h3 class="" style="text-align: center; padding: 20px 0;"><span class="" style="color: #eaeaea;">SYSTEM: Running</span></h3>
@@ -13,11 +13,11 @@
             </div>
         </div>
 
-        <p></p> -->
+        <p></p>
         <div class="row">
             <div class="medium-8 columns">
-                <h3>Host Event</h3>
-                <table>
+                <h3>Host</h3>
+                <!-- <table>
                     <thead>
                         <th>Host</th>
                         <th>Type</th>
@@ -25,7 +25,7 @@
                         <th>Information</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="log in host_event | orderBy:'-timestamp'"  ng-show="host_event.length > 0">
+                        <tr ng-repeat="log in host_event | orderBy:'-timestamp' | limitTo:quantity"  ng-show="host_event.length > 0">
                             <td>{{ log.name }}</td>
                             <td>
                                 <span class="label success" style="width: 100%;" ng-if="log.state == '0'">OK</span>
@@ -39,7 +39,7 @@
                             <td colspan="4"><strong>No host events.</strong></td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </div>
             <div class="medium-4 columns">
                 <div class="medium-12 columns">
@@ -105,8 +105,8 @@
         <p></p>
         <div class="row">
             <div class="medium-8 columns">
-                <h3>Service Event</h3>
-                <table>
+                <h3>Service</h3>
+                <!-- <table>
                     <thead>
                         <th>Host</th>
                         <th>Service</th>
@@ -115,7 +115,7 @@
                         <th>Information</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="log in service_event | orderBy:'-timestamp'" ng-show="service_event.length > 0">
+                        <tr ng-repeat="log in service_event | orderBy:'-timestamp' | limitTo:quantity" ng-show="service_event.length > 0">
                             <td>{{ log.host_name }}</td>
                             <td>{{ log.description }}</td>
                             <td>
@@ -130,7 +130,7 @@
                             <td colspan="5"><strong>No service events.</strong></td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </div>
             <div class="medium-4 columns">
                 <div class="medium-12 columns">
