@@ -48,7 +48,7 @@ define(['./module'],
 
                     DashboardFactory.getEvent('host', starttime, endtime)
                         .then(function(response) {
-                            $scope.host_event = response.data.alertlist.slice(0, 5);
+                            $scope.host_event = response.data.alertlist.slice(0, $scope.quantity);
                         });
                 };
 
@@ -58,7 +58,7 @@ define(['./module'],
 
                     DashboardFactory.getEvent('service', starttime, endtime)
                         .then(function(response) {
-                            $scope.service_event = response.data.alertlist.slice(0, 5);
+                            $scope.service_event = response.data.alertlist.slice(0, $scope.quantity);
                         });
                 };
 
