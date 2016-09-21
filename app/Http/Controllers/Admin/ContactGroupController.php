@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class ContactGroupController extends Controller {
+class ContactgroupController extends Controller {
 
 	/**
 	 * Display a listing of the resource.

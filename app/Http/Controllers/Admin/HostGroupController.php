@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class HostGroupController extends Controller {
+class HostgroupController extends Controller {
 
 	/**
 	 * Display a listing of the resource.

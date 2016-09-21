@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder {
     {
         $this->call('CommandSeeder');
         $this->call('HostSeeder');
+        $this->call('HostgroupSeeder');
         $this->call('ServiceSeeder');
         $this->call('ContactSeeder');
+        $this->call('ContactgroupSeeder');
         $this->call('TimeperiodSeeder');
     } 
 }
