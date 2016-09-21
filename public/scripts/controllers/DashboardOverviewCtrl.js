@@ -51,7 +51,6 @@ define(['./module'],
                             var end = response.data.alertlist.length - 1;
                             var start = end - $scope.quantity;
                             $scope.service_event = response.data.alertlist.slice(start, end);
-                            // $scope.host_event = response.data.alertlist.slice(0, $scope.quantity);
                         });
                 };
 
@@ -64,7 +63,6 @@ define(['./module'],
                             var end = response.data.alertlist.length - 1;
                             var start = end - $scope.quantity;
                             $scope.service_event = response.data.alertlist.slice(start, end);
-                            // $scope.service_event = response.data.alertlist.slice(0, $scope.quantity);
                         });
                 };
 
