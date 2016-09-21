@@ -106,6 +106,10 @@ class Builder
         {
             $pack = new \stdClass;
 
+            $pack->details = [
+                'command_name' => $command->command_name,
+                'command_line' => $command->command_line
+            ];
             $pack->command_name = $command->command_name;
             $pack->command_line = $command->command_line;
 

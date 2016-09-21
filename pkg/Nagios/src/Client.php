@@ -8,19 +8,19 @@ class Client
     protected $httpClient;
     protected $baseUri;
     protected $port;
+    protected $builder;
 
     public function __construct($baseUri)
     {
         $this->baseUri = $baseUri;
         $client = new HttpClient;
         $this->httpClient = $client;
+        $this->builder = \App::make('Stigma\ObjectManager\Builder');
     }
 
     public function generateHost()
     {
-        $builder = \App::make('Stigma\ObjectManager\Builder');
-
-        $payload = $builder->buildForHost();
+        $payload = $this->builder->buildForHost();
 
         $uri = 'api/v1/hosts';
 
@@ -40,9 +40,7 @@ class Client
 
     public function generateService()
     {
-        $builder = \App::make('Stigma\ObjectManager\Builder');
-
-        $payload = $builder->buildForService(); 
+        $payload = $this->builder->buildForService(); 
 
         $uri = 'api/v1/services';
 
@@ -62,22 +60,7 @@ class Client
 
     public function generateCommand()
     {
-        $builder = \App::make('Stigma\ObjectManager\Builder');
-
-        $collection = $builder->buildForCommand(); 
-        $payload = array();
-
-        foreach($collection as $item)
-        {
-            $data = new \stdClass;
-            $data->command_name = $item->command_name;
-            $data->details = [
-                'command_name' => $item->command_name,
-                'command_line' => $item->command_line
-            ];
-
-            $payload[] = $data;
-        }
+        $payload = $this->builder->buildForCommand(); 
 
         $uri = 'api/v1/commands';
 
@@ -97,9 +80,7 @@ class Client
 
     public function generateContact()
     {
-        $builder = \App::make('Stigma\ObjectManager\Builder');
-
-        $payload = $builder->buildForContact(); 
+        $payload = $this->builder->buildForContact(); 
 
         $uri = 'api/v1/contacts';
 
@@ -119,9 +100,7 @@ class Client
 
     public function generateTimeperiod()
     {
-        $builder = \App::make('Stigma\ObjectManager\Builder');
-
-        $payload = $builder->buildForTimeperiod(); 
+        $payload = $this->builder->buildForTimeperiod(); 
 
         $uri = 'api/v1/timeperiods';
 
