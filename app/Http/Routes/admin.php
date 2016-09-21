@@ -12,9 +12,12 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     
     Route::resource('dashboard','\App\Http\Controllers\Admin\DashboardController'); 
     Route::resource('hosts', '\App\Http\Controllers\Admin\HostController');
+    Route::resource('hostgroups', '\App\Http\Controllers\Admin\HostGroupController');
     Route::resource('services','\App\Http\Controllers\Admin\ServiceController');
+    Route::resource('servicegroups','\App\Http\Controllers\Admin\ServiceGroupController');
     Route::resource('commands','\App\Http\Controllers\Admin\CommandController');
     Route::resource('contacts','\App\Http\Controllers\Admin\ContactController');
+    Route::resource('contactgroups','\App\Http\Controllers\Admin\ContactGroupController');
     Route::resource('timeperiods','\App\Http\Controllers\Admin\TimeperiodController');
 
     Route::get('system/configuration', array('as' => 'admin.system.configuration', 'uses'=>'\App\Http\Controllers\Admin\SystemController@configuration'));
