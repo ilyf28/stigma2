@@ -2,29 +2,41 @@
 namespace Stigma\ObjectManager;
 
 use Stigma\ObjectManager\HostManager;
+use Stigma\ObjectManager\HostgroupManager;
 use Stigma\ObjectManager\ServiceManager;
+use Stigma\ObjectManager\ServicegroupManager;
 use Stigma\ObjectManager\ContactManager;
+use Stigma\ObjectManager\ContactgroupManager;
 use Stigma\ObjectManager\CommandManager;
 use Stigma\ObjectManager\TimeperiodManager;
 
 class Builder
 {
     protected $hostManager;
+    protected $hostgroupManager;
     protected $serviceManager;
+    protected $servicegroupManager;
     protected $contactManager;
+    protected $contactgroupManager;
     protected $commandManager;
     protected $timeperiodManager;
 
     public function __construct(
         HostManager $hostManager, 
+        HostgroupManager $hostgroupManager, 
         ServiceManager $serviceManager, 
+        ServicegroupManager $servicegroupManager, 
         ContactManager $contactManager,
+        ContactgroupManager $contactgroupManager,
         CommandManager $commandManager,
         TimeperiodManager $timeperiodManager)
     { 
         $this->hostManager = $hostManager;
+        $this->hostgroupManager = $hostgroupManager;
         $this->serviceManager = $serviceManager;
+        $this->servicegroupManager = $servicegroupManager;
         $this->contactManager = $contactManager;
+        $this->contactgroupManager = $contactgroupManager;
         $this->commandManager = $commandManager;
         $this->timeperiodManager = $timeperiodManager;
     }
@@ -32,6 +44,7 @@ class Builder
     public function buildForHost()
     {
         $hostCollection = $this->hostManager->getAllItems();
+        $hostgroupCollection = $this->hostgroupManager->getAllItems();
 
         $payload = [];
 
@@ -42,8 +55,18 @@ class Builder
             $details  = (array) $data; 
             
             $pack->details = $details;
-            $pack->host_name = $host->host_name;
-            $pack->is_template = $host->is_template;
+            $pack->type = 'host';
+
+            $payload[] = $pack;
+        }
+        foreach($hostgroupCollection as $hostgroup)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($hostgroup->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->type = 'hostgroup';
 
             $payload[] = $pack;
         }
@@ -55,6 +78,7 @@ class Builder
     public function buildForService()
     {
         $serviceCollection = $this->serviceManager->getAllItems();
+        $servicegroupCollection = $this->servicegroupManager->getAllItems();
 
         $payload = []; 
 
@@ -65,8 +89,18 @@ class Builder
             $details  = (array) $data; 
             
             $pack->details = $details;
-            $pack->host_name = $service->host_name;
-            $pack->is_template = $service->is_template;
+            $pack->type = 'service';
+
+            $payload[] = $pack;
+        }
+        foreach($servicegroupCollection as $servicegroup)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($servicegroup->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->type = 'servicegroup';
 
             $payload[] = $pack;
         }
@@ -77,6 +111,7 @@ class Builder
     public function buildForContact()
     {
         $contactCollection = $this->contactManager->getAllItems();
+        $contactgroupCollection = $this->contactgroupManager->getAllItems();
 
         $payload = []; 
 
@@ -87,8 +122,18 @@ class Builder
             $details  = (array) $data; 
             
             $pack->details = $details;
-            $pack->contact_name = $contact->contact_name;
-            $pack->is_template = $contact->is_template;
+            $pack->type = 'contact';
+
+            $payload[] = $pack;
+        }
+        foreach($contactgroupCollection as $contactgroup)
+        {
+            $pack = new \stdClass;
+            $data = json_decode($contactgroup->data);
+            $details  = (array) $data; 
+            
+            $pack->details = $details;
+            $pack->type = 'contactgroup';
 
             $payload[] = $pack;
         }
@@ -110,8 +155,7 @@ class Builder
                 'command_name' => $command->command_name,
                 'command_line' => $command->command_line
             ];
-            $pack->command_name = $command->command_name;
-            $pack->command_line = $command->command_line;
+            $pack->type = 'command';
 
             $payload[] = $pack;
         }
@@ -132,8 +176,7 @@ class Builder
             $details  = (array) $data; 
             
             $pack->details = $details;
-            $pack->timeperiod_name = $timeperiod->timeperiod_name;
-            $pack->is_template = $timeperiod->is_template;
+            $pack->type = 'timeperiod';
 
             $payload[] = $pack;
         }
