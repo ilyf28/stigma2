@@ -92,7 +92,7 @@ class ServicegroupController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $this->servicegroupManager->delete($id);
     }
 
 }

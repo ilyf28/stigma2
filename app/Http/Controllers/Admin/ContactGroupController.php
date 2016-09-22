@@ -92,7 +92,7 @@ class ContactgroupController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $this->contactgroupManager->delete($id);
     }
 
 }
