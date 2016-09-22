@@ -38,7 +38,7 @@ class ServicegroupController extends Controller {
      */
     public function create()
     {
-        //
+        return $this->showForm();
     }
 
     /**
@@ -46,9 +46,13 @@ class ServicegroupController extends Controller {
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $param = $this->processFormData($request);
+
+        $this->servicegroupManager->register($param);
+
+        return redirect()->route('admin.servicegroups.index');
     }
 
     /**
@@ -59,7 +63,7 @@ class ServicegroupController extends Controller {
      */
     public function show($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -70,7 +74,7 @@ class ServicegroupController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -79,9 +83,13 @@ class ServicegroupController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $param = $this->processFormData($request);
+        
+        $this->servicegroupManager->update($id,$param);
+
+        return redirect()->route('admin.servicegroups.index');
     }
 
     /**
@@ -93,6 +101,58 @@ class ServicegroupController extends Controller {
     public function destroy($id)
     {
         $this->servicegroupManager->delete($id);
+    }
+
+    private function processFormData(Request $request)
+    {
+        $servicegroupTmpl = config('servicegroup_tmpl');
+        $param = [];
+        $result = [];
+
+        foreach($request->all() as $key => $value)
+        {
+            if (array_key_exists($key, $servicegroupTmpl) && ($value != '')) {
+                $param[$key] = $value;
+            }
+        }
+
+        $result['servicegroup_name'] = $request->get('servicegroup_name');
+        $result['alias'] = $request->get('alias');
+
+        $serviceMembers = $request->get('serviceMembers');
+        $servicegroupMembers = $request->get('servicegroupMembers');
+
+        if(count($serviceMembers) > 0){
+            $param['members'] = implode(',', $serviceMembers);
+        }
+        if(count($servicegroupMembers) > 0){
+            $param['servicegroup_members'] = implode(',', $servicegroupMembers);
+        }
+
+        $result['data'] = $param;
+
+        return $result;
+    }
+
+    private function showForm($id=null)
+    {
+        if ($id > 0) {
+            $servicegroup = $this->servicegroupManager->find($id);
+            $servicegroupJsonData = json_decode($servicegroup->data);
+        }
+
+        $servicegroupTmpl = config('servicegroup_tmpl');
+
+        $serviceAllCollection = $this->serviceManager->getAllItems();
+        $servicegroupAllCollection = $this->servicegroupManager->getAllItems();
+
+        if (isset($servicegroup)) {
+            return view('admin.servicegroup.edit',
+                compact('serviceAllCollection', 'servicegroupAllCollection', 'servicegroupTmpl', 'servicegroup', 'servicegroupJsonData'));
+        } else {
+            return view('admin.servicegroup.create',
+                compact('serviceAllCollection', 'servicegroupAllCollection', 'servicegroupTmpl'));
+        }
     }
 
 }
