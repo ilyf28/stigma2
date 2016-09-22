@@ -146,7 +146,7 @@ class HostgroupController extends Controller {
         $hostAllCollection = $this->hostManager->getAllItems();
         $hostgroupAllCollection = $this->hostgroupManager->getAllItems();
 
-        if (isset($host)) {
+        if (isset($hostgroup)) {
             return view('admin.hostgroup.edit',
                 compact('hostAllCollection', 'hostgroupAllCollection', 'hostgroupTmpl', 'hostgroup', 'hostgroupJsonData'));
         } else {
