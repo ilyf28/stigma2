@@ -38,7 +38,7 @@ class ContactgroupController extends Controller {
      */
     public function create()
     {
-        //
+        return $this->showForm();
     }
 
     /**
@@ -46,9 +46,13 @@ class ContactgroupController extends Controller {
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $param = $this->processFormData($request);
+
+        $this->contactgroupManager->register($param);
+
+        return redirect()->route('admin.contactgroups.index');
     }
 
     /**
@@ -59,7 +63,7 @@ class ContactgroupController extends Controller {
      */
     public function show($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -70,7 +74,7 @@ class ContactgroupController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -79,9 +83,13 @@ class ContactgroupController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $param = $this->processFormData($request);
+        
+        $this->contactgroupManager->update($id,$param);
+
+        return redirect()->route('admin.contactgroups.index');
     }
 
     /**
@@ -93,6 +101,58 @@ class ContactgroupController extends Controller {
     public function destroy($id)
     {
         $this->contactgroupManager->delete($id);
+    }
+
+    private function processFormData(Request $request)
+    {
+        $contactgroupTmpl = config('contactgroup_tmpl');
+        $param = [];
+        $result = [];
+
+        foreach($request->all() as $key => $value)
+        {
+            if (array_key_exists($key, $contactgroupTmpl) && ($value != '')) {
+                $param[$key] = $value;
+            }
+        }
+
+        $result['contactgroup_name'] = $request->get('contactgroup_name');
+        $result['alias'] = $request->get('alias');
+
+        $contactMembers = $request->get('contactMembers');
+        $contactgroupMembers = $request->get('contactgroupMembers');
+
+        if(count($contactMembers) > 0){
+            $param['members'] = implode(',', $contactMembers);
+        }
+        if(count($contactgroupMembers) > 0){
+            $param['contactgroup_members'] = implode(',', $contactgroupMembers);
+        }
+
+        $result['data'] = $param;
+
+        return $result;
+    }
+
+    private function showForm($id=null)
+    {
+        if ($id > 0) {
+            $contactgroup = $this->contactgroupManager->find($id);
+            $contactgroupJsonData = json_decode($contactgroup->data);
+        }
+
+        $contactgroupTmpl = config('contactgroup_tmpl');
+
+        $contactAllCollection = $this->contactManager->getAllItems();
+        $contactgroupAllCollection = $this->contactgroupManager->getAllItems();
+
+        if (isset($contactgroup)) {
+            return view('admin.contactgroup.edit',
+                compact('contactAllCollection', 'contactgroupAllCollection', 'contactgroupTmpl', 'contactgroup', 'contactgroupJsonData'));
+        } else {
+            return view('admin.contactgroup.create',
+                compact('contactAllCollection', 'contactgroupAllCollection', 'contactgroupTmpl'));
+        }
     }
 
 }
