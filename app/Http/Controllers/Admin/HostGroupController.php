@@ -38,7 +38,7 @@ class HostgroupController extends Controller {
      */
     public function create()
     {
-        //
+        return $this->showForm();
     }
 
     /**
@@ -46,9 +46,13 @@ class HostgroupController extends Controller {
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $param = $this->processFormData($request);
+
+        $this->hostgroupManager->register($param);
+
+        return redirect()->route('admin.hostgroups.index');
     }
 
     /**
@@ -59,7 +63,7 @@ class HostgroupController extends Controller {
      */
     public function show($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -70,7 +74,7 @@ class HostgroupController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return $this->showForm($id);
     }
 
     /**
@@ -79,9 +83,13 @@ class HostgroupController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $param = $this->processFormData($request);
+        
+        $this->hostgroupManager->update($id,$param);
+
+        return redirect()->route('admin.hostgroups.index');
     }
 
     /**
@@ -92,7 +100,59 @@ class HostgroupController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $this->hostgroupManager->delete($id);
+    }
+
+    private function processFormData(Request $request)
+    {
+        $hostgroupTmpl = config('hostgroup_tmpl');
+        $param = [];
+        $result = [];
+
+        foreach($request->all() as $key => $value)
+        {
+            if (array_key_exists($key, $hostgroupTmpl) && ($value != '')) {
+                $param[$key] = $value;
+            }
+        }
+
+        $result['hostgroup_name'] = $request->get('hostgroup_name');
+        $result['alias'] = $request->get('alias');
+
+        $hostMembers = $request->get('hostMembers');
+        $hostgroupMembers = $request->get('hostgroupMembers');
+
+        if(count($hostMembers) > 0){
+            $param['members'] = implode(',', $hostMembers);
+        }
+        if(count($hostgroupMembers) > 0){
+            $param['hostgroup_members'] = implode(',', $hostgroupMembers);
+        }
+
+        $result['data'] = $param;
+
+        return $result;
+    }
+
+    private function showForm($id=null)
+    {
+        if ($id > 0) {
+            $hostgroup = $this->hostgroupManager->find($id);
+            $hostgroupJsonData = json_decode($hostgroup->data);
+        }
+
+        $hostgroupTmpl = config('hostgroup_tmpl');
+
+        $hostAllCollection = $this->hostManager->getAllItems();
+        $hostgroupAllCollection = $this->hostgroupManager->getAllItems();
+
+        if (isset($host)) {
+            return view('admin.hostgroup.edit',
+                compact('hostAllCollection', 'hostgroupAllCollection', 'hostgroupTmpl', 'hostgroup', 'hostgroupJsonData'));
+        } else {
+            return view('admin.hostgroup.create',
+                compact('hostAllCollection', 'hostgroupAllCollection', 'hostgroupTmpl'));
+        }
     }
 
 }
