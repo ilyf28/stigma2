@@ -43,7 +43,7 @@
                     <tr>
                         <?php
                             $check = false;
-                            $uses = [];
+                            $hostgroup_members = [];
 
                             if (isset($hostgroup)) {
                                 $data = $hostgroup->data;
@@ -86,14 +86,13 @@
                 </thead>
                 <tbody>
                 @foreach($hostAllCollection as $hostObj)
-                    @if(isset($host) == null || (isset($host) && $host->getKey() != $hostObj->getKey()) )
                     <tr>
                         <?php
                             $check = false;
-                            $uses = [];
+                            $members = [];
 
-                            if (isset($host)) {
-                                $data = $host->data;
+                            if (isset($hostgroup)) {
+                                $data = $hostgroup->data;
 
                                 if (isset(json_decode($data)->members)) {
                                     $members = explode(',', json_decode($data)->members);
@@ -111,7 +110,6 @@
                             <a href="{{ route('admin.hosts.edit',array($hostObj->getKey())) }}">{{$hostObj->host_name}}</a>
                         </td>
                     </tr>
-                    @endif
                 @endforeach
                 </tbody>
             </table>
