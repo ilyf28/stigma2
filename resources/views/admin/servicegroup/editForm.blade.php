@@ -97,8 +97,8 @@
                                 if (isset(json_decode($data)->members)) {
                                     $members = explode(',', json_decode($data)->members);
 
-                                    for ($i = 0; $i < count($members); $i = $i + 2)
-                                        if ($serviceObj->host_name == $member[$i] && $serviceObj->service_description == $member[$i+1]) {
+                                    for ($i = 0; $i < count($members); $i = $i + 2) {
+                                        if ($serviceObj->host_name == $members[$i] && $serviceObj->service_description == $members[$i+1]) {
                                             $check = true;
                                         }
                                     }
