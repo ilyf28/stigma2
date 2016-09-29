@@ -8,6 +8,7 @@ class Host extends \Eloquent
         'host_name',
         'alias',
         'template_name',
+        'is_glusterfs',
         'is_template',
         'data'
     ];

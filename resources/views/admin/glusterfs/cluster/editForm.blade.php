@@ -65,16 +65,16 @@
                                     $uses = explode(',', $member);
 
                                     foreach ($uses as $use) {
-                                        if ($hostGlusterfs->cluster_name == $use) {
+                                        if ($hostGlusterfs->host_name == $use) {
                                             $check = true;
                                         }
                                     }
                                 }
                             }
                         ?>
-                        <td>{!! Form::checkbox('cluster_member[]', $hostGlusterfs->cluster_name, $check) !!}</td>
+                        <td>{!! Form::checkbox('cluster_member[]', $hostGlusterfs->host_name, $check) !!}</td>
                         <td>
-                            {{$hostGlusterfs->cluster_name}}
+                            {{$hostGlusterfs->host_name}}
                         </td>
                     </tr>
                     @endif

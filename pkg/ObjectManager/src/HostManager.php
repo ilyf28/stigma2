@@ -20,6 +20,7 @@ class HostManager implements ObjectManager
         $storedData['host_name'] = $data['host_name'];
         $storedData['alias'] = $data['alias'];
         $storedData['template_name'] = $data['template_name'];
+        $storedData['is_glusterfs'] = $data['is_glusterfs'];
         $storedData['is_template'] = $data['is_template'];
         $storedData['data'] = json_encode($data['data']);
 
