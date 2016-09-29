@@ -22,6 +22,7 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
 
     Route::get('glusterfs/clusters', array('as' => 'admin.glusterfs.clusters.index', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsClusterController@index'));
     Route::get('glusterfs/clusters/create', array('as' => 'admin.glusterfs.clusters.create', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsClusterController@create'));
+    Route::post('glusterfs/clusters', array('as' => 'admin.glusterfs.clusters.store', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsClusterController@store'));
 
     Route::get('system/configuration', array('as' => 'admin.system.configuration', 'uses'=>'\App\Http\Controllers\Admin\SystemController@configuration'));
     Route::put('system/configuration/nagios/update',

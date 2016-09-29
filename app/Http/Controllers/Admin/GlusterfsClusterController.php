@@ -32,6 +32,39 @@ class GlusterfsClusterController extends Controller {
         return $this->showClusterForm();
     }
 
+    public function store(Request $request)
+    { 
+        // $param = $this->processFormData($request);
+
+        // $this->hostManager->register($param);
+
+        // return redirect()->route('admin.hosts.index');
+    }
+
+    public function show($id)
+    { 
+        return $this->showForm($id);
+    }
+
+    public function edit($id)
+    { 
+        return $this->showForm($id);
+    }
+
+    public function update(Request $request , $id)
+    {
+        // $param = $this->processFormData($request);
+        
+        // $this->hostManager->update($id,$param);
+
+        // return redirect()->route('admin.hosts.index'); 
+    }
+
+    public function destroy($id)
+    {
+        // $this->hostManager->delete($id);
+    }
+
     private function showClusterForm($id=null)
     {
         if ($id > 0) {
