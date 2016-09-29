@@ -47,6 +47,17 @@ class HostManager implements ObjectManager
         return $this->repo->getAll();
     }
 
+    public function getAllGlusterfs()
+    {
+        $ret = $this->repo->getAll()->filter(function($item){
+            if($item->is_glusterfs == 'Y'){
+                return $item;
+            }
+        });
+
+        return $ret;
+    }
+
     public function getAllTemplates()
     {
         $ret = $this->repo->getAll()->filter(function($item){

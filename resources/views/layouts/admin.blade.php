@@ -29,6 +29,12 @@
                             <li><a href="{{route('admin.timeperiods.index')}}">Time Periods</a></li>
                         </ul>
                     </li>
+                    <li class="parent" style="border-left:5px solid #FFC107;">
+                        <a><i class="fi-monitor"></i>&nbsp;GLUSTERFS</a>
+                        <ul class="submenu">
+                            <li><a href="{{route('admin.glusterfs.clusters.index')}}">Clusters</a></li>
+                        </ul>
+                    </li>
                     <li class="parent" style="border-left:5px solid #6200EA;">
                         <a><i class="fi-monitor"></i>&nbsp;SYSTEM</a>
                         <ul class="submenu">
