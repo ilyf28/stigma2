@@ -20,7 +20,8 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     Route::resource('contactgroups','\App\Http\Controllers\Admin\ContactGroupController');
     Route::resource('timeperiods','\App\Http\Controllers\Admin\TimeperiodController');
 
-    Route::get('glusterfs/clusters', array('as' => 'admin.glusterfs.clusters.index', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsController@clusterList'));
+    Route::get('glusterfs/clusters', array('as' => 'admin.glusterfs.clusters.index', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsClusterController@index'));
+    Route::get('glusterfs/clusters/create', array('as' => 'admin.glusterfs.clusters.create', 'uses'=>'\App\Http\Controllers\Admin\GlusterfsClusterController@create'));
 
     Route::get('system/configuration', array('as' => 'admin.system.configuration', 'uses'=>'\App\Http\Controllers\Admin\SystemController@configuration'));
     Route::put('system/configuration/nagios/update',

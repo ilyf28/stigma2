@@ -9,7 +9,7 @@
 
 <div class="inner-content">
 
-    <a href="{{route('admin.hosts.create')}}" class="button small right" >Create</a>
+    <a href="{{route('admin.glusterfs.clusters.create')}}" class="button small right" >Create</a>
 
     <table class="table">
         <thead>

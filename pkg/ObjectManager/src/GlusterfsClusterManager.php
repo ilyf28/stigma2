@@ -13,29 +13,16 @@ class GlusterfsClusterManager implements ObjectManager
         $this->repo = $repo;
     }
 
-    private function filterData($data)
-    {
-        $storedData = [];
-
-        $storedData['cluster_name'] = $data['cluster_name'];
-        $storedData['alias'] = $data['alias'];
-        $storedData['member'] = json_encode($data['member']);
-
-        return $storedData;
-    }
-
     public function register($data)
     { 
-        $storedData = $this->filterData($data);
-        $ret = $this->repo->store($storedData);
+        $ret = $this->repo->store($data);
 
         return $ret;
     }
 
     public function update($id, $data)
     {
-        $storedData = $this->filterData($data);
-        $ret = $this->repo->update($id, $storedData);
+        $ret = $this->repo->update($id, $data);
 
         return $ret;
     }
