@@ -25,7 +25,6 @@ class GlusterFSManager
             $return = 0;
 
             exec($command, $output, $return);
-            dd($output);
         } catch (Exception $e) {
             
         }
