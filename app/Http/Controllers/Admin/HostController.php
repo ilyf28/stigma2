@@ -143,6 +143,7 @@ class HostController extends Controller {
 
         $result['host_name'] = $request->get('host_name');
         $result['alias'] = $request->get('alias');
+        $result['is_glusterfs'] = $request->get('is_glusterfs');
         $result['is_template'] = $request->get('is_template');
 
         if ($request->get('is_template') == 'Y') {

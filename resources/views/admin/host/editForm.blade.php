@@ -5,6 +5,24 @@
                 <div class="row">
                     <div class="small-4 columns">
                         <label for="right-label" class="right inline">
+                            For GlusterFS
+                        </label>
+                    </div>
+                    <div class="small-8 columns">
+                        @if(isset($host))
+                            {!! Form::select('is_glusterfs', array('N' => 'N', 'Y' =>'Y'), $host->is_glusterfs)  !!}
+                        @else
+                            {!! Form::select('is_glusterfs', array('N' => 'N', 'Y' =>'Y'))  !!}
+                        @endif 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label for="right-label" class="right inline">
                             For Template
                         </label>
                     </div>

@@ -17,6 +17,7 @@ class CreateHosts extends Migration
             $table->string('host_name')->index()->unique();
             $table->string('alias');
             $table->string('template_name')->nullable()->unique(); //name for using as template
+            $table->string('is_glusterfs');
             $table->string('is_template');
             $table->text('data');
             $table->nullableTimestamps();
