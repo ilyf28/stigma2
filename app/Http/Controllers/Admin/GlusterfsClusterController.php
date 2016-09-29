@@ -42,6 +42,9 @@ class GlusterfsClusterController extends Controller {
 
         $this->glusterfsClusterManager->register($param);
 
+        $members = $request->get('cluster_member');
+        $this->runGdeploy($members);
+
         return redirect()->route('admin.glusterfs.clusters.index');
     }
 
@@ -56,17 +59,8 @@ class GlusterfsClusterController extends Controller {
         
         $this->glusterfsClusterManager->update($id, $param);
 
-        $generator = $this->glusterfsManager->getClusterGenerator();
         $members = $request->get('cluster_member');
-        $hosts = array();
-        foreach ($members as $member) {
-            $host = $this->hostManager->findByName($member);
-            $data = json_decode($host)[0]->data;
-            $address = json_decode($data)->address;
-            array_push($hosts, $address);
-        }
-        $result = $generator->createCluster($hosts);
-        $this->glusterfsManager->execute($result);
+        $this->runGdeploy($members);
 
         return redirect()->route('admin.glusterfs.clusters.index');
     }
@@ -106,6 +100,22 @@ class GlusterfsClusterController extends Controller {
             return view('admin.glusterfs.cluster.edit', compact('cluster', 'hostGlusterfsCollection'));
         } else {
             return view('admin.glusterfs.cluster.create', compact('hostGlusterfsCollection'));
+        }
+    }
+
+    private function runGdeploy($members)
+    {
+        if(count($members) > 0){
+            $generator = $this->glusterfsManager->getClusterGenerator();
+            $hosts = array();
+            foreach ($members as $member) {
+                $host = $this->hostManager->findByName($member);
+                $data = json_decode($host)[0]->data;
+                $address = json_decode($data)->address;
+                array_push($hosts, $address);
+            }
+            $result = $generator->createCluster($hosts);
+            $this->glusterfsManager->execute($result);
         }
     }
 
