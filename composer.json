@@ -32,6 +32,7 @@
 			"Stigma\\TemplateBuilder\\" : "pkg/TemplateBuilder/src",
 			"Stigma\\ObjectManager\\" : "pkg/ObjectManager/src",
 			"Stigma\\Nagios\\" : "pkg/Nagios/src",
+			"Stigma\\GlusterFS\\" : "pkg/GlusterFS/src",
 			"App\\": "app/"
 		}
 	},

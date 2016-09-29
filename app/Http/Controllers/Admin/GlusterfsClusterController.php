@@ -5,18 +5,22 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Stigma\GlusterFS\GlusterFSManager;
 use Stigma\ObjectManager\GlusterfsClusterManager;
 use Stigma\ObjectManager\HostManager;
 
 class GlusterfsClusterController extends Controller {
 
+    protected $glusterfsManager;
     protected $glusterfsClusterManager;
     protected $hostManager;
 
     public function __construct(
+        GlusterFSManager $glusterfsManager,
         GlusterfsClusterManager $glusterfsClusterManager,
         HostManager $hostManager)
     {
+        $this->glusterfsManager = $glusterfsManager;
         $this->glusterfsClusterManager = $glusterfsClusterManager;
         $this->hostManager = $hostManager;
     }
@@ -51,6 +55,18 @@ class GlusterfsClusterController extends Controller {
         $param = $this->processFormData($request);
         
         $this->glusterfsClusterManager->update($id, $param);
+
+        $generator = $this->glusterfsManager->getClusterGenerator();
+        $members = $request->get('cluster_member');
+        $hosts = array();
+        foreach ($members as $member) {
+            $host = $this->hostManager->findByName($member);
+            $data = json_decode($host)[0]->data;
+            $address = json_decode($data)->address;
+            array_push($hosts, $address);
+        }
+        $result = $generator->createCluster($hosts);
+        $this->glusterfsManager->execute($result);
 
         return redirect()->route('admin.glusterfs.clusters.index');
     }
