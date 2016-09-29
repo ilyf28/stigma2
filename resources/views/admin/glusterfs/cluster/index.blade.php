@@ -3,7 +3,7 @@
 @section('contents')
 <ul class="breadcrumbs">
   <li><a href="#">Admin</a></li>
-  <li><a href="#">Cluster Manager</a></li>
+  <li><a href="#">GlusterFS Cluster Manager</a></li>
   <li class="current"><a href="#">List</a></li>
 </ul>
 
@@ -41,7 +41,7 @@
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
     <div class="modal-body"> 
-        {!! Form::open(array('route'=> 'admin.hosts.index' ,'id'=> 'delete-form')) !!} 
+        {!! Form::open(array('route'=> 'admin.glusterfs.clusters.index' ,'id'=> 'delete-form')) !!} 
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
         <div data-alert class="stigma-alert-box alert"> 
             <span class="fi-info"></span>&nbsp; Do you want to delete a cluster?
