@@ -27,7 +27,7 @@
                 <td>{{$item->getKey()}}</td>
                 <td>{{$item->cluster_name}}</td>
                 <td>{{$item->alias}}</td>
-                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.hosts.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
+                <td style="text-align:center;"><a class="update-btn" href="{{route('admin.glusterfs.clusters.edit', array($item->getKey()))}}"><i class="fi-widget"></i></a></td>
                 <td style="text-align:center;"><a class="alert delete-btn" data-reveal-id="delete-modal" data-cluster-id="{{$item->getKey()}}"><i class="fi-trash"></i></a></td> 
             </tr>
             @endforeach

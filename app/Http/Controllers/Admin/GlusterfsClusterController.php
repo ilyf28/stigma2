@@ -29,21 +29,16 @@ class GlusterfsClusterController extends Controller {
 
     public function create()
     {
-        return $this->showClusterForm();
+        return $this->showForm();
     }
 
     public function store(Request $request)
     { 
-        // $param = $this->processFormData($request);
+        $param = $this->processFormData($request);
 
-        // $this->hostManager->register($param);
+        $this->glusterfsClusterManager->register($param);
 
-        // return redirect()->route('admin.hosts.index');
-    }
-
-    public function show($id)
-    { 
-        return $this->showForm($id);
+        return redirect()->route('admin.glusterfs.clusters.index');
     }
 
     public function edit($id)
@@ -51,21 +46,39 @@ class GlusterfsClusterController extends Controller {
         return $this->showForm($id);
     }
 
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
-        // $param = $this->processFormData($request);
+        $param = $this->processFormData($request);
         
-        // $this->hostManager->update($id,$param);
+        $this->glusterfsClusterManager->update($id, $param);
 
-        // return redirect()->route('admin.hosts.index'); 
+        return redirect()->route('admin.glusterfs.clusters.index');
     }
 
     public function destroy($id)
     {
-        // $this->hostManager->delete($id);
+        $this->glusterfsClusterManager->delete($id);
     }
 
-    private function showClusterForm($id=null)
+    private function processFormData(Request $request)
+    {
+        $result = [];
+
+        $result['cluster_name'] = $request->get('cluster_name');
+        $result['alias'] = $request->get('alias');
+        
+        $member = $request->get('cluster_member');
+
+        if(count($member) > 0){
+            $result['member'] = implode(',', $member);
+        } else {
+            $result['member'] = '';
+        }
+
+        return $result;
+    }
+
+    private function showForm($id=null)
     {
         if ($id > 0) {
             $cluster = $this->glusterfsClusterManager->find($id);
