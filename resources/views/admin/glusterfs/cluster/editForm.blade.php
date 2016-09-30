@@ -10,11 +10,7 @@
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($cluster))
-                            {!! Form::text('cluster_name', $cluster->cluster_name ) !!}
-                        @else
-                            {!! Form::text('cluster_name', '' ) !!}
-                        @endif
+                        {!! Form::text('cluster_name', $cluster->cluster_name, array('readonly') ) !!}
                     </div>
                 </div>
             </div>
@@ -29,11 +25,22 @@
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($cluster))
-                            {!! Form::text('alias', $cluster->alias ) !!}
-                        @else
-                            {!! Form::text('alias', '' ) !!}
-                        @endif
+                        {!! Form::text('alias', $cluster->alias, array('readonly') ) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label for="right-label" class="right inline">
+                            <span style="color:red">*</span>
+                            devices
+                        </label>
+                    </div>
+                    <div class="small-8 columns">
+                        {!! Form::text('devices', $cluster->devices, array('readonly') ) !!}
                     </div>
                 </div>
             </div>
@@ -72,7 +79,7 @@
                                 }
                             }
                         ?>
-                        <td>{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check) !!}</td>
+                        <td>{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check, array('disabled' => true) ) !!}</td>
                         <td>
                             {{$hostGlusterfs->host_name}}
                         </td>
