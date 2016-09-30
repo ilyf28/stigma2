@@ -15,8 +15,9 @@ class CreateGlusterfsClusters extends Migration {
         Schema::create('glusterfs_clusters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cluster_name')->index()->unique();
+            $table->string('devices');
             $table->string('alias');
-            $table->string('member');
+            $table->string('members');
             $table->nullableTimestamps();
         });
     }
