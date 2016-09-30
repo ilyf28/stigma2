@@ -33,7 +33,9 @@ class GlusterfsClusterController extends Controller {
 
     public function create()
     {
-        return $this->showForm();
+        $hostGlusterfsCollection = $this->hostManager->getAllGlusterfs();
+
+        return view('admin.glusterfs.cluster.create', compact('hostGlusterfsCollection'));
     }
 
     public function store(Request $request)
@@ -50,7 +52,11 @@ class GlusterfsClusterController extends Controller {
 
     public function edit($id)
     { 
-        return $this->showForm($id);
+        $cluster = $this->glusterfsClusterManager->find($id);
+
+        $hostGlusterfsCollection = $this->hostManager->getAllGlusterfs();
+
+        return view('admin.glusterfs.cluster.edit', compact('cluster', 'hostGlusterfsCollection'));
     }
 
     public function update(Request $request, $id)
@@ -86,21 +92,6 @@ class GlusterfsClusterController extends Controller {
         }
 
         return $result;
-    }
-
-    private function showForm($id=null)
-    {
-        if ($id > 0) {
-            $cluster = $this->glusterfsClusterManager->find($id);
-        }
-
-        $hostGlusterfsCollection = $this->hostManager->getAllGlusterfs();
-
-        if (isset($cluster)) {
-            return view('admin.glusterfs.cluster.edit', compact('cluster', 'hostGlusterfsCollection'));
-        } else {
-            return view('admin.glusterfs.cluster.create', compact('hostGlusterfsCollection'));
-        }
     }
 
     private function runGdeploy($members)
