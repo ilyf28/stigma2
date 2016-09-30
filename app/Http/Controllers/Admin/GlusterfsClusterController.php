@@ -44,7 +44,7 @@ class GlusterfsClusterController extends Controller {
 
         $this->glusterfsClusterManager->register($param);
 
-        $members = $request->get('cluster_member');
+        $members = $request->get('cluster_members');
         $this->runGdeploy($members);
 
         return redirect()->route('admin.glusterfs.clusters.index');
@@ -65,7 +65,7 @@ class GlusterfsClusterController extends Controller {
         
         $this->glusterfsClusterManager->update($id, $param);
 
-        $members = $request->get('cluster_member');
+        $members = $request->get('cluster_members');
         $this->runGdeploy($members);
 
         return redirect()->route('admin.glusterfs.clusters.index');
@@ -83,12 +83,12 @@ class GlusterfsClusterController extends Controller {
         $result['cluster_name'] = $request->get('cluster_name');
         $result['alias'] = $request->get('alias');
         
-        $member = $request->get('cluster_member');
+        $members = $request->get('cluster_members');
 
-        if(count($member) > 0){
-            $result['member'] = implode(',', $member);
+        if(count($members) > 0){
+            $result['members'] = implode(',', $members);
         } else {
-            $result['member'] = '';
+            $result['members'] = '';
         }
 
         return $result;

@@ -59,10 +59,10 @@
                             $uses = [];
 
                             if (isset($cluster)) {
-                                $member = $cluster->member;
+                                $members = $cluster->members;
 
-                                if (isset($member)) {
-                                    $uses = explode(',', $member);
+                                if (isset($members)) {
+                                    $uses = explode(',', $members);
 
                                     foreach ($uses as $use) {
                                         if ($hostGlusterfs->host_name == $use) {
@@ -72,7 +72,7 @@
                                 }
                             }
                         ?>
-                        <td>{!! Form::checkbox('cluster_member[]', $hostGlusterfs->host_name, $check) !!}</td>
+                        <td>{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check) !!}</td>
                         <td>
                             {{$hostGlusterfs->host_name}}
                         </td>
