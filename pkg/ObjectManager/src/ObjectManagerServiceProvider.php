@@ -20,6 +20,7 @@ class ObjectManagerServiceProvider extends ServiceProvider
         $this->registerContactgroupManager();
         $this->registerTimeperiodManager();
         $this->registerGlusterfsClusterManager();
+        $this->registerGlusterfsVolumeManager();
     }
 
     private function registerHostManager()
@@ -99,6 +100,15 @@ class ObjectManagerServiceProvider extends ServiceProvider
         $this->app->bind('Stigma\ObjectManager\GlusterfsClusterManager', function() {
             return new GlusterfsClusterManager(
                 \App::make('Stigma\ObjectManager\Repositories\GlusterfsClusterRepository')
+            );
+        });
+    }
+
+    private function registerGlusterfsVolumeManager()
+    {
+        $this->app->bind('Stigma\ObjectManager\GlusterfsVolumeManager', function() {
+            return new GlusterfsVolumeManager(
+                \App::make('Stigma\ObjectManager\Repositories\GlusterfsVolumeRepository')
             );
         });
     }

@@ -7,21 +7,25 @@ use Illuminate\Http\Request;
 
 use Stigma\GlusterFS\GlusterFSManager;
 use Stigma\ObjectManager\GlusterfsClusterManager;
+use Stigma\ObjectManager\GlusterfsVolumeManager;
 use Stigma\ObjectManager\HostManager;
 
 class GlusterfsClusterController extends Controller {
 
     protected $glusterfsManager;
     protected $glusterfsClusterManager;
+    protected $glusterfsVolumeManager;
     protected $hostManager;
 
     public function __construct(
         GlusterFSManager $glusterfsManager,
         GlusterfsClusterManager $glusterfsClusterManager,
+        GlusterfsVolumeManager $glusterfsVolumeManager,
         HostManager $hostManager)
     {
         $this->glusterfsManager = $glusterfsManager;
         $this->glusterfsClusterManager = $glusterfsClusterManager;
+        $this->glusterfsVolumeManager = $glusterfsVolumeManager;
         $this->hostManager = $hostManager;
     }
 
@@ -40,12 +44,24 @@ class GlusterfsClusterController extends Controller {
 
     public function store(Request $request)
     { 
-        $param = $this->processFormData($request);
+        $param = array();
+
+        $param['cluster_name'] = $request->get('cluster_name');
+        $param['devices'] = $request->get('devices');
+        $param['alias'] = $request->get('alias');
+        
+        $members = $request->get('cluster_members');
+
+        if(count($members) > 0){
+            $param['members'] = implode(',', $members);
+        } else {
+            $param['members'] = '';
+        }
 
         $this->glusterfsClusterManager->register($param);
 
-        $members = $request->get('cluster_members');
-        $this->runGdeploy($members);
+        // $members = $request->get('cluster_members');
+        // $this->runGdeploy($members);
 
         return redirect()->route('admin.glusterfs.clusters.index');
     }
@@ -53,45 +69,58 @@ class GlusterfsClusterController extends Controller {
     public function edit($id)
     { 
         $cluster = $this->glusterfsClusterManager->find($id);
-
+        $volumes = $this->glusterfsVolumeManager->findByForeign($id);
         $hostGlusterfsCollection = $this->hostManager->getAllGlusterfs();
+        // dd($volumes);
+        
+        $brickAllCollection = array();
+        if (!empty($cluster->members) && !empty($cluster->devices)) {
+            $members = explode(',', $cluster->members);
+            $devices = explode(',', $cluster->devices);
+            $deviceCount = count($devices);
+            foreach ($members as $member) {
+                for ($i=0; $i < $deviceCount; $i++) { 
+                    $brickNum = $i + 1;
+                    $brickAllCollection[] = $member.":/gluster/brick".$brickNum;
+                }
+            }
+        }
 
-        return view('admin.glusterfs.cluster.edit', compact('cluster', 'hostGlusterfsCollection'));
+        return view('admin.glusterfs.cluster.edit', compact('cluster', 'volumes', 'brickAllCollection', 'hostGlusterfsCollection'));
     }
 
     public function update(Request $request, $id)
     {
-        $param = $this->processFormData($request);
+        $param = array();
+
+        $param['cluster_id'] = $id;
+        $param['volume_name'] = $request->get('volume_name');
+        $param['type'] = $request->get('type');
+
+        $bricks = $request->get('volume_bricks');
+
+        if(count($bricks) > 0){
+            $param['bricks'] = implode(',', $bricks);
+        } else {
+            $param['bricks'] = '';
+        }
         
-        $this->glusterfsClusterManager->update($id, $param);
+        $volumes = $this->glusterfsVolumeManager->findByForeign($id);
+        if(count($volumes) > 0){
+            $this->glusterfsVolumeManager->update($volumes[0]->id, $param);
+        } else {
+            $this->glusterfsVolumeManager->register($param);
+        }
 
-        $members = $request->get('cluster_members');
-        $this->runGdeploy($members);
+        // $members = $request->get('cluster_members');
+        // $this->runGdeploy($members);
 
-        return redirect()->route('admin.glusterfs.clusters.index');
+        return redirect()->route('admin.glusterfs.clusters.edit', $id);
     }
 
     public function destroy($id)
     {
         $this->glusterfsClusterManager->delete($id);
-    }
-
-    private function processFormData(Request $request)
-    {
-        $result = [];
-
-        $result['cluster_name'] = $request->get('cluster_name');
-        $result['alias'] = $request->get('alias');
-        
-        $members = $request->get('cluster_members');
-
-        if(count($members) > 0){
-            $result['members'] = implode(',', $members);
-        } else {
-            $result['members'] = '';
-        }
-
-        return $result;
     }
 
     private function runGdeploy($members)
