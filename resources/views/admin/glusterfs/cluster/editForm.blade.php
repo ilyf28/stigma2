@@ -129,7 +129,7 @@
                     </div>
                     <div class="small-8 columns">
                         @if(isset($volumes) && isset($volumes[0]->type))
-                            {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'), $volumes[0]->type)  !!}
+                            {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'), $volumes[0]->type, array('disabled' => true))  !!}
                         @else
                             {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'))  !!}
                         @endif 
