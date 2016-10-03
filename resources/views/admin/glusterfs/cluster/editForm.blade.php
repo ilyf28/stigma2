@@ -109,7 +109,7 @@
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($volumes) && isset($volumes[0]->volume_name))
+                        @if(isset($volumes) && count($volumes) > 0)
                             {!! Form::text('volume_name', $volumes[0]->volume_name, array('readonly') ) !!}
                         @else
                             {!! Form::text('volume_name', '' ) !!}
@@ -128,7 +128,7 @@
                         </label>
                     </div>
                     <div class="small-8 columns">
-                        @if(isset($volumes) && isset($volumes[0]->type))
+                        @if(isset($volumes) && count($volumes) > 0)
                             {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'), $volumes[0]->type, array('disabled' => true))  !!}
                         @else
                             {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'))  !!}
@@ -156,7 +156,7 @@
                                         $options = array();
                                         $uses = [];
 
-                                        if (isset($volumes[0])) {
+                                        if (isset($volumes) && count($volumes) > 0) {
                                             $bricks = $volumes[0]->bricks;
 
                                             if (isset($bricks) && !empty($bricks)) {
