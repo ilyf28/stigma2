@@ -57,11 +57,10 @@ class GlusterfsClusterController extends Controller {
         } else {
             $param['members'] = '';
         }
-        $devices = explode(',', $param['devices']);
 
         $this->glusterfsClusterManager->register($param);
 
-        if(count($members) > 0 && count($devices) > 0){
+        if(count($members) > 0){
             $generator = $this->glusterfsManager->getClusterGenerator();
             $hosts = array();
             foreach ($members as $member) {
@@ -70,7 +69,7 @@ class GlusterfsClusterController extends Controller {
                 $address = json_decode($data)->address;
                 array_push($hosts, $address);
             }
-            $result = $generator->createCluster($hosts, $devices);
+            $result = $generator->createCluster($hosts, $param['devices']);
             $this->glusterfsManager->execute($result);
         }
 
@@ -82,7 +81,6 @@ class GlusterfsClusterController extends Controller {
         $cluster = $this->glusterfsClusterManager->find($id);
         $volumes = $this->glusterfsVolumeManager->findByForeign($id);
         $hostGlusterfsCollection = $this->hostManager->getAllGlusterfs();
-        // dd($volumes);
         
         $brickAllCollection = array();
         if (!empty($cluster->members) && !empty($cluster->devices)) {
