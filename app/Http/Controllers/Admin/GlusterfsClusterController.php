@@ -62,13 +62,7 @@ class GlusterfsClusterController extends Controller {
 
         if(count($members) > 0){
             $generator = $this->glusterfsManager->getClusterGenerator();
-            $hosts = array();
-            foreach ($members as $member) {
-                $host = $this->hostManager->findByName($member);
-                $data = json_decode($host)[0]->data;
-                $address = json_decode($data)->address;
-                array_push($hosts, $address);
-            }
+            $hosts = $this->findHostIP($members);
             $result = $generator->createCluster($hosts, $param['devices']);
             $this->glusterfsManager->execute($result);
         }
@@ -121,8 +115,12 @@ class GlusterfsClusterController extends Controller {
             $this->glusterfsVolumeManager->register($param);
         }
 
-        // $members = $request->get('cluster_members');
-        // $this->runGdeploy($members);
+        if(count($bricks) > 0){
+            $generator = $this->glusterfsManager->getVolumeGenerator();
+            $hosts = $this->findHostIP($members);
+            $result = $generator->createVolume($hosts, $param['volume_name'], $param['bricks']);
+            $this->glusterfsManager->execute($result);
+        }
 
         return redirect()->route('admin.glusterfs.clusters.edit', $id);
     }
@@ -130,6 +128,18 @@ class GlusterfsClusterController extends Controller {
     public function destroy($id)
     {
         $this->glusterfsClusterManager->delete($id);
+    }
+
+    private findHostIP(array $members)
+    {
+        $hosts = array();
+        foreach ($members as $member) {
+            $host = $this->hostManager->findByName($member);
+            $data = json_decode($host)[0]->data;
+            $address = json_decode($data)->address;
+            array_push($hosts, $address);
+        }
+        return $hosts;
     }
 
 }

@@ -17,6 +17,11 @@ class GlusterFSManager
         return $this->app->make('Stigma\GlusterFS\Generators\ClusterGenerator');
     }
 
+    public function getVolumeGenerator()
+    {
+        return $this->app->make('Stigma\GlusterFS\Generators\VolumeGenerator');
+    }
+
     public function execute($data)
     {
         try {
