@@ -116,8 +116,10 @@ class GlusterfsClusterController extends Controller {
         }
 
         if(count($bricks) > 0){
+            $host = $this->hostManager->find($id);
+            $hosts = explode(',', $host->members);
+
             $generator = $this->glusterfsManager->getVolumeGenerator();
-            $hosts = $this->findHostIP($members);
             $result = $generator->createVolume($hosts, $param['volume_name'], $param['bricks']);
             $this->glusterfsManager->execute($result);
         }
