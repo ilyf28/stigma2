@@ -128,7 +128,37 @@ class GlusterfsClusterController extends Controller {
 
     public function destroy($id)
     {
+        $cluster = $this->glusterfsClusterManager->find($id);
+        $members = $cluster->members;
+        $devices = $cluster->devices;
+        $volumeGroups = array();
+        for ($i = 0; $i <= count($devices); $i++) {
+            $num = $i + 1;
+            array_push($volumeGroups, 'GLUSTER_vg'.$num);
+        }
+        $vgs = implode(',', $volumeGroups);
+
+        $generator = $this->glusterfsManager->getClusterGenerator();
+        $result = $generator->deleteCluster($members, $devices, $vgs);
+        $this->glusterfsManager->execute($result);
+
+        // $this->glusterfsVolumeManager->delete(oid);
         $this->glusterfsClusterManager->delete($id);
+    }
+
+    public function destroyVolume($id)
+    {
+        $volume = $this->glusterfsVolumeManager->find($id);
+        $volume_name = $volume->volume_name;
+        $cluster_id = $volume->cluster_id;
+        $cluster = $this->glusterfsClusterManager->find($cluster_id);
+        $members = $cluster->members;
+
+        $generator = $this->glusterfsManager->getVolumeGenerator();
+        $result = $generator->deleteVolume($members, $volume_name);
+        $this->glusterfsManager->execute($result);
+
+        $this->glusterfsVolumeManager->delete($id);
     }
 
     private function findHostIP(array $members)

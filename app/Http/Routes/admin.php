@@ -20,6 +20,7 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     Route::resource('contactgroups','\App\Http\Controllers\Admin\ContactGroupController');
     Route::resource('timeperiods','\App\Http\Controllers\Admin\TimeperiodController');
 
+    Route::delete('glusterfs/clusters/volume/{id}', '\App\Http\Controllers\Admin\GlusterfsClusterController@destroyVolume');
     Route::resource('glusterfs/clusters', '\App\Http\Controllers\Admin\GlusterfsClusterController');
 
     Route::get('system/configuration', array('as' => 'admin.system.configuration', 'uses'=>'\App\Http\Controllers\Admin\SystemController@configuration'));

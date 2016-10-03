@@ -197,12 +197,11 @@
         @if(isset($volumes[0]))
         <div class="row">
             <div class="small-12 columns">
-                <a class="button alert tiny right">Delete Volume</a>
+                <a class="button alert tiny right volume-delete-btn" data-reveal-id="volume-delete-modal" data-volume-id="{{$volumes[0]->getKey()}}">Delete Volume</a>
             </div>
         </div>
         @endif
     </div>
 </div>
-<a class="button alert">Delete Cluster</a>
+<a class="button alert cluster-delete-btn" data-reveal-id="cluster-delete-modal" data-cluster-id="{{$cluster->getKey()}}">Delete Cluster</a>
 {!! Form::submit('SAVE', array('class'=>'right button')) !!}
-
