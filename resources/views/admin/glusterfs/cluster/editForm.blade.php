@@ -79,7 +79,12 @@
                                 }
                             }
                         ?>
-                        <td>{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check, array('disabled' => true) ) !!}</td>
+                        <td>
+                            {!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check, array('disabled' => true) ) !!}
+                            @if ($check)
+                            {!! Form::hidden('cluster_members[]', $hostGlusterfs->host_name ) !!}
+                            @endif
+                        </td>
                         <td>
                             {{$hostGlusterfs->host_name}}
                         </td>
@@ -130,6 +135,7 @@
                     <div class="small-8 columns">
                         @if(isset($volumes) && count($volumes) > 0)
                             {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'), $volumes[0]->type, array('disabled' => true))  !!}
+                            {!! Form::hidden('type', $volumes[0]->type)  !!}
                         @else
                             {!! Form::select('type', array('Distribute' => 'Distribute', 'Replicate' =>'Replicate', 'Distributed Replicate' =>'Distributed Replicate'))  !!}
                         @endif 
@@ -171,7 +177,12 @@
                                             }
                                         }
                                     ?>
-                                    <td width="50">{!! Form::checkbox('volume_bricks[]', $brick, $check, $options ) !!}</td>
+                                    <td width="50">
+                                        {!! Form::checkbox('volume_bricks[]', $brick, $check, $options ) !!}
+                                        @if ($check)
+                                        {!! Form::hidden('volume_bricks[]', $brick ) !!}
+                                        @endif
+                                    </td>
                                     <td>
                                         {{$brick}}
                                     </td>
