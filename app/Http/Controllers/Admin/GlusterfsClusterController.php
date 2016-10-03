@@ -130,7 +130,7 @@ class GlusterfsClusterController extends Controller {
         $this->glusterfsClusterManager->delete($id);
     }
 
-    private findHostIP(array $members)
+    private function findHostIP(array $members)
     {
         $hosts = array();
         foreach ($members as $member) {
