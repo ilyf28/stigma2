@@ -21,12 +21,12 @@ class ClusterGenerator extends BaseGenerator
         return $this->outputPath;
     }
 
-    public function deleteCluster(array $hosts, $devices, $vgs)
+    public function deleteCluster(array $members, $devices, $vgs)
     {
         $data = array();
         array_push($data, "[hosts]");
-        foreach ($hosts as $host) {
-            array_push($data, $host);
+        foreach ($members as $host_name => $address) {
+            array_push($data, $address);
         }
         array_push($data, "\n", "[backend-setup]", "devices=".$devices, "\n", "[backend-reset]", "pvs=".$devices, "vgs=".$vgs, "unmount=yes");
 
