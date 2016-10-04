@@ -119,13 +119,13 @@ class GlusterfsClusterController extends Controller {
             $generator = $this->glusterfsManager->getVolumeGenerator();
             $cluster_members = $request->get('cluster_members');
             $members = $this->findClusterMembers($cluster_members);
-            $brick_dirs = '';
+            $brick_dirs = array();
             foreach ($bricks as $brick) {
                 $parts = explode(":", $brick);
                 $host = $parts[0];
-                $brick_dirs .= $members[$host].":".$parts[1];
+                $brick_dirs[] = $members[$host].":".$parts[1];
             }
-            $result = $generator->createVolume($members, $param['volume_name'], $brick_dirs);
+            $result = $generator->createVolume($members, $param['volume_name'], implode(',', $brick_dirs));
             $this->glusterfsManager->execute($result);
         }
 
