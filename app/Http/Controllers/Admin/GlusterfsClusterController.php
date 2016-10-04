@@ -50,20 +50,20 @@ class GlusterfsClusterController extends Controller {
         $param['devices'] = $request->get('devices');
         $param['alias'] = $request->get('alias');
         
-        $members = $request->get('cluster_members');
+        $cluster_members = $request->get('cluster_members');
 
-        if(count($members) > 0){
-            $param['members'] = implode(',', $members);
+        if(count($cluster_members) > 0){
+            $param['members'] = implode(',', $cluster_members);
         } else {
             $param['members'] = '';
         }
 
         $this->glusterfsClusterManager->register($param);
 
-        if(count($members) > 0){
+        if(count($cluster_members) > 0){
             $generator = $this->glusterfsManager->getClusterGenerator();
-            $hosts = $this->findHostIP($members);
-            $result = $generator->createCluster($hosts, $param['devices']);
+            $members = $this->findClusterMembers($cluster_members);
+            $result = $generator->createCluster($members, $param['devices']);
             $this->glusterfsManager->execute($result);
         }
 

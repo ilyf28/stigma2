@@ -5,12 +5,12 @@ use Stigma\GlusterFS\Generators\BaseGenerator;
 
 class ClusterGenerator extends BaseGenerator
 {
-    public function createCluster(array $hosts, $devices)
+    public function createCluster(array $members, $devices)
     {
         $data = array();
         array_push($data, "[hosts]");
-        foreach ($hosts as $host) {
-            array_push($data, $host);
+        foreach ($members as $host_name => $address) {
+            array_push($data, $address);
         }
         array_push($data, "\n", "[service]", "action=restart", "service=glusterd", "\n", "[peer]", "action=probe", "\n", "[backend-setup]", "devices=".$devices);
 
