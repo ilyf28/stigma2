@@ -202,4 +202,6 @@
     </div>
 </div>
 <a class="button alert cluster-delete-btn" data-reveal-id="cluster-delete-modal" data-cluster-id="{{$cluster->getKey()}}">Delete Cluster</a>
+@if(!isset($volumes[0]))
 {!! Form::submit('SAVE', array('class'=>'right button')) !!}
+@endif
