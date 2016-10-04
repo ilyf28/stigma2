@@ -134,6 +134,7 @@ class GlusterfsClusterController extends Controller {
 
     public function destroy($id)
     {
+        /*
         $cluster = $this->glusterfsClusterManager->find($id);
         $members = $cluster->members;
         $devices = $cluster->devices;
@@ -150,6 +151,7 @@ class GlusterfsClusterController extends Controller {
 
         // $this->glusterfsVolumeManager->delete(oid);
         $this->glusterfsClusterManager->delete($id);
+        */
     }
 
     public function destroyVolume($id)
@@ -158,7 +160,8 @@ class GlusterfsClusterController extends Controller {
         $volume_name = $volume->volume_name;
         $cluster_id = $volume->cluster_id;
         $cluster = $this->glusterfsClusterManager->find($cluster_id);
-        $members = $cluster->members;
+        $cluster_members = explode(',', $cluster->members);
+        $members = $this->findClusterMembers($cluster_members);
 
         $generator = $this->glusterfsManager->getVolumeGenerator();
         $result = $generator->deleteVolume($members, $volume_name);
