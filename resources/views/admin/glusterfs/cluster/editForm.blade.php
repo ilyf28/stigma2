@@ -59,7 +59,6 @@
                 </thead>
                 <tbody>
                 @foreach($hostGlusterfsCollection as $hostGlusterfs)
-                    @if(isset($cluster) == null || (isset($cluster) && $cluster->getKey() != $hostGlusterfs->getKey()) )
                     <tr>
                         <?php
                             $check = false;
@@ -89,7 +88,6 @@
                             {{$hostGlusterfs->host_name}}
                         </td>
                     </tr>
-                    @endif
                 @endforeach
                 </tbody>
             </table>
