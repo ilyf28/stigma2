@@ -145,14 +145,15 @@ class GlusterfsClusterController extends Controller {
         }
         $vgs = implode(',', $volumeGroups);
 
+        $volume = $this->glusterfsVolumeManager->findByForeign($id)->first();
+        if (isset($volume->id)) {
+            $this->destroyVolume($volume->id);
+            $this->glusterfsVolumeManager->delete($volume->id);
+        }
+
         $generator = $this->glusterfsManager->getClusterGenerator();
         $result = $generator->deleteCluster($members, $devices, $vgs);
         $this->glusterfsManager->execute($result);
-
-        $volume = $this->glusterfsVolumeManager->findByForeign($id)->first();
-        if (isset($volume->id)) {
-            $this->glusterfsVolumeManager->delete($volume->id);
-        }
         $this->glusterfsClusterManager->delete($id);
     }
 
