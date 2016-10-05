@@ -33,13 +33,13 @@
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> NODES</h3>
+                    <h3 style="padding-left: 5px;"><i class="fi-torso"></i> NODES</h3>
                     <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.node }}</span></h1>
                 </div>
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> CLUSTERS</h3>
+                    <h3 style="padding-left: 5px;"><i class="fi-torsos-male-female"></i> CLUSTERS</h3>
                     <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.cluster }}</span></h1>
                 </div>
             </div>
@@ -137,13 +137,13 @@
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> ALERTS</h3>
+                    <h3 style="padding-left: 5px;"><i class="fi-megaphone"></i> ALERTS</h3>
                     <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.alert }}</span></h1>
                 </div>
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> (empty)</h3>
+                    <h3 style="padding-left: 5px;"><i class="fi-comment"></i> (empty)</h3>
                     <h1 style="text-align: center; padding: 20px 0;"><span style="">0</span></h1>
                 </div>
             </div>
