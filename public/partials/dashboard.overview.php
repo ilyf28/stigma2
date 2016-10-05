@@ -33,14 +33,14 @@
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> VOLUMES</h3>
-                    <h1 style="text-align: center; padding: 20px 0;"><span style="">1</span></h1>
+                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> NODES</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.node }}</span></h1>
                 </div>
             </div>
             <div class="medium-2 columns">
                 <div style="background: #eec; width:100%; height:200px;">
-                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> BRICKS</h3>
-                    <h1 style="text-align: center; padding: 20px 0;"><span style="">28</span></h1>
+                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> CLUSTERS</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.cluster }}</span></h1>
                 </div>
             </div>
         </div>
@@ -76,7 +76,19 @@
                     </div>
                 </div>
             </div>
-            <div class="medium-4 columns">
+            <div class="medium-2 columns">
+                <div style="background: #eec; width:100%; height:200px;">
+                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> VOLUMES</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.volume }}</span></h1>
+                </div>
+            </div>
+            <div class="medium-2 columns">
+                <div style="background: #eec; width:100%; height:200px;">
+                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> BRICKS</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.brick }}</span></h1>
+                </div>
+            </div>
+            <!-- <div class="medium-4 columns">
                 <div style="background: #eec; width:100%; height:200px;">
                     <h3 style="padding-left: 5px;"><i class="fi-folder"></i> CAPACITY</h3>
                     <div style="text-align: center; padding: 5px 0;">
@@ -90,7 +102,7 @@
                         <h4 style="float: left; text-align: center; width: 33%;"><span style="">Used</span></h4>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <p></p>
@@ -123,7 +135,19 @@
                     </table>
                 </div>
             </div>
-            <div class="medium-4 columns">
+            <div class="medium-2 columns">
+                <div style="background: #eec; width:100%; height:200px;">
+                    <h3 style="padding-left: 5px;"><i class="fi-list"></i> ALERTS</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">{{ glusterfs_status.alert }}</span></h1>
+                </div>
+            </div>
+            <div class="medium-2 columns">
+                <div style="background: #eec; width:100%; height:200px;">
+                    <h3 style="padding-left: 5px;"><i class="fi-thumbnails"></i> (empty)</h3>
+                    <h1 style="text-align: center; padding: 20px 0;"><span style="">0</span></h1>
+                </div>
+            </div>
+            <!-- <div class="medium-4 columns">
                 <div style="background: #eec; width:100%; height:200px;">
                     <h3 style="padding-left: 5px;"><i class="fi-graph-trend"></i> UTILIZATION</h3>
                     <div style="text-align: center; padding: 5px 0;">
@@ -135,7 +159,7 @@
                         <h4 style="float: left; text-align: center; width: 50%;"><span style="">Memory</span></h4>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <p></p>

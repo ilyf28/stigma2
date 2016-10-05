@@ -9,9 +9,16 @@ use App\Http\Controllers\Controller;
 
 use App\Interfaces\NagiosInterface;
 
+use Stigma\ObjectManager\GlusterfsClusterManager;
+use Stigma\ObjectManager\GlusterfsVolumeManager;
+use Stigma\ObjectManager\HostManager;
+
 class DashboardController extends Controller
 {
     private $nagiosAPI;
+    protected $glusterfsClusterManager;
+    protected $glusterfsVolumeManager;
+    protected $hostManager;
 
     /**
      * Set the dependencies.
@@ -19,9 +26,16 @@ class DashboardController extends Controller
      * @param NagiosInterface $nagiosAPI
      * @return void
      */
-    public function __construct(NagiosInterface $nagiosAPI)
+    public function __construct(
+        NagiosInterface $nagiosAPI,
+        GlusterfsClusterManager $glusterfsClusterManager,
+        GlusterfsVolumeManager $glusterfsVolumeManager,
+        HostManager $hostManager)
     {
         $this->nagiosAPI = $nagiosAPI;
+        $this->glusterfsClusterManager = $glusterfsClusterManager;
+        $this->glusterfsVolumeManager = $glusterfsVolumeManager;
+        $this->hostManager = $hostManager;
     }
 
     /**
@@ -29,12 +43,12 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function systemstatus()
-    {
-        $result = $this->nagiosAPI->getSystemStatus();
+    // public function systemstatus()
+    // {
+    //     $result = $this->nagiosAPI->getSystemStatus();
 
-        return $result;
-    }
+    //     return $result;
+    // }
 
     /**
      * Display a host status.
@@ -56,6 +70,36 @@ class DashboardController extends Controller
     public function servicestatus()
     {
         $result = $this->nagiosAPI->getServiceStatus();
+
+        return $result;
+    }
+
+    /**
+     * Display a glusterfs status.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function glusterfsstatus()
+    {
+        $result = array();
+        $count = array();
+
+        $hosts = $this->hostManager->getAllGlusterfs();
+        $clusters = $this->glusterfsClusterManager->getAllItems();
+        $volumes = $this->glusterfsVolumeManager->getAllItems();
+        $countBricks = 0;
+        foreach ($volumes as $volume) {
+            $bricks = explode(',', $volume->bricks);
+            $countBricks += count($bricks);
+        }
+
+        $count['node'] = count($hosts);
+        $count['cluster'] = count($clusters);
+        $count['volume'] = count($volumes);
+        $count['brick'] = $countBricks;
+        $count['alert'] = '0';
+
+        $result['data']['count'] = $count;
 
         return $result;
     }

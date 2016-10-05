@@ -15,6 +15,7 @@ define(['./module'],
                     // renderSystemStatus();
                     renderHostStatus();
                     renderServiceStatus();
+                    renderGlusterFSStatus();
                     renderHostEvent();
                     renderServiceEvent();
                 };
@@ -39,6 +40,13 @@ define(['./module'],
                         .then(function(response) {
                             $scope.service_last_data_update = response.result.last_data_update;
                             $scope.service_status = response.data.count;
+                        });
+                };
+
+                function renderGlusterFSStatus() {
+                    DashboardFactory.getGlusterFSStatus()
+                        .then(function(response) {
+                            $scope.glusterfs_status = response.data.count;
                         });
                 };
 

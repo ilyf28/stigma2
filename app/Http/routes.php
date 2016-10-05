@@ -12,9 +12,10 @@
 */
 
 Route::group(array('prefix' => 'api/v1', 'middleware' => 'auth'), function() {
-    Route::get('dashboard/systemstatus', 'DashboardController@systemstatus');
+    // Route::get('dashboard/systemstatus', 'DashboardController@systemstatus');
     Route::get('dashboard/hoststatus', 'DashboardController@hoststatus');
     Route::get('dashboard/servicestatus', 'DashboardController@servicestatus');
+    Route::get('dashboard/glusterfsstatus', 'DashboardController@glusterfsstatus');
     Route::get('dashboard/event/type/{type}/starttime/{starttime}/endtime/{endtime}', 'DashboardController@event');
     Route::get('report/graph/{dashboard}', 'ReportController@show');
     Route::get('server/hosts/status/{status?}', 'ServerHostsController@index');
