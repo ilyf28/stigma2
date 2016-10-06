@@ -52,7 +52,7 @@ class ReportController extends Controller {
         return response()->json($result);
     }
 
-    function get_ip_address() {
+    private function get_ip_address() {
             return parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
     } 
 
