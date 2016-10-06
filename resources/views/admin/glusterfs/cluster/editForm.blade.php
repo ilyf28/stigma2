@@ -89,7 +89,7 @@
                             {{$hostGlusterfs->host_name}}
                         </td>
                         <td style="text-align: center;">
-                            @if ($cluster->quorum == $hostGlusterfs->host_name)
+                            @if (strcmp($cluster->quorum, $hostGlusterfs->host_name) == 0)
                             {!! Form::radio('quorum', $hostGlusterfs->host_name, true, array('disabled' => true)) !!}
                             @else
                             {!! Form::radio('quorum', $hostGlusterfs->host_name, false, array('disabled' => true)) !!}
