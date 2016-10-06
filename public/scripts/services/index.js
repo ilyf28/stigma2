@@ -1,6 +1,7 @@
 define([
     './IndexFactory',
     './DashboardFactory',
+    './GlusterFSFactory',
     './ReportFactory',
     './ServerHostFactory',
     './ServerServiceFactory',

@@ -7,6 +7,16 @@ define([], function() {
         overview: CONTEXT_ROOT + '/overview',
         routes: [
             {'state': 'dashboardOverview', 'url': '/overview', 'templateUrl': PARTIALS_ROOT + 'dashboard.overview.php', 'controller': 'DashboardOverviewCtrl'},
+
+
+
+
+            {'state': 'glusterfsList', 'url': '/glusterfs', 'templateUrl': PARTIALS_ROOT + 'glusterfs.index.php', 'controller': 'GlusterfsListCtrl'},
+
+
+
+
+
             {'state': 'serverHostList', 'url': CONTEXT_ROOT + '/hosts', 'templateUrl': PARTIALS_ROOT + 'server.host.index.php', 'controller': 'ServerHostListCtrl'},
             {'state': 'serverHostDetail', 'url': CONTEXT_ROOT + '/hosts/:name', 'templateUrl': PARTIALS_ROOT + 'server.host.show.php', 'controller': 'ServerHostShowCtrl'},
             {'state': 'serverServiceList', 'url': CONTEXT_ROOT + '/services', 'templateUrl': PARTIALS_ROOT + 'server.service.index.php', 'controller': 'ServerServiceListCtrl'},

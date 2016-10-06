@@ -1,6 +1,7 @@
 define([
     './IndexCtrl',
     './DashboardOverviewCtrl',
+    './GlusterfsListCtrl',
     './ServerHostListCtrl',
     './ServerHostShowCtrl',
     './ServerServiceListCtrl',
