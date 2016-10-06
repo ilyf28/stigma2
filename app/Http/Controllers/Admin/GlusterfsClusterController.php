@@ -141,7 +141,7 @@ class GlusterfsClusterController extends Controller {
         $members = $this->findClusterMembers($cluster_members);
         $devices = $cluster->devices;
         $volumeGroups = array();
-        for ($i = 0; $i <= count($devices); $i++) {
+        for ($i = 0; $i < count($devices); $i++) {
             $num = $i + 1;
             array_push($volumeGroups, 'GLUSTER_vg'.$num);
         }

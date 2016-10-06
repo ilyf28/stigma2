@@ -32,7 +32,7 @@ class ClusterGenerator extends BaseGenerator
         foreach ($members as $host_name => $address) {
             array_push($data, $address);
         }
-        array_push($data, "\n", "[backend-setup]", "devices=".$devices, "\n", "[backend-reset]", "pvs=".$devices, "vgs=".$vgs, "unmount=yes", "\n", "[peer]", "action=detach");
+        array_push($data, "\n", "[backend-reset]", "pvs=".$devices, "vgs=".$vgs, "unmount=yes", "\n", "[peer]", "action=detach");
 
         $file = "cluster-basic-reset.conf";
         $this->outputPath = $this->basePath.$file;
