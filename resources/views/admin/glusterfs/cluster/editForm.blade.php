@@ -55,6 +55,7 @@
                     <tr>
                         <th width="50"></th>
                         <th>Host</th>
+                        <th width="70">Quorum</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +79,7 @@
                                 }
                             }
                         ?>
-                        <td>
+                        <td style="text-align: center;">
                             {!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, $check, array('disabled' => true) ) !!}
                             @if ($check)
                             {!! Form::hidden('cluster_members[]', $hostGlusterfs->host_name ) !!}
@@ -86,6 +87,13 @@
                         </td>
                         <td>
                             {{$hostGlusterfs->host_name}}
+                        </td>
+                        <td style="text-align: center;">
+                            @if ($cluster->quorum == $hostGlusterfs->host_name)
+                            {!! Form::radio('quorum', $hostGlusterfs->host_name, true, array('disabled' => true)) !!}
+                            @else
+                            {!! Form::radio('quorum', $hostGlusterfs->host_name, false, array('disabled' => true)) !!}
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -175,7 +183,7 @@
                                             }
                                         }
                                     ?>
-                                    <td width="50">
+                                    <td style="text-align: center;" width="50">
                                         {!! Form::checkbox('volume_bricks[]', $brick, $check, $options ) !!}
                                         @if ($check)
                                         {!! Form::hidden('volume_bricks[]', $brick ) !!}

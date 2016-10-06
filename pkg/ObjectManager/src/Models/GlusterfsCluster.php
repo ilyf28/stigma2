@@ -8,6 +8,7 @@ class GlusterfsCluster extends \Eloquent
         'cluster_name',
         'devices',
         'alias',
-        'members'
+        'members',
+        'quorum'
     ];
 }

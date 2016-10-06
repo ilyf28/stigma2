@@ -18,6 +18,7 @@ class CreateGlusterfsClusters extends Migration {
             $table->string('devices');
             $table->string('alias');
             $table->string('members');
+            $table->string('quorum');
             $table->nullableTimestamps();
         });
     }

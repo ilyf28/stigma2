@@ -64,15 +64,17 @@
                     <tr>
                         <th width="50"></th>
                         <th>Host</th>
+                        <th width="70">Quorum</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach($hostGlusterfsCollection as $hostGlusterfs)
                     <tr>
-                        <td>{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, false) !!}</td>
+                        <td style="text-align: center;">{!! Form::checkbox('cluster_members[]', $hostGlusterfs->host_name, false, array('onclick' => 'actionCheck(this)')) !!}</td>
                         <td>
                             {{$hostGlusterfs->host_name}}
                         </td>
+                        <td style="text-align: center;">{!! Form::radio('quorum', $hostGlusterfs->host_name, false, array('disabled' => 'disabled')) !!}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -83,4 +85,18 @@
 {!! Form::submit('SAVE', array('class'=>'right button')) !!}
 
 {!! Form::close() !!}
+@stop
+
+@section('scripts')
+<script> 
+function actionCheck(check) {
+    jQuery(function($) {
+        if (check.checked) {
+            var unusableQuorum = $("input:radio[name='quorum'][value='" + check.value + "']").first().prop("disabled", false);
+        } else {
+            var unusableQuorum = $("input:radio[name='quorum'][value='" + check.value + "']").first().prop("checked", false).prop("disabled", true);
+        }
+    });
+};
+</script>
 @stop
