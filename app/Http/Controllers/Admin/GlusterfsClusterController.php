@@ -83,6 +83,7 @@ class GlusterfsClusterController extends Controller {
             $devices = explode(',', $cluster->devices);
             $deviceCount = count($devices);
             foreach ($members as $member) {
+                if (strcmp($member, $cluster->quorum) == 0) continue;
                 for ($i=0; $i < $deviceCount; $i++) { 
                     $brickNum = $i + 1;
                     $brickAllCollection[] = $member.":/gluster/brick".$brickNum;
