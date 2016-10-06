@@ -61,12 +61,12 @@ class GlusterfsClusterController extends Controller {
 
         $this->glusterfsClusterManager->register($param);
 
-        // if(count($cluster_members) > 0){
-        //     $generator = $this->glusterfsManager->getClusterGenerator();
-        //     $members = $this->findClusterMembers($cluster_members);
-        //     $result = $generator->createCluster($members, $param['devices']);
-        //     $this->glusterfsManager->execute($result);
-        // }
+        if(count($cluster_members) > 0){
+            $generator = $this->glusterfsManager->getClusterGenerator();
+            $members = $this->findClusterMembers($cluster_members);
+            $result = $generator->createCluster($members, $param['quorum'], $param['devices']);
+            $this->glusterfsManager->execute($result);
+        }
 
         return redirect()->route('admin.glusterfs.clusters.index');
     }

@@ -5,14 +5,18 @@ use Stigma\GlusterFS\Generators\BaseGenerator;
 
 class ClusterGenerator extends BaseGenerator
 {
-    public function createCluster(array $members, $devices)
+    public function createCluster(array $members, $quorum, $devices)
     {
         $data = array();
         array_push($data, "[hosts]");
         foreach ($members as $host_name => $address) {
             array_push($data, $address);
         }
-        array_push($data, "\n", "[service]", "action=restart", "service=glusterd", "\n", "[peer]", "action=probe", "\n", "[backend-setup]", "devices=".$devices);
+        array_push($data, "\n", "[service]", "action=restart", "service=glusterd", "\n", "[peer]", "action=probe", "\n");
+        foreach ($members as $host_name => $address) {
+            if (strcmp($host_name, $quorum) == 0) continue;
+            array_push($data, "[backend-setup:".$address."]", "devices=".$devices, "\n");
+        }
 
         $file = "cluster-basic-setup.conf";
         $this->outputPath = $this->basePath.$file;
