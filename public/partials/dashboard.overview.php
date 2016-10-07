@@ -109,27 +109,29 @@
         <div class="row">
             <div class="medium-8 columns">
                 <div class="medium-12 columns">
-                    <h3>Host Event</h3>
+                    <h3>Service Event</h3>
                     <table>
                         <thead>
                             <th>Host</th>
+                            <th>Service</th>
                             <th>Type</th>
                             <th>Time</th>
                             <th>Information</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="log in host_event | orderBy:'-timestamp'"  ng-show="host_event.length > 0">
-                                <td>{{ log.name }}</td>
+                            <tr ng-repeat="log in service_event | orderBy:'-timestamp'" ng-show="service_event.length > 0">
+                                <td>{{ log.host_name }}</td>
+                                <td>{{ log.description }}</td>
                                 <td>
-                                    <span class="label success" style="width: 100%;" ng-if="log.state == '0'">OK</span>
-                                    <span class="label warning" style="width: 100%;" ng-if="log.state == '1'">WARNING</span>
-                                    <span class="label alert" style="width: 100%;" ng-if="log.state == '2'">CRITICAL</span>
+                                    <span class="label success" style="width: 100%;" ng-if="log.state == '8'">OK</span>
+                                    <span class="label warning" style="width: 100%;" ng-if="log.state == '16'">WARNING</span>
+                                    <span class="label alert" style="width: 100%;" ng-if="log.state == '32'">CRITICAL</span>
                                 </td>
                                 <td>{{ convertDate(log.timestamp) }}</td>
                                 <td>{{ log.plugin_output }}</td>
                             </tr>
-                            <tr ng-show="host_event.length == 0">
-                                <td colspan="4"><strong>No host events.</strong></td>
+                            <tr ng-show="service_event.length == 0">
+                                <td colspan="5"><strong>No service events.</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -166,35 +168,33 @@
         <div class="row">
             <div class="medium-8 columns">
                 <div class="medium-12 columns">
-                    <h3>Service Event</h3>
+                    <h3>Host Event</h3>
                     <table>
                         <thead>
                             <th>Host</th>
-                            <th>Service</th>
                             <th>Type</th>
                             <th>Time</th>
                             <th>Information</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="log in service_event | orderBy:'-timestamp'" ng-show="service_event.length > 0">
-                                <td>{{ log.host_name }}</td>
-                                <td>{{ log.description }}</td>
+                            <tr ng-repeat="log in host_event | orderBy:'-timestamp'"  ng-show="host_event.length > 0">
+                                <td>{{ log.name }}</td>
                                 <td>
-                                    <span class="label success" style="width: 100%;" ng-if="log.state == '8'">OK</span>
-                                    <span class="label warning" style="width: 100%;" ng-if="log.state == '16'">WARNING</span>
-                                    <span class="label alert" style="width: 100%;" ng-if="log.state == '32'">CRITICAL</span>
+                                    <span class="label success" style="width: 100%;" ng-if="log.state == '0'">OK</span>
+                                    <span class="label warning" style="width: 100%;" ng-if="log.state == '1'">WARNING</span>
+                                    <span class="label alert" style="width: 100%;" ng-if="log.state == '2'">CRITICAL</span>
                                 </td>
                                 <td>{{ convertDate(log.timestamp) }}</td>
                                 <td>{{ log.plugin_output }}</td>
                             </tr>
-                            <tr ng-show="service_event.length == 0">
-                                <td colspan="5"><strong>No service events.</strong></td>
+                            <tr ng-show="host_event.length == 0">
+                                <td colspan="4"><strong>No host events.</strong></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="medium-4 columns">
+            <!-- <div class="medium-4 columns">
                 <div class="medium-12 columns">
                     <h3>GlusterFS Event</h3>
                     <table>
@@ -221,7 +221,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
