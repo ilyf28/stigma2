@@ -52,6 +52,14 @@ class ReportController extends Controller {
         return response()->json($result);
     }
 
+    public function showhost($host_name)
+    {
+        $ip = $this->get_ip_address();
+        $result = "http://".$ip.":3000/dashboard/db/default?var-HOSTS=".$host_name;
+
+        return response()->json($result);
+    }
+
     private function get_ip_address() {
             return parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
     } 
