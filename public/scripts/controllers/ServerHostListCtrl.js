@@ -36,6 +36,10 @@ define(['./module'],
                     $state.go('serverHostDetail', {name: name});
                 };
 
+                $scope.detailHostGraph = function(name) {
+                    $state.go('serverHostGraphDetail', {name: name});
+                };
+
                 $scope.convertDate = function(timestamp) {
                     return TimestampFormatFactory.convertDateToYYYYMMDDhhmmss(timestamp);
                 };
