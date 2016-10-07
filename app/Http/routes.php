@@ -18,11 +18,11 @@ Route::group(array('prefix' => 'api/v1', 'middleware' => 'auth'), function() {
     Route::get('dashboard/glusterfsstatus', 'DashboardController@glusterfsstatus');
     Route::get('dashboard/event/type/{type}/starttime/{starttime}/endtime/{endtime}', 'DashboardController@event');
     Route::get('report/graph/{dashboard}', 'ReportController@show');
+    Route::get('report/graph/host/{host_name}', 'ReportController@showhost');
     Route::get('server/hosts/status/{status?}', 'ServerHostsController@index');
     Route::get('server/hosts/name/{name}', 'ServerHostsController@show');
     Route::get('server/services/status/{status?}', 'ServerServicesController@index');
     Route::get('server/services/name/{name}/servicedescription/{servicedescription}', 'ServerServicesController@show');
-
     Route::get('glusterfs/clusters', 'GlusterFSController@getAllClusters');
     Route::get('glusterfs/clusters/id/{id}', 'GlusterFSController@getClusterStatus');
 });
