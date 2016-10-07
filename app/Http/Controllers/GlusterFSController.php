@@ -7,17 +7,22 @@ use Illuminate\Http\Request;
 
 use Stigma\GlusterFS\GlusterFSManager;
 use Stigma\ObjectManager\GlusterfsClusterManager;
+use Stigma\ObjectManager\HostManager;
 
 class GlusterFSController extends Controller {
 
+    protected $glusterFSManager;
     protected $glusterfsClusterManager;
+    protected $hostManager;
 
     public function __construct(
         GlusterFSManager $glusterFSManager,
-        GlusterfsClusterManager $glusterfsClusterManager)
+        GlusterfsClusterManager $glusterfsClusterManager,
+        HostManager $hostManager)
     {
         $this->glusterFSManager = $glusterFSManager;
         $this->glusterfsClusterManager = $glusterfsClusterManager;
+        $this->hostManager = $hostManager;
     }
 
     public function getAllClusters()
@@ -29,20 +34,20 @@ class GlusterFSController extends Controller {
 
     public function getClusterStatus($id)
     {
+        $cluster = $this->glusterfsClusterManager->find($id);
+        $members = explode(',', $cluster->members);
+        $host_name = $members[0];
+        $firstMember = $this->hostManager->findByName($host_name);
+        
         try {
-            $command = "ansible -i /etc/ansible/hosts 192.168.107.131 -m shell -a 'gstatus -v -o json'  2>&1";
-            $output = array();
-            exec($command, $output);
-            return $output;
-            // $result = array();
-            // $result['result'] = json_decode('{"brick_count": 6, "bricks_active": 6, "glfs_version": "3.7.9", "node_count": 2, "nodes_active": 2, "over_commit": "No", "product_name": "Red Hat Gluster Storage Server 3.1 Update 3", "raw_capacity": 128081461248, "sh_active": 2, "sh_enabled": 2, "snapshot_count": 0, "status": "healthy", "usable_capacity": 64040730624, "used_capacity": 207716352, "volume_count": 1, "volume_summary": [{"snapshot_count": 0, "state": "up", "usable_capacity": 64040730624, "used_capacity": 103858176, "volume_name": "vol-01"}]}');
-            // return $result;
+            $command = "sudo ansible -i /etc/ansible/hosts ".$firstMember." -m shell -a 'gstatus -v -o json | cut -b 28-'  2>&1";
+            $output = $this->glusterFSManager->exec($command);
+            $result = array();
+            $result['result'] = $output[1];
+            return $result;
         } catch (Exception $e) {
             
         }
-        // $items = $this->glusterFSManager->exec($command);
-
-        // return $items;
     }
 
 }

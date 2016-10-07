@@ -35,4 +35,18 @@ class GlusterFSManager
         }
     }
 
+    public function exec($command)
+    {
+        try {
+            $output = [];
+            $return = 0;
+
+            exec($command, $output, $return);
+
+            return $output;
+        } catch (Exception $e) {
+            
+        }
+    }
+
 }
