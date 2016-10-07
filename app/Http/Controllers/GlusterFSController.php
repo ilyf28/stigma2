@@ -37,10 +37,12 @@ class GlusterFSController extends Controller {
         $cluster = $this->glusterfsClusterManager->find($id);
         $members = explode(',', $cluster->members);
         $host_name = $members[0];
-        $firstMember = $this->hostManager->findByName($host_name);
-        
+        $host = $this->hostManager->findByName($host_name);
+        $data = json_decode($host)[0]->data;
+        $address = json_decode($data)->address;
+
         try {
-            $command = "sudo ansible -i /etc/ansible/hosts ".$firstMember." -m shell -a 'gstatus -v -o json | cut -b 28-'  2>&1";
+            $command = "sudo ansible -i /etc/ansible/hosts ".$address." -m shell -a 'gstatus -v -o json | cut -b 28-'  2>&1";
             $output = $this->glusterFSManager->exec($command);
             $result = array();
             $result['result'] = $output[1];
