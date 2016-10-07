@@ -5,6 +5,7 @@ define(['./module'],
         app.controller('GlusterfsListCtrl', [
             '$scope', '$state', 'GlusterFSFactory',
             function($scope, $state, GlusterFSFactory) {
+                $scope.clusterGstatus = null;
                 $scope.data = {
                     cluster: null,
                     availableOptions: []
@@ -14,6 +15,15 @@ define(['./module'],
                     GlusterFSFactory.listClusters()
                             .then(function(response) {
                                 $scope.data.availableOptions = response;
+                            });
+                };
+
+                $scope.showClusterInfo = function() {
+                    var id = JSON.parse($scope.data.cluster).id;
+                    GlusterFSFactory.showCluster(id)
+                            .then(function(response) {
+                                console.log(response);
+                                $scope.clusterGstatus = response.result;
                             });
                 };
 

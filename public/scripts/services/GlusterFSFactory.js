@@ -8,6 +8,10 @@ define(['./implement', './module', '../config'],
                     var url = config.get().home + '/api/v1/glusterfs/clusters';
                     return implement.httpGetServiceImpl($http, url);
                 },
+                showCluster: function(id) {
+                    var url = config.get().home + '/api/v1/glusterfs/clusters/id/' + id;
+                    return implement.httpGetServiceImpl($http, url);
+                },
             }
         });
     }
