@@ -8,6 +8,10 @@ define(['./implement', './module', '../config'],
                     var url = config.get().home + '/api/v1/report/graph/' + dashboard;
                     return implement.httpGetServiceImpl($http, url);
                 },
+                getGrafanaDashboardForHost: function(host_name) {
+                    var url = config.get().home + '/api/v1/report/graph/' + dashboard;
+                    return implement.httpGetServiceImpl($http, url);
+                },
             }
         });
     }
