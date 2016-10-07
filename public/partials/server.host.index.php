@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="(key, host) in hosts" ng-show="hosts != null">
-                    <td><a ng-click="detailHost(host.name)">{{ host.name }}</a></td>
+                    <td><a ng-click="detailHost(host.name)">{{ host.name }}</a>&nbsp;&nbsp;&nbsp;<a ng-click="detailHostGraph(host.name)"><i class="fi-graph-trend"></i></a></td>
                     <td>
                           <span class="label success" style="width: 100%;" ng-if="host.status == '2'">UP</span>
                           <span class="label alert" style="width: 100%;" ng-if="host.status == '4'">DOWN</span>
