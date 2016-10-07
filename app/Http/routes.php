@@ -24,6 +24,7 @@ Route::group(array('prefix' => 'api/v1', 'middleware' => 'auth'), function() {
     Route::get('server/services/name/{name}/servicedescription/{servicedescription}', 'ServerServicesController@show');
 
     Route::get('glusterfs/clusters', 'GlusterFSController@getAllClusters');
+    Route::get('glusterfs/clusters/id/{id}', 'GlusterFSController@getClusterStatus');
 });
 
 Route::get('/', ['middleware' => 'auth', function () {
