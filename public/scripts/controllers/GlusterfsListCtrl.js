@@ -22,6 +22,7 @@ define(['./module'],
                     var id = JSON.parse($scope.data.cluster).id;
                     GlusterFSFactory.showCluster(id)
                             .then(function(response) {
+                                console.log(response);
                                 $scope.clusterGstatus = JSON.parse(response.result);
                             });
                 };
