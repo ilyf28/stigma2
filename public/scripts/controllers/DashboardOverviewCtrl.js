@@ -46,7 +46,6 @@ define(['./module'],
                 function renderGlusterFSStatus() {
                     DashboardFactory.getGlusterFSStatus()
                         .then(function(response) {
-                            console.log(response);
                             $scope.glusterfs_status = response.data.count;
                         });
                 };

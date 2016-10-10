@@ -97,7 +97,8 @@ class DashboardController extends Controller
         $count['cluster'] = count($clusters);
         $count['volume'] = count($volumes);
         $count['brick'] = $countBricks;
-        $count['alert'] = '0';
+        $count['alert'] = 0;
+        $count['comment'] = 0;
 
         $result['data']['count'] = $count;
 

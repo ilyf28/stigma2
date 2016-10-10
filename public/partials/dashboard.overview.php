@@ -25,8 +25,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> HOST</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #4caf50;" ng-if="host_status.up > 0">{{ host_status.up }}</span>
-                            <!-- <span style="" ng-if="host_status.up == 0">0</span> -->
-                            <span style="">0</span>
+                            <span style="" ng-if="host_status.up == 0">0</span>
                         </h1>
                         <h3 style="text-align: center;">
                             <span>UP</span>
@@ -39,8 +38,7 @@
                     <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> HOST</h3>
                     <h1 style="text-align: center; padding: 20px 0;">
                         <span style="color: #ff1744;" ng-if="host_status.down > 0">{{ host_status.down }}</span>
-                        <!-- <span style="" ng-if="host_status.down == 0">0</span> -->
-                        <span style="">0</span>
+                        <span style="" ng-if="host_status.down == 0">0</span>
                     </h1>
                     <h3 style="text-align: center;">
                         <span>DOWN</span>
@@ -52,8 +50,7 @@
                     <h3 style="padding-left: 5px;"><i class="fi-monitor"></i> HOST</h3>
                     <h1 style="text-align: center; padding: 20px 0;">
                         <span style="color: #e91e63;" ng-if="host_status.unreachable > 0">{{ host_status.unreachable }}</span>
-                        <!-- <span style="" ng-if="host_status.unreachable == 0">0</span> -->
-                        <span style="">0</span>
+                        <span style="" ng-if="host_status.unreachable == 0">0</span>
                     </h1>
                     <h3 style="text-align: center;">
                         <span>UNREACHABLE</span>
@@ -82,8 +79,7 @@
                         <h3 style="padding-left: 5px;"><i class="fi-cloud"></i> SERVICE</h3>
                         <h1 style="text-align: center; padding: 20px 0;">
                             <span style="color: #4caf50;" ng-if="service_status.ok > 0">{{ service_status.ok }}</span>
-                            <!-- <span style="" ng-if="service_status.ok == 0">0</span> -->
-                            <span style="">0</span>
+                            <span style="" ng-if="service_status.ok == 0">0</span>
                         </h1>
                         <h3 style="text-align: center;">
                             <span>ON</span>
