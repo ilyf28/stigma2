@@ -104,4 +104,4 @@
         </div> 
     </div>
 </div>
-{!! Form::submit('SAVE', array('class'=>'right button')) !!}
+{!! Form::submit('CREATE', array('class'=>'right button')) !!}
