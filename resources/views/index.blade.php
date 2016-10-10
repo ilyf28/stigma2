@@ -27,7 +27,7 @@
                                 <li><a ng-click="topbarFilter($event);" ui-sref="reportGraph">Graph</a></li>
                             </ul>
                             <ul class="right">
-                                <li><a ng-click="setAdmin();"><i class="fi-info"></i></a></li>
+                                <li><a ng-click="setAdmin();"><i class="fi-clipboard-pencil"></i></a></li>
                                 <li><a data-reveal-id="indexConfigArea" ng-click="openIndexConfigArea();"><i class="fi-widget"></i></a></li>
                                 <li><a ng-click="logout();"><i class="fi-lock"></i></a></li>
                             </ul>
