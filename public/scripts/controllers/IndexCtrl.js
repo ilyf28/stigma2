@@ -6,7 +6,7 @@ define(['./module', 'foundation'],
             '$rootScope', '$scope', '$state', '$window', 'IndexFactory',
             function($rootScope, $scope, $state, $window, IndexFactory) {
                 function initConfigration() {
-                    $rootScope.refreshInterval = "15000";
+                    $rootScope.refreshInterval = "86400000";
                     $rootScope.overviewEventDurationDate = "1";
                 };
 
