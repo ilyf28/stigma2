@@ -7,7 +7,7 @@ define(['./module', 'foundation'],
             function($rootScope, $scope, $state, $window, IndexFactory) {
                 function initConfigration() {
                     $rootScope.refreshInterval = "15000";
-                    $rootScope.overviewEventDurationDate = "7";
+                    $rootScope.overviewEventDurationDate = "1";
                 };
 
                 $scope.setAdmin = function() {
