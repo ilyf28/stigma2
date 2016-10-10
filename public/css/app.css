@@ -1532,6 +1532,7 @@ blockquote p {
   -webkit-backface-visibility: hidden;
   position: relative;
   width: 100%;
+  overflow-y: auto;
   transition: -webkit-transform 500ms ease;
   transition: transform 500ms ease; }
   .inner-wrap:before, .inner-wrap:after {
