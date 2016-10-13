@@ -12,12 +12,12 @@ Route::group(array('prefix'=>'admin', 'middleware' => 'auth'), function() {
     
     Route::resource('dashboard','\App\Http\Controllers\Admin\DashboardController'); 
     Route::resource('hosts', '\App\Http\Controllers\Admin\HostController');
-    Route::resource('hostgroups', '\App\Http\Controllers\Admin\HostGroupController');
+    Route::resource('hostgroups', '\App\Http\Controllers\Admin\HostgroupController');
     Route::resource('services','\App\Http\Controllers\Admin\ServiceController');
-    Route::resource('servicegroups','\App\Http\Controllers\Admin\ServiceGroupController');
+    Route::resource('servicegroups','\App\Http\Controllers\Admin\ServicegroupController');
     Route::resource('commands','\App\Http\Controllers\Admin\CommandController');
     Route::resource('contacts','\App\Http\Controllers\Admin\ContactController');
-    Route::resource('contactgroups','\App\Http\Controllers\Admin\ContactGroupController');
+    Route::resource('contactgroups','\App\Http\Controllers\Admin\ContactgroupController');
     Route::resource('timeperiods','\App\Http\Controllers\Admin\TimeperiodController');
 
     Route::delete('glusterfs/clusters/volume/{id}', '\App\Http\Controllers\Admin\GlusterfsClusterController@destroyVolume');
