@@ -122,20 +122,13 @@ class Client
     {
         $uri = 'nagios/cgi-bin/cmd.cgi';
 
-        $response = $this->httpClient->post('http://nagios/'.$uri, [
+        $response = $this->httpClient->post($this->baseUri.$uri, [
                 'body' => [
                         'cmd_typ' => '13',
                         'cmd_mod' => '2'
                 ],
                 'auth' => [config('nagios.username'), config('nagios.password')]
         ]);
-        // $uri = 'api/v1/nagios';
-
-        // $response = $this->httpClient->get($this->baseUri.$uri, [
-        //     'query' => [
-        //         'command'=> 'restart'
-        //     ]
-        // ]); 
 
         if ($response->getStatusCode() == '200') {
             return true;
