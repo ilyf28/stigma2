@@ -1,6 +1,7 @@
 <?php
 namespace Stigma\ObjectManager;
 
+use Stigma\ObjectManager\BaseBuilder;
 use Stigma\ObjectManager\HostManager;
 use Stigma\ObjectManager\HostgroupManager;
 use Stigma\ObjectManager\ServiceManager;
@@ -10,7 +11,7 @@ use Stigma\ObjectManager\ContactgroupManager;
 use Stigma\ObjectManager\CommandManager;
 use Stigma\ObjectManager\TimeperiodManager;
 
-class Builder
+class Builder extends BaseBuilder
 {
     protected $hostManager;
     protected $hostgroupManager;
@@ -71,7 +72,9 @@ class Builder
             $payload[] = $pack;
         }
 
-        return $payload;
+        $result = $this->build($payload);
+
+        return $result;
     } 
 
 
