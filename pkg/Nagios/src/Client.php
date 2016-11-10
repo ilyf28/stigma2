@@ -1,153 +1,106 @@
 <?php
-namespace Stigma\Nagios; 
+namespace Stigma\Nagios;
+
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
-
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Client
 {
     protected $httpClient;
-    protected $baseUri;
-    protected $port;
+    protected $objectsPath;
     protected $builder;
+    protected $baseUri;
 
-    public function __construct($baseUri)
+    public function __construct($baseUri, $objectsPath)
     {
-        $this->baseUri = $baseUri;
-        $client = new HttpClient;
-        $this->httpClient = $client;
+        $this->httpClient = new HttpClient;
+        $this->objectsPath = $objectsPath;
         $this->builder = \App::make('Stigma\ObjectManager\Builder');
+        $this->baseUri = $baseUri;
     }
 
     public function generateHost()
     {
         $payload = $this->builder->buildForHost();
 
-        $uri = 'api/v1/hosts';
+        $cfg = $this->objectsPath.'hosts.cfg';
 
-        try {
-            // $task = 'ls';
-            // //$process = new Process('/app/stigma/bin/envoy run '.$task);
-            // //$process = new Process('ls -lsa');
-            // $process = new Process('ls -lsa');
-            // $process->run();
-            // if (!$process->isSuccessful()) {
-            //         dd('11111');
-            //     throw new ProcessFailedException($process);
-            // }
-            // $result = $process->getOutput();
-
-            // $response = $this->httpClient->post($this->baseUri.$uri, [
-            //     'body'=> [
-            //         'payload'=>json_encode($payload)
-            //     ]
-            // ]);
-
-            // return $response->getStatusCode();
-        } catch (\Exception $e) {
-            return 400;
-            // dd((string)$e->getResponse()->getBody());
-        } 
+        return $this->writeConfig($cfg, $payload);
     }
 
     public function generateService()
     {
         $payload = $this->builder->buildForService(); 
 
-        $uri = 'api/v1/services';
+        $cfg = $this->objectsPath.'services';
 
-        try{
-            $response = $this->httpClient->post($this->baseUri.$uri, [ 
-                'body'=> [
-                    'payload'=>json_encode($payload)  
-                ]
-            ]);
-
-            return $response->getStatusCode();
-        } catch (\Exception $e) {
-            return 400;
-            // dd((string)$e->getResponse()->getBody());
-        } 
+        return $this->writeConfig($cfg, $payload);
     }
 
     public function generateCommand()
     {
         $payload = $this->builder->buildForCommand(); 
 
-        $uri = 'api/v1/commands';
+        $cfg = $this->objectsPath.'commands';
 
-        try{
-            $response = $this->httpClient->post($this->baseUri.$uri, [ 
-                'body'=> [
-                    'payload'=>json_encode($payload)  
-                ]
-            ]);
-
-            return $response->getStatusCode();
-        } catch (\Exception $e) {
-            return 400;
-            // dd((string)$e->getResponse()->getBody());
-        }
+        return $this->writeConfig($cfg, $payload);
     }
 
     public function generateContact()
     {
         $payload = $this->builder->buildForContact(); 
 
-        $uri = 'api/v1/contacts';
+        $cfg = $this->objectsPath.'contacts';
 
-        try{
-            $response = $this->httpClient->post($this->baseUri.$uri, [ 
-                'body'=> [
-                    'payload'=>json_encode($payload)  
-                ]
-            ]);
-
-            return $response->getStatusCode();
-        } catch (\Exception $e) {
-            return 400;
-            // dd((string)$e->getResponse()->getBody());
-        }
+        return $this->writeConfig($cfg, $payload);
     }
 
     public function generateTimeperiod()
     {
         $payload = $this->builder->buildForTimeperiod(); 
 
-        $uri = 'api/v1/timeperiods';
+        $cfg = $this->objectsPath.'timeperiods';
 
-        try{
-            $response = $this->httpClient->post($this->baseUri.$uri, [ 
-                'body'=> [
-                    'payload'=>json_encode($payload)  
-                ]
-            ]);
-
-            return $response->getStatusCode();
-        } catch (\Exception $e) {
-            return 400;
-            // dd((string)$e->getResponse()->getBody());
-        }
+        return $this->writeConfig($cfg, $payload);
     }
 
     public function requestToRestart()
     {
         $uri = 'nagios/cgi-bin/cmd.cgi';
 
-        $response = $this->httpClient->post($this->baseUri.$uri, [
-                'body' => [
-                        'cmd_typ' => '13',
-                        'cmd_mod' => '2'
-                ],
-                'auth' => [config('nagios.username'), config('nagios.password')]
-        ]);
+        try{
+            $response = $this->httpClient->post($this->baseUri.$uri, [
+                    'body' => [
+                            'cmd_typ' => '13',
+                            'cmd_mod' => '2'
+                    ],
+                    'auth' => [config('nagios.username'), config('nagios.password')]
+            ]);
 
-        if ($response->getStatusCode() == '200') {
-            return true;
+            if ($response->getStatusCode() == '200') {
+                return true;
+            }
+        } catch (\Exception $e) {
+            return false;
         }
 
         return false;
+    }
+
+    private function writeConfig($cfg, $payload)
+    {
+        try {
+            if (file_exists($cfg)) {
+                unlink($cfg);
+            }
+
+            file_put_contents($cfg, $payload, LOCK_EX);
+
+            return 200;
+        } catch (\Exception $e) {
+            return 400;
+        }
+
+        return 400;
     }
 }
