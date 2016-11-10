@@ -108,7 +108,9 @@ class Builder extends BaseBuilder
             $payload[] = $pack;
         }
 
-        return $payload;
+        $result = $this->build($payload);
+
+        return $result;
     }
 
     public function buildForContact()
@@ -141,7 +143,9 @@ class Builder extends BaseBuilder
             $payload[] = $pack;
         }
 
-        return $payload;
+        $result = $this->build($payload);
+
+        return $result;
     }
 
     public function buildForCommand()
@@ -163,7 +167,9 @@ class Builder extends BaseBuilder
             $payload[] = $pack;
         }
 
-        return $payload;
+        $result = $this->build($payload);
+
+        return $result;
     }
 
     public function buildForTimeperiod()
@@ -184,6 +190,8 @@ class Builder extends BaseBuilder
             $payload[] = $pack;
         }
 
-        return $payload;
+        $result = $this->build($payload);
+
+        return $result;
     }
 }
