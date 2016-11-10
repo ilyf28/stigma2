@@ -15,7 +15,8 @@ class NagiosServiceProvider extends ServiceProvider
             $baseUri = 'http://'.config('nagios.host');
             $baseUri = rtrim($baseUri, '/');
             $baseUri = $baseUri.'/';
-            return new \Stigma\Nagios\Client($baseUri);
+            $objectsPath = '/app/nagios/etc/objects/';
+            return new \Stigma\Nagios\Client($baseUri, $objectsPath);
         });
     }
 }
