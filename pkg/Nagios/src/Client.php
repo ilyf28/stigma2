@@ -3,6 +3,9 @@ namespace Stigma\Nagios;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 class Client
 {
     protected $httpClient;
@@ -25,13 +28,24 @@ class Client
         $uri = 'api/v1/hosts';
 
         try {
-            $response = $this->httpClient->post($this->baseUri.$uri, [
-                'body'=> [
-                    'payload'=>json_encode($payload)
-                ]
-            ]);
+            // $task = 'ls';
+            // //$process = new Process('/app/stigma/bin/envoy run '.$task);
+            // //$process = new Process('ls -lsa');
+            // $process = new Process('ls -lsa');
+            // $process->run();
+            // if (!$process->isSuccessful()) {
+            //         dd('11111');
+            //     throw new ProcessFailedException($process);
+            // }
+            // $result = $process->getOutput();
 
-            return $response->getStatusCode();
+            // $response = $this->httpClient->post($this->baseUri.$uri, [
+            //     'body'=> [
+            //         'payload'=>json_encode($payload)
+            //     ]
+            // ]);
+
+            // return $response->getStatusCode();
         } catch (\Exception $e) {
             return 400;
             // dd((string)$e->getResponse()->getBody());
