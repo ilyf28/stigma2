@@ -32,7 +32,7 @@ class Client
     {
         $payload = $this->builder->buildForService(); 
 
-        $cfg = $this->objectsPath.'services';
+        $cfg = $this->objectsPath.'services.cfg';
 
         return $this->writeConfig($cfg, $payload);
     }
@@ -41,7 +41,7 @@ class Client
     {
         $payload = $this->builder->buildForCommand(); 
 
-        $cfg = $this->objectsPath.'commands';
+        $cfg = $this->objectsPath.'commands.cfg';
 
         return $this->writeConfig($cfg, $payload);
     }
@@ -50,7 +50,7 @@ class Client
     {
         $payload = $this->builder->buildForContact(); 
 
-        $cfg = $this->objectsPath.'contacts';
+        $cfg = $this->objectsPath.'contacts.cfg';
 
         return $this->writeConfig($cfg, $payload);
     }
@@ -59,7 +59,7 @@ class Client
     {
         $payload = $this->builder->buildForTimeperiod(); 
 
-        $cfg = $this->objectsPath.'timeperiods';
+        $cfg = $this->objectsPath.'timeperiods.cfg';
 
         return $this->writeConfig($cfg, $payload);
     }
