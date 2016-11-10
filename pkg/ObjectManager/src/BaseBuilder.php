@@ -5,18 +5,18 @@ abstract class BaseBuilder
 {
     protected function build(array $payload)
     {
-        $configs = '';
+        $configs = "";
 
         foreach ($payload as $unit) {
             $details = $unit->details;
             $type = $unit->type;
-            $config = '';
+            $config = "";
 
             foreach ($details as $key => $value) {
-                $config .= '\t'.$key.'\t'.$value.'\n';
+                $config .= "\t".$key."\t".$value."\n";
             }
 
-            $configs .= 'define '.$type.'{\n'.$config.'}\n\n';
+            $configs .= "define ".$type."{\n".$config."}\n\n";
         }
 
         return $configs;
