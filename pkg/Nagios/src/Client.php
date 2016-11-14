@@ -1,20 +1,20 @@
 <?php
 namespace Stigma\Nagios;
 
+use Stigma\Nagios\BaseClient;
+
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 
-class Client
+class Client extends BaseClient
 {
     protected $httpClient;
-    protected $objectsPath;
     protected $builder;
     protected $baseUri;
 
-    public function __construct($baseUri, $objectsPath)
+    public function __construct($baseUri)
     {
         $this->httpClient = new HttpClient;
-        $this->objectsPath = $objectsPath;
         $this->builder = \App::make('Stigma\ObjectManager\Builder');
         $this->baseUri = $baseUri;
     }
@@ -25,7 +25,7 @@ class Client
 
         $cfg = $this->objectsPath.'hosts.cfg';
 
-        return $this->writeConfig($cfg, $payload);
+        return $this->setupConfig($cfg, $payload);
     }
 
     public function generateService()
@@ -34,7 +34,7 @@ class Client
 
         $cfg = $this->objectsPath.'services.cfg';
 
-        return $this->writeConfig($cfg, $payload);
+        return $this->setupConfig($cfg, $payload);
     }
 
     public function generateCommand()
@@ -43,7 +43,7 @@ class Client
 
         $cfg = $this->objectsPath.'commands.cfg';
 
-        return $this->writeConfig($cfg, $payload);
+        return $this->setupConfig($cfg, $payload);
     }
 
     public function generateContact()
@@ -52,7 +52,7 @@ class Client
 
         $cfg = $this->objectsPath.'contacts.cfg';
 
-        return $this->writeConfig($cfg, $payload);
+        return $this->setupConfig($cfg, $payload);
     }
 
     public function generateTimeperiod()
@@ -61,7 +61,7 @@ class Client
 
         $cfg = $this->objectsPath.'timeperiods.cfg';
 
-        return $this->writeConfig($cfg, $payload);
+        return $this->setupConfig($cfg, $payload);
     }
 
     public function requestToRestart()
@@ -87,20 +87,20 @@ class Client
         return false;
     }
 
-    private function writeConfig($cfg, $payload)
-    {
-        try {
-            if (file_exists($cfg)) {
-                unlink($cfg);
-            }
+    // private function writeConfig($cfg, $payload)
+    // {
+    //     try {
+    //         if (file_exists($cfg)) {
+    //             unlink($cfg);
+    //         }
 
-            file_put_contents($cfg, $payload, LOCK_EX);
+    //         file_put_contents($cfg, $payload, LOCK_EX);
 
-            return 200;
-        } catch (\Exception $e) {
-            return 400;
-        }
+    //         return 200;
+    //     } catch (\Exception $e) {
+    //         return 400;
+    //     }
 
-        return 400;
-    }
+    //     return 400;
+    // }
 }
