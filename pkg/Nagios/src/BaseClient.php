@@ -16,7 +16,7 @@ abstract class BaseClient
             file_put_contents($local_file, $payload, LOCK_EX);
 
             $connection = ssh2_connect('nagios', 22);
-            ssh2_auth_password($connection, 'nagios', 'S2curity');
+            ssh2_auth_password($connection, 'root', 'S2curity');
             ssh2_scp_send($connection, $local_file, $remote_file, 0644);
 
             return 200;
