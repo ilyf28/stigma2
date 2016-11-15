@@ -3,14 +3,8 @@ namespace Stigma\Nagios;
 
 abstract class BaseClient
 {
-    protected $local_path;
-    protected $remote_path;
-
-    public function __construct()
-    {
-        $this->local_path = '/tmp/';
-        $this->remote_path = '/app/nagios/etc/objects/';
-    }
+    protected $local_path = '/tmp/';
+    protected $remote_path = '/app/nagios/etc/objects/';
 
     protected function setupConfig($cfg, $payload)
     {
@@ -22,7 +16,7 @@ abstract class BaseClient
             file_put_contents($local_file, $payload, LOCK_EX);
 
             $connection = ssh2_connect('nagios', 22);
-            ssh2_auth_password($connection, 'root', 'S2curity');
+            ssh2_auth_password($connection, 'nagios', 'S2curity');
             ssh2_scp_send($connection, $local_file, $remote_file, 0644);
 
             return 200;
