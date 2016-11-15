@@ -23,7 +23,7 @@ class Client extends BaseClient
     {
         $payload = $this->builder->buildForHost();
 
-        $cfg = $this->objectsPath.'hosts.cfg';
+        $cfg = 'hosts.cfg';
 
         return $this->setupConfig($cfg, $payload);
     }
@@ -32,7 +32,7 @@ class Client extends BaseClient
     {
         $payload = $this->builder->buildForService(); 
 
-        $cfg = $this->objectsPath.'services.cfg';
+        $cfg = 'services.cfg';
 
         return $this->setupConfig($cfg, $payload);
     }
@@ -41,7 +41,7 @@ class Client extends BaseClient
     {
         $payload = $this->builder->buildForCommand(); 
 
-        $cfg = $this->objectsPath.'commands.cfg';
+        $cfg = 'commands.cfg';
 
         return $this->setupConfig($cfg, $payload);
     }
@@ -50,7 +50,7 @@ class Client extends BaseClient
     {
         $payload = $this->builder->buildForContact(); 
 
-        $cfg = $this->objectsPath.'contacts.cfg';
+        $cfg = 'contacts.cfg';
 
         return $this->setupConfig($cfg, $payload);
     }
@@ -59,7 +59,7 @@ class Client extends BaseClient
     {
         $payload = $this->builder->buildForTimeperiod(); 
 
-        $cfg = $this->objectsPath.'timeperiods.cfg';
+        $cfg = 'timeperiods.cfg';
 
         return $this->setupConfig($cfg, $payload);
     }

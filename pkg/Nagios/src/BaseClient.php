@@ -14,7 +14,7 @@ abstract class BaseClient
     {
         try {
             // scp
-            $result = exec('envoy run ls');
+            $result = shell_exec('envoy run ls');
             dd($result);
 
             return 200;
