@@ -2,14 +2,27 @@
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Stigma</title>
 
-        <link rel="stylesheet" href="css/app.css" />
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
         <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+
+
     </head>
     <body ng-controller="IndexCtrl">
-        <header>
+
+
+        
+
+
+
+        <!-- <header>
             <top-bar>
                 <nav class="top-bar" data-topbar role="navigation">
                     <ul class="title-area">
@@ -97,6 +110,7 @@
                     <a class="button success right" ng-click="save()">Save</a>
                 </div>
             </div>
-        </div>
+        </div> -->
+
     </body>
 </html>
